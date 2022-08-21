@@ -54,7 +54,7 @@ function Payment({ clickBack, clickPay }) {
     const [showMethod, setShowMethod] = useState(false);
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper')} onClick={(e) => e.stopPropagation()}>
             <div className={cx('header')}>
                 <h3 className={cx('heading')}>Thanh toán</h3>
             </div>
