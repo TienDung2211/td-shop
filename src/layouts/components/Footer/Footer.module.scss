@@ -1,0 +1,93 @@
+.wrapper {
+    width: 100%;
+    padding: 16px 0;
+    background-color: #d7e8fe;
+    border-top: 4px solid var(--primary-color);
+    box-shadow: 0px 1px 1px rgba(0 0 0 /12%);
+    display: flex;
+    justify-content: center;
+}
+.body {
+    width: var(--width-app);
+    height: 100%;
+    display: flex;
+}
+
+.heading {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: var(--text-color);
+    padding: 8px 0;
+    margin: 8px 0;
+}
+.list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.item {
+    padding: 6px 0;
+}
+
+.item a {
+    display: block;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: var(--text-color);
+}
+
+.item:hover a,
+.item:hover i {
+    color: var(--red-color);
+}
+
+.item-icon {
+    color: var(--text-color);
+    font-size: 1.6rem;
+    margin-right: 6px;
+    margin-top: -2px;
+}
+
+/* Footer QR */
+.qr {
+    display: flex;
+}
+
+.qr-img {
+    width: 50%;
+    border: 1px solid var(--low-separation-color);
+}
+
+.link-oder-app {
+    width: 50%;
+    display: flex;
+    margin-left: 16px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item-oderapp {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.item-oderapp:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.oderapp-img {
+    width: 24px;
+}
+
+.name-oderapp {
+    color: var(--text-color);
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: -6px;
+    margin-left: 8px;
+}

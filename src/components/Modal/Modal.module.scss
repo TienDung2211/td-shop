@@ -1,0 +1,19 @@
+.modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn linear 0.1s;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 20;
+}
+
+.modal__body {
+    margin: auto;
+    z-index: 30;
+    animation: growth linear 0.1s;
+}

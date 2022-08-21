@@ -1,0 +1,143 @@
+.wrapper {
+    font-family: var(--font-family);
+    min-width: 120px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1.6rem;
+    line-height: 24px;
+    overflow: hidden;
+    cursor: pointer;
+
+    .title {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+    }
+
+    .icon {
+        font-size: 1.8rem;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+// Button types
+.transparent {
+    background-color: transparent;
+}
+
+.border {
+    border-radius: 4px;
+}
+
+.outline {
+    border: 1px solid rgba(22, 24, 35, 0.12);
+
+    &:hover {
+        background-color: #f1f1f2;
+    }
+}
+
+.iconOnly {
+    min-width: 36px;
+    height: 36px;
+
+    .icon-only {
+        border: none;
+        border-radius: 0;
+        font-size: 1.8rem;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.imageOnly {
+    padding: 0;
+    min-width: 36px;
+    height: 36px;
+    .image {
+        height: 36px;
+        width: 36px;
+        img {
+            height: 36px;
+            width: 36px;
+        }
+    }
+}
+
+.rounded {
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+    background-color: rgba(22, 24, 35, 0.03);
+
+    &:hover {
+        background-color: #f1f1f2;
+        border-color: rgba(22, 24, 35, 0.2);
+    }
+}
+
+.primary {
+    border: none;
+    background-color: var(--red-color);
+    color: var(--white-color);
+
+    &:hover {
+        background-color: #ea3a03;
+    }
+}
+
+.approach {
+    color: var(--red-color);
+    border: 1px solid currentColor;
+    background-color: var(--white-color);
+
+    &:hover {
+        background-color: rgba(254, 44, 85, 0.06);
+    }
+}
+
+.disable {
+    opacity: 0.6;
+    cursor: default;
+}
+
+// Button sizes
+.small {
+    height: 20px;
+    min-width: 80px;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    font-weight: 200;
+    padding: 4px 8px;
+
+    div {
+        width: 24px;
+        .icon {
+            font-size: 1.6rem;
+        }
+    }
+}
+.large {
+    height: 46px;
+    width: 100%;
+    min-width: 168px;
+    line-height: 25px;
+    font-weight: 600;
+    padding: 6px 8px;
+    font-size: 1.8rem;
+
+    div {
+        width: 48px;
+        .icon {
+            font-size: 2rem;
+        }
+    }
+}

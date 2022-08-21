@@ -1,0 +1,44 @@
+.qr-wrapper {
+    width: 190px;
+}
+
+.qr {
+    margin-top: -8px;
+}
+
+.qr-img {
+    width: 100%;
+}
+
+.link-oder-app {
+    display: flex;
+    width: 100%;
+    margin: auto;
+    padding: 0 11px 12px 11px;
+}
+
+.item-oderapp {
+    font-family: var(--font-family);
+    display: flex;
+    justify-self: center;
+    flex: 1;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+.item-oderapp:hover {
+    opacity: 0.8;
+}
+
+.oderapp-img {
+    width: 18px;
+    height: 18px;
+    margin-right: 4px;
+    color: var(--black-color);
+}
+
+.name-oderapp {
+    color: #000;
+    width: 100%;
+    font-size: 12px;
+}

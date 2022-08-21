@@ -1,0 +1,146 @@
+/* Authen Form */
+
+.wrapper {
+    width: 450px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: var(--white-color);
+}
+
+.header {
+    height: 60px;
+    padding: 0 2px 0 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f5f5f5;
+}
+
+.heading {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.switch-btn {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+.body {
+    padding: 0px 32px;
+}
+
+.input {
+    width: 100%;
+    height: 40px;
+    margin-top: 16px;
+    padding: 0 12px;
+    font-size: 1.4rem;
+    border-radius: 2px;
+    border: 1px solid #333;
+}
+
+.help {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.help-link {
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.help-separation {
+    display: block;
+    height: 1.4rem;
+    margin: 0 16px;
+    border-left: 2px solid var(--primary-color);
+}
+
+.help-foget-pass {
+    color: var(--primary-color);
+}
+
+.helping {
+    color: var(--black-color);
+}
+
+.check {
+    display: flex;
+    margin-top: 16px;
+    padding: 0px 12px;
+}
+
+.confirm {
+    width: 1.2rem;
+    margin-right: 4px;
+    margin-top: 2px;
+}
+
+.policy,
+.remember {
+    color: var(--black-color);
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    margin: 0;
+}
+
+.policy-link {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.controls {
+    margin-top: 80px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.back-btn {
+    margin-right: 8px;
+
+    &:hover {
+        background-color: #f1f1f2;
+    }
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 12px 32px;
+    margin-top: 20px;
+    background-color: #f5f5f5;
+}
+
+.social-item {
+    flex: 1;
+    height: 36px;
+
+    div {
+        width: 24px;
+    }
+
+    span {
+        font-size: 1.2rem;
+    }
+}
+
+.social-item:hover {
+    opacity: 0.9;
+}
+
+.socials-facebook {
+    background-color: #1877f2;
+    color: var(--white-color);
+    margin-right: 8px;
+}
+
+.socials-google {
+    background-color: var(--white-color);
+    color: #666;
+}

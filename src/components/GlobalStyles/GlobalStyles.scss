@@ -1,0 +1,227 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #058bd2;
+    --white-color: #fff;
+    --black-color: #000;
+    --red-color: #f0430e;
+    --yellow-color: #f5cd2c;
+    --text-color: #333;
+    --separation-color: #383d3f;
+    --low-separation-color: #bacccc;
+    --item-hover-color: rgba(96, 96, 96, 0.1);
+    --item-delete-color: rgba(255, 0, 0, 0.8);
+
+    --width-app: 1200px;
+    --header-height: 120px;
+
+    --font-family: 'IBM Plex Sans', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-family: var(--font-family);
+    // font-family: 'ProximaNova', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5rem;
+    text-rendering: optimizeSpeed;
+    overflow-y: overlay;
+}
+
+button,
+input,
+[tabIndex] {
+    border: none;
+    outline: none;
+}
+
+a[href] {
+    text-decoration: none;
+}
+
+.item:hover {
+    background-color: #f1f1f2;
+    cursor: pointer;
+}
+
+// Scroll Bar
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+// Font Emmbebed
+// @font-face {
+//     font-family: ProximaNova;
+//     src: url('/assets/fonts/Proxima-Nova-Regular.woff2');
+//     font-weight: 400;
+// }
+// @font-face {
+//     font-family: ProximaNova;
+//     src: url('/assets/fonts/ProximaNova-Semibold.woff2');
+//     font-weight: 600;
+// }
+// @font-face {
+//     font-family: ProximaNova;
+//     src: url('/assets/fonts/Proxima-Nova-Bold.woff');
+//     font-weight: 700;
+// }
+// Custom Tippy Tooltip
+
+// Tippy
+body {
+    .tippy-box {
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.6rem;
+        line-height: 22px;
+        background-color: rgba(84, 84, 84, 0.92);
+    }
+    .tippy-arrow {
+        color: rgba(84, 84, 84, 0.92);
+    }
+    .tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
+        top: -8px;
+    }
+}
+
+// Grid System
+.grid {
+    width: var(--width-app);
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.grid-full-width {
+    width: 100%;
+}
+
+.grid-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.grid-column-2 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 16.666666%;
+}
+
+.grid-column-3 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 25%;
+}
+
+.grid-column-4 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 33.333334%;
+}
+
+.grid-column-6 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 50%;
+}
+
+.grid-column-8 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 66.666667%;
+}
+
+.grid-column-9 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 75%;
+}
+
+.grid-column-10 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 83.333333%;
+}
+
+.grid-column-12 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 100%;
+}
+
+.grid-column-10percent {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 10%;
+}
+
+.grid-column-12_5percent {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 12.5%;
+}
+
+.grid-column-20percent {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 20%;
+}
+
+.grid-column-40percent {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 40%;
+}
+
+.grid-column-50percent {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 50%;
+}
+
+.grid-column-60percent {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 60%;
+}
+
+/* Animation */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes growth {
+    from {
+        transform: scale(var(--growth-from));
+    }
+    to {
+        transform: scale(var(--growth-to));
+    }
+}

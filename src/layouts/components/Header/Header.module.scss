@@ -1,0 +1,139 @@
+.wrapper {
+    --nav-height: 40px;
+    width: 100%;
+    height: var(--header-height);
+    background-image: linear-gradient(0, #00a0dc, #0879c9);
+    box-shadow: 0px 1px 1px rgba(0 0 0 /12%);
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 10;
+}
+.body {
+    width: var(--width-app);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+// Navbar
+
+.navbar {
+    height: var(--nav-height);
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-list {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+}
+
+.login-status {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-item {
+    margin: 0px 8px;
+    position: relative;
+    font-size: 1.4rem;
+    color: var(--white-color);
+    font-weight: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    .icon + span {
+        padding-left: 4px;
+    }
+
+    &:hover {
+        color: rgba(255, 255, 255, 0.8);
+    }
+}
+
+.item--noreply {
+    &:hover {
+        cursor: auto;
+        color: var(--white-color);
+        user-select: none;
+    }
+}
+
+.icon {
+    font-size: 2rem;
+
+    &:hover {
+        color: rgba(255, 255, 255, 0.8);
+    }
+}
+
+.icon-apps {
+    margin-left: 8px;
+
+    .icon + .icon {
+        margin-left: 6px;
+    }
+}
+
+.account {
+    font-size: 1.5rem;
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+}
+
+.account-image {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+// Separation
+
+.separation {
+    color: var(--separation-color);
+    border-left: 2px solid var(--separation-color);
+    height: 14px;
+    display: flex;
+    align-items: center;
+}
+//
+// Search Area
+//
+.area-search {
+    height: calc(var(--header-height) - var(--nav-height));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 10px;
+}
+
+// Logo
+.logo-app {
+    width: 160px;
+    display: flex;
+    justify-content: center;
+
+    img {
+        width: 80px;
+        height: 80px;
+    }
+}
+// Search
+.search-layout {
+    flex: 1;
+}
+// Cart
+.cart-layout {
+    width: 120px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
