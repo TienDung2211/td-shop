@@ -4,7 +4,7 @@ import styles from './SortProduct.module.scss';
 import SideBar from '~/layouts/components/SideBar';
 import Options from './Options';
 import Pagigation from '~/components/Pagination/Pagination';
-import ProductItem from '~/components/ProductItem';
+import Product from '~/components/Product';
 
 const cx = classNames.bind(styles);
 
@@ -19,88 +19,65 @@ function SortProduct() {
                     <Options />
                     <div className={cx('products-list')}>
                         <div className={cx('grid-row')}>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                        </div>
-                        <div className={cx('grid-row')}>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                        </div>
-                        <div className={cx('grid-row')}>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                        </div>
-                        <div className={cx('grid-row')}>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
-                            </div>
-                        </div>
-                        <div className={cx('grid-row')}>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
-                            </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
-                            </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
-                            </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
-                            </div>
-                            <div className={cx('grid-column-20percent')}>
-                                <ProductItem />
+                            <div className={cx('grid-column-25percent')}>
+                                <Product />
                             </div>
                         </div>
                     </div>

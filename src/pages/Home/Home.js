@@ -3,7 +3,7 @@ import styles from './Home.module.scss';
 import { useState } from 'react';
 
 import Slider from '~/components/Slider';
-import ProductItem from '~/components/ProductItem';
+import ProductItem from '~/components/Product';
 import Pagigation from '~/components/Pagination/Pagination';
 import Button from '~/components/Button';
 
@@ -105,94 +105,79 @@ function Home() {
                 </div>
                 <div className={cx('grid-row', 'products-list')}>
                     <div className={cx('grid-row')}>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-2')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-2')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-2')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-2')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
                     </div>

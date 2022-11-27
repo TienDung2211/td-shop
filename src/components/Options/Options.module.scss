@@ -1,0 +1,33 @@
+.wrapper {
+    width: 100%;
+    font-family: var(--font-family);
+}
+
+.wrapper + .wrapper {
+    margin-top: 8px;
+}
+
+.title {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    font-weight: 500;
+    padding: 0 8px;
+}
+
+.item {
+    padding-left: 8px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--red-color);
+        background-color: var(--item-hover-color);
+    }
+}

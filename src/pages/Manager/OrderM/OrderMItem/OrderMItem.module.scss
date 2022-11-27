@@ -1,0 +1,128 @@
+.item {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--low-separation-color);
+    border-radius: 2px;
+    margin: 1px;
+
+    &:hover {
+        background-color: var(--item-hover-color);
+    }
+}
+
+.layout-img {
+    width: 70px;
+    height: 70px;
+    margin: 4px 6px 4px 6px;
+}
+
+.img {
+    width: 70px;
+    height: 70px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.info {
+    flex: 1;
+    height: 70px;
+    padding-left: 12px;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-family);
+}
+
+.customer-info {
+    font-weight: 500;
+    font-size: 1.7rem;
+    display: flex;
+    flex: 5;
+    padding-top: 12px;
+
+    .name {
+        flex: 4;
+    }
+    .phone {
+        flex: 3;
+        font-weight: 400;
+        font-size: 1.5rem;
+    }
+    .email {
+        flex: 3;
+        font-weight: 400;
+        font-size: 1.5rem;
+    }
+}
+
+.product-info {
+    border-top: 1px solid var(--low-separation-color);
+    flex: 5;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+
+    .name {
+        flex: 7;
+        font-size: 1.7rem;
+        font-weight: 500;
+        max-height: 1.8rem;
+        line-height: 1.8rem;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+    }
+    .total {
+        flex: 3;
+        .price {
+            color: var(--primary-color);
+        }
+
+        .amount {
+            font-weight: bolder;
+        }
+    }
+}
+
+.status {
+    display: flex;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 500;
+    width: 150px;
+
+    .icon-down {
+        margin-top: 0.3px;
+        margin-left: 5px;
+    }
+}
+
+.options-layout {
+    font-family: var(--font-family);
+    border-radius: 2px;
+    padding: 12px 24px;
+}
+
+.options {
+    width: 160px;
+    margin-top: -8px;
+}
+
+.control-filt {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.options-item {
+    width: 100%;
+    padding: 12px 16px;
+
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text-color);
+}
+.options-item.selection-item {
+    color: var(--red-color);
+}

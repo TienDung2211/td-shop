@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './ProductItem.module.scss';
+import styles from './Product.module.scss';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -9,21 +9,21 @@ import { faStar as farStar, faHeart as farHeart } from '@fortawesome/free-regula
 
 const cx = classNames.bind(styles);
 
-function ProductItem() {
+function Product() {
     const [like, setLike] = useState(false);
     const handleLike = (e) => {
         e.preventDefault();
         setLike(!like);
     };
     return (
-        <Link to="/product">
+        <Link to="/detail-product">
             <div className={cx('item')}>
                 <div
                     className={cx('item-img')}
                     style={{
                         backgroundImage:
                             'url(' +
-                            'https://cdn.tgdd.vn/Products/Images/42/274721/OPPO-Reno7-4G-Thumb-cam-1-600x600.jpg' +
+                            'https://lh3.googleusercontent.com/ZroUaYUG5F_pnmh04KFZFdTWufWUmJEKvO4u31IlLnm6267NiqOhr0lpHJv_lfJs_C86d3odqV4v0SVun_7kG2k5L4bjVes=w500-rw' +
                             ')',
                     }}
                 ></div>
@@ -84,4 +84,4 @@ function ProductItem() {
     );
 }
 
-export default ProductItem;
+export default Product;

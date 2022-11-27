@@ -1,5 +1,6 @@
 .wrapper {
     font-family: var(--font-family);
+    width: 120px;
     min-width: 120px;
     height: 36px;
     display: flex;
@@ -27,9 +28,6 @@
 }
 
 // Button types
-.transparent {
-    background-color: transparent;
-}
 
 .border {
     border-radius: 4px;
@@ -45,6 +43,7 @@
 
 .iconOnly {
     min-width: 36px;
+    width: 36px;
     height: 36px;
 
     .icon-only {
@@ -82,6 +81,10 @@
         background-color: #f1f1f2;
         border-color: rgba(22, 24, 35, 0.2);
     }
+}
+
+.transparent {
+    background-color: transparent;
 }
 
 .primary {

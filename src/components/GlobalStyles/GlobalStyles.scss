@@ -14,7 +14,7 @@
     --item-delete-color: rgba(255, 0, 0, 0.8);
 
     --width-app: 1200px;
-    --header-height: 120px;
+    --header-height: 140px;
 
     --font-family: 'IBM Plex Sans', sans-serif;
 }
@@ -30,6 +30,7 @@ html {
 }
 
 body {
+    width: 100%;
     font-family: var(--font-family);
     // font-family: 'ProximaNova', sans-serif;
     font-size: 1.6rem;
@@ -70,22 +71,6 @@ html *::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0);
 }
 
-// Font Emmbebed
-// @font-face {
-//     font-family: ProximaNova;
-//     src: url('/assets/fonts/Proxima-Nova-Regular.woff2');
-//     font-weight: 400;
-// }
-// @font-face {
-//     font-family: ProximaNova;
-//     src: url('/assets/fonts/ProximaNova-Semibold.woff2');
-//     font-weight: 600;
-// }
-// @font-face {
-//     font-family: ProximaNova;
-//     src: url('/assets/fonts/Proxima-Nova-Bold.woff');
-//     font-weight: 700;
-// }
 // Custom Tippy Tooltip
 
 // Tippy
@@ -186,6 +171,12 @@ body {
     padding-left: 12px;
     padding-right: 12px;
     width: 20%;
+}
+
+.grid-column-25percent {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 25%;
 }
 
 .grid-column-40percent {

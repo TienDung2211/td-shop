@@ -38,7 +38,6 @@ function Search() {
     };
 
     return (
-        // thêm thẻ div trống để khi scroll -> HeadlessTippy không bị nhảy
         <div>
             <HeadlessTippy
                 interactive

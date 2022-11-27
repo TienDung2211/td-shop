@@ -80,7 +80,7 @@
 
 .search-results {
     display: flex;
-    width: 920px;
+    width: calc(1200px - 140px - 100px - 120px);
 
     label {
         padding: 5px 16px;

@@ -1,12 +1,12 @@
 import classNames from 'classnames/bind';
-import styles from './Product.module.scss';
+import styles from './DetailProduct.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faStar as fasStar, faTruckFast, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
 import Button from '~/components/Button';
-import ProductItem from '~/components/ProductItem';
+import ProductItem from '~/components/Product';
 import Slider from '~/components/Slider';
 
 const cx = classNames.bind(styles);
@@ -44,7 +44,7 @@ const dataSlider = [
     },
 ];
 
-function Product() {
+function DetailProduct() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('grid-full-width')}>
@@ -376,4 +376,4 @@ function Product() {
     );
 }
 
-export default Product;
+export default DetailProduct;
