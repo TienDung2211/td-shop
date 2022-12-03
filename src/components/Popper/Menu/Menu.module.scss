@@ -17,11 +17,10 @@
             border-top: 1px solid var(--separation-color);
         }
         .title {
+            flex: 1;
             padding: 0px 8px;
             font-size: 1.4rem;
             font-weight: 500;
-            flex: 1;
-            display: flex;
         }
     }
 }

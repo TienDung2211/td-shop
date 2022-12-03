@@ -50,6 +50,15 @@ function Order() {
                 <p>Đơn hàng của bạn</p>
             </div>
 
+            <div className={cx('options')}>
+                <div className={cx('option', 'active')}>Tất cả đơn</div>
+                <div className={cx('option')}>Đã nhận đơn</div>
+                <div className={cx('option')}>Đã đóng gói hàng</div>
+                <div className={cx('option')}>Đang vận chuyển</div>
+                <div className={cx('option')}>Đã nhận hàng</div>
+                <div className={cx('option')}>Đã hủy</div>
+            </div>
+
             <div className={cx('results')}>
                 {orders.map((order) => {
                     return <OrderItem data={order} />;

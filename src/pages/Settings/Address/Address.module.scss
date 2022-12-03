@@ -44,6 +44,17 @@
     outline: 1px solid var(--low-separation-color);
 }
 
+.custom-select {
+    flex: 1;
+    color: var(--text-color);
+    font-size: 1.6rem;
+    padding: 0 16px;
+    font-weight: 400;
+    height: 40px;
+    outline: 1px solid var(--low-separation-color);
+    border: none;
+}
+
 .button-layout-view,
 .button-layout-update {
     margin-top: 40px;

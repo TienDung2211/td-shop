@@ -14,6 +14,7 @@ import {
     faFileInvoice,
     faGear,
     faUserTie,
+    faCartShopping,
 } from '@fortawesome/free-solid-svg-icons';
 
 // import Button from '~/components/Button';
@@ -30,25 +31,25 @@ import OptionsPopper from '~/components/OptionsPopper';
 const cx = classNames.bind(styles);
 
 const USER_LOGINED = [
-    {
-        icon: <FontAwesomeIcon icon={faLanguage} />,
-        title: 'Ngôn ngữ',
-        children: {
-            title: 'Ngôn ngữ',
-            data: [
-                {
-                    type: 'language',
-                    code: 'en',
-                    title: 'English',
-                },
-                {
-                    type: 'language',
-                    code: 'vi',
-                    title: 'Tiếng Việt',
-                },
-            ],
-        },
-    },
+    // {
+    //     icon: <FontAwesomeIcon icon={faLanguage} />,
+    //     title: 'Ngôn ngữ',
+    //     children: {
+    //         title: 'Ngôn ngữ',
+    //         data: [
+    //             {
+    //                 type: 'language',
+    //                 code: 'en',
+    //                 title: 'English',
+    //             },
+    //             {
+    //                 type: 'language',
+    //                 code: 'vi',
+    //                 title: 'Tiếng Việt',
+    //             },
+    //         ],
+    //     },
+    // },
     {
         icon: <FontAwesomeIcon icon={faUser} />,
         title: 'Xem hồ sơ',
@@ -58,6 +59,11 @@ const USER_LOGINED = [
         icon: <FontAwesomeIcon icon={faLocationDot} />,
         title: 'Địa chỉ',
         to: '/setting/address',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faCartShopping} />,
+        title: 'Giỏ hàng',
+        to: '/cart',
     },
     {
         icon: <FontAwesomeIcon icon={faFileInvoice} />,

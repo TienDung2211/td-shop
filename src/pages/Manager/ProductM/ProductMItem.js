@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './ProductM.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserSlash, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faPen } from '@fortawesome/free-solid-svg-icons';
 
 import Button from '~/components/Button';
 
@@ -28,7 +28,7 @@ function ProductMItem({ data }) {
                 className={cx('button')}
                 transparent
                 rounded
-                iconOnly={<FontAwesomeIcon icon={faUserSlash} />}
+                iconOnly={<FontAwesomeIcon icon={faTrashCan} />}
             ></Button>
         </div>
     );

@@ -2,12 +2,13 @@ import classNames from 'classnames/bind';
 import styles from './DetailProduct.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faStar as fasStar, faTruckFast, faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faStar as fasStar, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
 import Button from '~/components/Button';
 import ProductItem from '~/components/Product';
 import Slider from '~/components/Slider';
+import Policy from '~/components/Policy/Policy';
 
 const cx = classNames.bind(styles);
 
@@ -280,63 +281,7 @@ function DetailProduct() {
                         </div>
                     </div>
                     <div className={cx('grid-column-3')}>
-                        <div className={cx('other-content')}>
-                            <div className={cx('free-ship')}>
-                                <FontAwesomeIcon icon={faTruckFast} className={cx('icon')} />
-                                <span>Sản phẩm được miễn phí giao hàng</span>
-                            </div>
-                            <div className={cx('policy')}>
-                                <div className={cx('policy-list')}>
-                                    <div className={cx('policy-lable')}>
-                                        <span>Chính sách bán hàng</span>
-                                    </div>
-                                    <div className={cx('policy-item')}>
-                                        <div className={cx('icon')}>
-                                            <FontAwesomeIcon icon={faTruckFast} />
-                                        </div>
-                                        <span>Miễn phí giao hàng cho đơn hàng từ 800K</span>
-                                    </div>
-                                    <div className={cx('policy-item')}>
-                                        <div className={cx('icon')}>
-                                            <FontAwesomeIcon icon={faTruckFast} />
-                                        </div>
-                                        <span>Cam kết hàng chính hãng 100%</span>
-                                    </div>
-                                    <div className={cx('policy-item')}>
-                                        <div className={cx('icon')}>
-                                            <FontAwesomeIcon icon={faTruckFast} />
-                                        </div>
-                                        <span>Đổi trả trong vòng 10 ngày</span>
-                                    </div>
-                                </div>
-                                <div className={cx('policy-list')}>
-                                    <div className={cx('policy-lable')}>
-                                        <span>Dịch vụ khác</span>
-                                    </div>
-                                    <div className={cx('policy-item')}>
-                                        <div className={cx('icon')}>
-                                            <FontAwesomeIcon icon={faTruckFast} />
-                                        </div>
-                                        <span>Sửa chữa đồng giá 150.000đ.</span>
-                                    </div>
-                                    <div className={cx('policy-item')}>
-                                        <div className={cx('icon')}>
-                                            <FontAwesomeIcon icon={faTruckFast} />
-                                        </div>
-                                        <span>Vệ sinh máy tính, laptop.</span>
-                                    </div>
-                                    <div className={cx('policy-item')}>
-                                        <div className={cx('icon')}>
-                                            <FontAwesomeIcon icon={faTruckFast} />
-                                        </div>
-                                        <span>Bảo hành tại nhà.</span>
-                                    </div>
-                                </div>
-                                <a to="/" href="/" className={cx('view-add')}>
-                                    Xem chi tiết
-                                </a>
-                            </div>
-                        </div>
+                        <Policy />
                     </div>
                 </div>
                 <div className={cx('grid-row', 'other-products-layout')}>
@@ -351,22 +296,19 @@ function DetailProduct() {
                         </div>
                     </div>
                     <div className={cx('grid-row')}>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
-                        <div className={cx('grid-column-2')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-2')}>
+                        <div className={cx('grid-column-20percent')}>
                             <ProductItem />
                         </div>
                     </div>

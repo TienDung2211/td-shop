@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import DefaultLayout from './layouts/DefaultLayout';
 import SettingsLayout from './layouts/SettingLayout';
+import ManagerLayout from './layouts/ManagerLayout';
 
 function App() {
     return (
@@ -18,6 +19,8 @@ function App() {
                             Layout = route.layout;
                         } else if (route.layout === SettingsLayout) {
                             Layout = SettingsLayout;
+                        } else if (route.layout === ManagerLayout) {
+                            Layout = ManagerLayout;
                         } else if (route.layout === null) {
                             Layout = Fragment;
                         }
