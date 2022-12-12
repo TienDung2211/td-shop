@@ -1,7 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './Home.module.scss';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
+import productServices from '~/services/productServices';
 import Slider from '~/components/Slider';
 import ProductItem from '~/components/Product';
 import Pagigation from '~/components/Pagination/Pagination';
@@ -45,6 +46,14 @@ const dataSlider = [
 
 function Home() {
     const [isActive, setIsActive] = useState(0);
+
+    useEffect(() => {
+        const fetchAPI = async () => {
+            const results = await productServices.getAllProduct;
+        };
+
+        fetchAPI();
+    });
 
     return (
         <div className={cx('wrapper')}>

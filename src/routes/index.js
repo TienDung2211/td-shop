@@ -8,6 +8,7 @@ import Home from '~/pages/Home';
 import SortProduct from '~/pages/SortProduct';
 import DetailProduct from '~/pages/DetailProduct';
 import Cart from '~/pages/Cart';
+import TestData from '~/pages/TestData/TestData';
 
 // Setting
 import Profile from '~/pages/Settings/Profile';
@@ -36,6 +37,7 @@ const publicRoutes = [
     { path: '/manager/sale', component: SaleM, layout: ManagerLayout },
     { path: '/manager/comment', component: CommentM, layout: ManagerLayout },
     { path: '/manager/order', component: OrderM, layout: ManagerLayout },
+    { path: '/test', component: TestData, layout: null },
 ];
 
 const privateRoutes = [];
