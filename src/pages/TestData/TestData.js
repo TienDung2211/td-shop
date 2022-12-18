@@ -1,24 +1,24 @@
-// import productServices from '~/services/productServices';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { decrement, increment } from '../../stores/user/counterSlice';
 
-const data = async () => {
-    fetch('https://tdshop.herokuapp.com/api/v1/product/get-all')
-        .then((res) => res.json())
-        .then((res) => {
-            if (res) {
-                console.log(res.data);
-            } else {
-                console.log('No data');
-            }
-        })
-        .catch(() => {
-            console.log('Error');
-        });
+const TestData = () => {
+    const count = useSelector((state) => state.counter.value);
+    const dispatch = useDispatch();
+
+    return (
+        <div>
+            <div>
+                <button aria-label="Increment value" onClick={() => dispatch(increment())}>
+                    Increment
+                </button>
+                <span>{count}</span>
+                <button aria-label="Decrement value" onClick={() => dispatch(decrement())}>
+                    Decrement
+                </button>
+            </div>
+        </div>
+    );
 };
-
-function TestData() {
-    data();
-
-    return <div></div>;
-}
 
 export default TestData;

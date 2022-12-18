@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Manager.module.scss';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -43,9 +44,9 @@ function Manager() {
                 <div className={cx('control-list')}>
                     {controls.map((control) => {
                         return (
-                            <a href={'/manager/' + control.key} className={cx('control-item')} key={control.id}>
+                            <Link to={'/manager/' + control.key} className={cx('control-item')} key={control.id}>
                                 {control.name}
-                            </a>
+                            </Link>
                         );
                     })}
                 </div>

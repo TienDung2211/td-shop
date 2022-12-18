@@ -49,8 +49,12 @@
 
 // Info
 
+.main-info-layout {
+    height: 320px;
+}
+
 .info {
-    height: 100%;
+    height: 320px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -200,12 +204,7 @@
 .btn-layout {
     bottom: 0;
     display: flex;
-    justify-content: space-between;
     padding: 12px 0 0 0;
-
-    .btn-item + .btn-item {
-        margin-left: 32px;
-    }
 }
 
 .info-add {
@@ -328,6 +327,8 @@
     margin-top: 24px;
     padding: 0 12px;
     color: var(--black-color);
+    display: flex;
+    flex-direction: column;
 }
 
 .desc-lable {
@@ -339,35 +340,14 @@
 
 .desc-introduce {
     font-size: 1.6rem;
-    font-weight: 500;
+    font-weight: 400;
     line-height: 2rem;
 }
 
-.desc-item {
-    padding: 10px 0;
-
-    .desc-item-title {
-        width: 100%;
-        font-size: 1.6rem;
-        font-weight: 600;
-        line-height: 2rem;
-        color: #727070;
-    }
-
-    p {
-        font-size: 1.4rem;
-        font-weight: 400;
-        line-height: 1.8rem;
-    }
-
-    .desc-item-image {
-        margin-top: 12px;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        .image {
-            width: 90%;
-            object-fit: fill;
-        }
-    }
+.image {
+    width: 80%;
+    height: 450px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }

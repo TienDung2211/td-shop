@@ -4,58 +4,65 @@ import { useState, useEffect } from 'react';
 
 import productServices from '~/services/productServices';
 import Slider from '~/components/Slider';
-import ProductItem from '~/components/Product';
+import Product from '~/components/Product';
 import Pagigation from '~/components/Pagination/Pagination';
 import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
 const options = [
-    { id: 0, title: 'Deal Hot', icon: '' },
-    { id: 1, title: 'Mới nhất', icon: '' },
-    { id: 2, title: 'Phổ biến', icon: '' },
+    { id: 0, title: 'Deal Hot', key: 'deal-hot' },
+    { id: 1, title: 'Mới nhất', key: 'new' },
+    { id: 2, title: 'Phổ biến', key: 'popular' },
 ];
 
 const dataSlider = [
     {
         id: 0,
-        linkImage: 'https://cf.shopee.vn/file/5f3df7c16d4f3a9b4e09f6044dd2c3c8',
+        url: 'https://cf.shopee.vn/file/5f3df7c16d4f3a9b4e09f6044dd2c3c8',
         limited: true,
     },
     {
         id: 1,
-        linkImage: 'https://cf.shopee.vn/file/9859b8c5023899959b7a1bdd7318f971',
+        url: 'https://cf.shopee.vn/file/9859b8c5023899959b7a1bdd7318f971',
         limited: false,
     },
     {
         id: 2,
-        linkImage: 'https://cf.shopee.vn/file/6b0ebb66b13a3150c2ec1073524fed7d',
+        url: 'https://cf.shopee.vn/file/6b0ebb66b13a3150c2ec1073524fed7d',
         limited: false,
     },
     {
         id: 3,
-        linkImage: 'https://cf.shopee.vn/file/b85ab0fdc2723ff92f799bcebeb24662',
+        url: 'https://cf.shopee.vn/file/b85ab0fdc2723ff92f799bcebeb24662',
         limited: true,
     },
     {
         id: 4,
-        linkImage: 'https://cf.shopee.vn/file/c786ed03343b61dbaf08c418d504da58',
+        url: 'https://cf.shopee.vn/file/c786ed03343b61dbaf08c418d504da58',
         limited: true,
     },
 ];
 
 function Home() {
+    const [page, setPage] = useState(0);
     const [isActive, setIsActive] = useState(0);
+    const [products, setProducts] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
+    const [filter, setFilter] = useState('deal-hot');
 
     useEffect(() => {
         const fetchAPI = async () => {
-            const results = await productServices.getAllProduct;
+            let dataAPI = await productServices.getAllProducts(filter, page);
+            setProducts(dataAPI.content);
+            setTotalPages(dataAPI.totalPages);
+            setPage(dataAPI.pageable.pageNumber);
         };
 
         fetchAPI();
-    });
+    }, [isActive]);
 
-    return (
+    return products ? (
         <div className={cx('wrapper')}>
             <div className={cx('grid-full-width')}>
                 <div className={cx('grid-row', 'slider')}>
@@ -65,10 +72,10 @@ function Home() {
                     <div className={cx('grid-column-4')}>
                         <div className={cx('fixed-image-layout')}>
                             <div className={cx('fixed-image')}>
-                                <img src={dataSlider[1].linkImage} alt="Ảnh" className={cx('image')} />
+                                <img src={dataSlider[1].url} alt="Ảnh" className={cx('image')} />
                             </div>
                             <div className={cx('fixed-image')}>
-                                <img src={dataSlider[2].linkImage} alt="Ảnh" className={cx('image')} />
+                                <img src={dataSlider[2].url} alt="Ảnh" className={cx('image')} />
                             </div>
                         </div>
                     </div>
@@ -80,7 +87,7 @@ function Home() {
                                 if (isActive === index) {
                                     return (
                                         <div
-                                            key={option.id}
+                                            key={option.id.toString()}
                                             className={cx('grid-column-20percent', 'options-item', 'selection')}
                                         >
                                             <Button large transparent>
@@ -91,10 +98,11 @@ function Home() {
                                 } else {
                                     return (
                                         <div
-                                            key={option.id}
+                                            key={option.id.toString()}
                                             className={cx('grid-column-20percent', 'options-item')}
                                             onClick={() => {
                                                 setIsActive(index);
+                                                setFilter(options[index].key);
                                             }}
                                         >
                                             <Button large transparent>
@@ -113,90 +121,20 @@ function Home() {
                     </div>
                 </div>
                 <div className={cx('grid-row', 'products-list')}>
-                    <div className={cx('grid-row')}>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <ProductItem />
-                        </div>
-                    </div>
+                    {products.map((product) => {
+                        return (
+                            <div key={product.Id.toString()} className={cx('grid-column-20percent')}>
+                                <Product data={product} />
+                            </div>
+                        );
+                    })}
                 </div>
                 <div className={cx('grid-row')}>
-                    <Pagigation />
+                    <Pagigation length={totalPages} page={Number(page)} />
                 </div>
             </div>
         </div>
-    );
+    ) : null;
 }
 
 export default Home;

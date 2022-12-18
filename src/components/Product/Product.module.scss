@@ -41,6 +41,10 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+
+    &:hover {
+        color: var(--primary-color);
+    }
 }
 
 .item-price {
@@ -59,6 +63,7 @@
 
 .item-price--discount {
     font-size: 1.4rem;
+    font-weight: 500;
     text-decoration: none;
     color: var(--red-color);
 }
@@ -133,6 +138,25 @@
 .item-favourite i {
     font-size: 1rem;
     padding: 0 2px 0 4px;
+}
+
+.orther-data {
+    display: flex;
+    justify-content: space-between;
+}
+
+.brand {
+    font-size: 1.2rem;
+    color: var(--text-color);
+}
+
+.sel-amount {
+    color: var(--text-color);
+    font-size: 1.2rem;
+
+    .amount {
+        font-size: 1.3rem;
+    }
 }
 
 .item-sale {

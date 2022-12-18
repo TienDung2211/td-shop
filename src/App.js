@@ -1,11 +1,15 @@
 import { Fragment } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { publicRoutes } from './routes';
 import DefaultLayout from './layouts/DefaultLayout';
 import SettingsLayout from './layouts/SettingLayout';
 import ManagerLayout from './layouts/ManagerLayout';
 
+import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 function App() {
+    useEffect(() => {}, []);
+
     return (
         <BrowserRouter>
             <div className="App">

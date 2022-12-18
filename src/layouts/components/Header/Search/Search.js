@@ -1,22 +1,43 @@
-import { useState, useRef } from 'react';
-
-import HeadlessTippy from '@tippyjs/react/headless';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faSpinner, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 
-import { Wrapper as PopperWrapper } from '~/components/Popper';
+import { useState, useRef, useEffect } from 'react';
+import HeadlessTippy from '@tippyjs/react/headless';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass, faSpinner, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+
 import SearchItem from './SearchItem';
+import useDebounce from '~/hooks/useDebounce';
+import productServices from '~/services/productServices';
+import { Wrapper as PopperWrapper } from '~/components/Popper';
 
 const cx = classNames.bind(styles);
 
 function Search() {
+    const [loading, setLoading] = useState(false);
     const [searchValue, setSearchValue] = useState('');
     const [showResults, setShowResults] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [searchResults, setSearchResults] = useState([]);
 
     const inputRef = useRef();
+
+    const keyword = useDebounce(searchValue, 500);
+
+    useEffect(() => {
+        if (!keyword.trim()) {
+            setSearchResults([]);
+            return;
+        }
+
+        const fetchApi = async () => {
+            setLoading(true);
+            const result = await productServices.getAllProducts(null, 0, null, keyword);
+            setSearchResults(result.content);
+            setLoading(false);
+        };
+
+        fetchApi();
+    }, [keyword]);
 
     const handleClear = () => {
         setSearchValue('');
@@ -41,18 +62,20 @@ function Search() {
         <div>
             <HeadlessTippy
                 interactive
-                visible={showResults}
-                ref={inputRef}
+                visible={showResults && searchResults.length > 0}
                 placement="bottom-start"
                 render={(attrs) => (
                     <div className={cx('search-results')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
-                            <label className={cx('search-results-lable')}>Lịch sử tìm kiếm</label>
+                            <label className={cx('search-results-lable')}>Kết quả tìm kiếm</label>
                             <div className={cx('search-results-list')}>
-                                <SearchItem title="Điện thoại iPhone 13 Pro Max 128GB" />
-                                <SearchItem title="Điện thoại Samsung Galaxy A33 5G 6GB" />
-                                <SearchItem title="Laptop Acer Nitro 5" />
+                                {searchResults.map((item, index) => (
+                                    <SearchItem data={item} key={index} />
+                                ))}
                             </div>
+                            <label className={cx('search__all')}>
+                                Hiển thị tất cả kết quả tìm kiếm "{searchValue}"
+                            </label>
                         </PopperWrapper>
                     </div>
                 )}
@@ -71,11 +94,12 @@ function Search() {
                     ></input>
                     <button className={cx('search-control')}>
                         {loading && (
-                            // <FontAwesomeIcon
-                            //     icon={faSpinner}
-                            //     className={cx('search-control-loading', 'search-control-btn')}
-                            // />
-
+                            <FontAwesomeIcon
+                                icon={faSpinner}
+                                className={cx('search-control-loading', 'search-control-btn')}
+                            />
+                        )}
+                        {!!searchValue && !loading && (
                             <FontAwesomeIcon
                                 onClick={handleClear}
                                 icon={faCircleXmark}
@@ -83,7 +107,7 @@ function Search() {
                             />
                         )}
                     </button>
-                    <div className={cx('search-btn')}>
+                    <div className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
                         <FontAwesomeIcon icon={faMagnifyingGlass} className={cx('icon')} />
                     </div>
                 </div>

@@ -22,21 +22,24 @@
     color: var(--text-color);
 }
 
-.switch-btn {
-    font-size: 1.6rem;
-    font-weight: 500;
-    color: var(--primary-color);
-    cursor: pointer;
-}
-
 .body {
     padding: 0px 32px;
+}
+
+.error-msg {
+    width: 100%;
+    color: var(--red-color);
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.group {
+    margin-top: 16px;
 }
 
 .input {
     width: 100%;
     height: 40px;
-    margin-top: 16px;
     padding: 0 12px;
     font-size: 1.4rem;
     border-radius: 2px;
