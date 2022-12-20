@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faSpinner, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
@@ -51,7 +51,7 @@ function Search() {
     };
 
     const handleChange = (e) => {
-        const inputValue = e.target.value;
+        const inputValue = e.currentTarget.value;
         if (!inputValue.startsWith(' ')) {
             setSearchValue(inputValue);
             setLoading(true);
@@ -62,20 +62,39 @@ function Search() {
         <div>
             <HeadlessTippy
                 interactive
-                visible={showResults && searchResults.length > 0}
+                visible={showResults}
                 placement="bottom-start"
                 render={(attrs) => (
                     <div className={cx('search-results')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
-                            <label className={cx('search-results-lable')}>Kết quả tìm kiếm</label>
-                            <div className={cx('search-results-list')}>
-                                {searchResults.map((item, index) => (
-                                    <SearchItem data={item} key={index} />
-                                ))}
-                            </div>
-                            <label className={cx('search__all')}>
-                                Hiển thị tất cả kết quả tìm kiếm "{searchValue}"
-                            </label>
+                            {searchResults.length > 0 ? (
+                                <div>
+                                    <label className={cx('search-results-lable')}>Kết quả tìm kiếm</label>
+                                    <div className={cx('search-results-list')}>
+                                        {searchResults.map((item, index) => (
+                                            <SearchItem
+                                                data={item}
+                                                key={index}
+                                                onClickItem={() => {
+                                                    setShowResults(false);
+                                                }}
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <span className={cx('no-product')}>Không có sản phẩm tìm kiếm</span>
+                            )}
+                            {/* <Link to="/sort">
+                                <label
+                                    className={cx('search__all')}
+                                    onClick={() => {
+                                        setShowResults(false);
+                                    }}
+                                >
+                                    Hiển thị tất cả kết quả tìm kiếm "{searchValue}"
+                                </label>
+                            </Link> */}
                         </PopperWrapper>
                     </div>
                 )}
@@ -90,10 +109,12 @@ function Search() {
                         value={searchValue}
                         spellCheck={false}
                         onChange={handleChange}
-                        onFocus={() => setShowResults(true)}
+                        onFocus={() => {
+                            setShowResults(true);
+                        }}
                     ></input>
                     <button className={cx('search-control')}>
-                        {loading && (
+                        {loading && searchValue !== '' && (
                             <FontAwesomeIcon
                                 icon={faSpinner}
                                 className={cx('search-control-loading', 'search-control-btn')}
@@ -107,9 +128,21 @@ function Search() {
                             />
                         )}
                     </button>
-                    <div className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
+                    {/* <Link
+                        to="/sort"
+                        onClick={() => {
+                            setShowResults(false);
+                        }}
+                    > */}
+                    <div
+                        className={cx('search-btn')}
+                        onClick={() => {
+                            setShowResults(true);
+                        }}
+                    >
                         <FontAwesomeIcon icon={faMagnifyingGlass} className={cx('icon')} />
                     </div>
+                    {/* </Link> */}
                 </div>
             </HeadlessTippy>
         </div>

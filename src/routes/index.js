@@ -24,9 +24,10 @@ import OrderM from '~/pages/Manager/OrderM';
 import CategoryM from '~/pages/Manager/CategoryM';
 
 const publicRoutes = [
-    { path: '/detail-product/:id', component: DetailProduct },
-    { path: '/sort', component: SortProduct },
+    { path: '/', component: Home },
     { path: '/cart', component: Cart },
+    { path: '/sort', component: SortProduct },
+    { path: '/detail-product/:id', component: DetailProduct },
     { path: '/setting/profile', component: Profile, layout: SettingsLayout },
     { path: '/setting/address', component: Address, layout: SettingsLayout },
     { path: '/setting/order', component: Order, layout: SettingsLayout },
@@ -37,7 +38,6 @@ const publicRoutes = [
     { path: '/manager/comment', component: CommentM, layout: ManagerLayout },
     { path: '/manager/order', component: OrderM, layout: ManagerLayout },
     { path: '/test', component: TestData },
-    { path: '/', component: Home },
 ];
 
 const privateRoutes = [];

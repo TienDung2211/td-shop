@@ -4,10 +4,16 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function SearchItem({ data }) {
+function SearchItem({ data, onClickItem }) {
     return (
-        <li className={cx('item-search')}>
-            <Link to={`/detail-product/${data.Id}`} className={cx('item-link')}>
+        <li
+            className={cx('item-search')}
+            onClick={(e) => {
+                e.preventDefault();
+                onClickItem();
+            }}
+        >
+            <Link to={`/detail-product/${data.Id}`} className={cx('item-link')} preventScrollReset={true}>
                 <img src={data.ImageUrl} alt="Ảnh sản phẩm" className={cx('img')} />
                 <div className={cx('info')}>
                     <span className={cx('name')}>{data.Name}</span>

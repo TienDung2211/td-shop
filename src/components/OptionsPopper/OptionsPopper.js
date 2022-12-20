@@ -22,6 +22,7 @@ function OptionsPopper({ white, lowBlack, manager, className }) {
         [className]: className,
     });
 
+    const [show, setShow] = useState(false);
     const [varitons, setVaritons] = useState([]);
 
     useEffect(() => {
@@ -38,9 +39,17 @@ function OptionsPopper({ white, lowBlack, manager, className }) {
         <div className={cx('wrapper')}>
             <HeadlessTippy
                 interactive
+                visible={show}
                 placement="bottom-start"
                 render={(attrs) => (
-                    <div className={layout} tabIndex="-1" {...attrs}>
+                    <div
+                        className={cx('layout')}
+                        tabIndex="-1"
+                        {...attrs}
+                        onMouseLeave={() => {
+                            setShow(false);
+                        }}
+                    >
                         <div className={cx('list-variations')}>
                             {varitons.map((variation, index) => {
                                 return (
@@ -53,7 +62,12 @@ function OptionsPopper({ white, lowBlack, manager, className }) {
                     </div>
                 )}
             >
-                <div className={button}>
+                <div
+                    className={cx('button')}
+                    onMouseEnter={() => {
+                        setShow(true);
+                    }}
+                >
                     <FontAwesomeIcon icon={faBars} />
                 </div>
             </HeadlessTippy>

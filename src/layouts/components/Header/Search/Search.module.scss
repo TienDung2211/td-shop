@@ -77,6 +77,20 @@
     }
 }
 
+// Search result empty
+
+.no-product {
+    width: 840px;
+    height: 60px;
+    font-family: var(--font-family);
+    font-size: 1.5rem;
+    color: var(--secondary-text-color);
+    line-height: 20px;
+    font-weight: 600;
+    display: flex;
+    padding: 0 16px;
+}
+
 // Search result
 
 .search-results {
@@ -99,7 +113,7 @@
 }
 
 .search-results-list {
-    max-height: 40vh;
+    max-height: 50vh;
     overflow-y: auto;
 }
 

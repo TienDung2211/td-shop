@@ -8,7 +8,7 @@ import { faAngleRight, faStar as fasStar, faCartPlus } from '@fortawesome/free-s
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
 import Button from '~/components/Button';
-import Product from '~/components/Product';
+// import Product from '~/components/Product';
 import Slider from '~/components/Slider';
 import Policy from '~/components/Policy/Policy';
 import productServices from '~/services/productServices';

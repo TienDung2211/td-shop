@@ -1,6 +1,6 @@
 import classNames from 'classnames/bind';
 import styles from './Options.module.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
@@ -77,4 +77,4 @@ function Options({ handleChangeFilter }) {
     );
 }
 
-export default Options;
+export default memo(Options);

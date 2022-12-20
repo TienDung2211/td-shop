@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './SortProduct.module.scss';
 
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import Options from './Options';
 import Product from '~/components/Product';
@@ -11,8 +12,6 @@ import Pagigation from '~/components/Pagination/Pagination';
 
 const cx = classNames.bind(styles);
 
-// const getCheckedTime = 5000;
-
 function SortProduct() {
     const [page, setPage] = useState(0);
     const [filter, setFilter] = useState('new');
@@ -20,8 +19,11 @@ function SortProduct() {
     const [variations, setVariations] = useState('');
     const [totalPages, setTotalPages] = useState(1);
 
+    const keyVariation = useLocation().state;
+
     const handleChangeFilter = (data) => {
         setFilter(data);
+        keyVariation.load = true;
     };
 
     const onChangeVariations = () => {
@@ -34,18 +36,29 @@ function SortProduct() {
         }
 
         setVariations(checked.join());
+
+        keyVariation.load = true;
+        keyVariation.value = '';
     };
 
     useEffect(() => {
         const fetchAPI = async () => {
-            let dataAPI = await productServices.getAllProducts(filter, page, variations);
+            let keyword = '';
+            let dataAPI;
+            if (keyVariation?.load && keyVariation && keyVariation.value !== '') {
+                dataAPI = await productServices.getAllProducts(filter, page, keyVariation.value, keyword);
+                keyVariation.load = false;
+            } else {
+                dataAPI = await productServices.getAllProducts(filter, page, variations, keyword);
+            }
+
             setProducts(dataAPI.content);
             setTotalPages(dataAPI.totalPages);
             setPage(dataAPI.pageable.pageNumber);
         };
 
         fetchAPI();
-    }, [filter, variations]);
+    }, [filter, variations, page, keyVariation?.value]);
 
     return products ? (
         <div className={cx('grid-full-width')}>

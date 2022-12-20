@@ -22,7 +22,6 @@ const productServices = {
             if (variations !== '' && variations) {
                 paramsVariations = `&variations=${variations}`;
             }
-            console.log('API', keyword);
 
             let paramsKeyword = '';
             if (keyword !== '' && keyword) {
@@ -30,6 +29,8 @@ const productServices = {
             }
 
             let endpoint = `?page=${page}${paramsVariations}${paramsFilter}${paramsKeyword}`;
+
+            console.log(endpoint);
 
             const res = await request.get(`/product/search${endpoint}`);
             return res.data;
