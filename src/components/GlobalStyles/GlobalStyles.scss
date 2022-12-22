@@ -14,6 +14,10 @@
     --low-separation-color: #bacccc;
     --item-hover-color: rgba(96, 96, 96, 0.1);
     --item-delete-color: rgba(255, 0, 0, 0.8);
+    --success-color: #49a343;
+    --info-color: #226fb8;
+    --warning-color: #d0c014;
+    --error-color: #c51717;
 
     --width-app: 1200px;
     --header-height: 140px;
@@ -74,7 +78,6 @@ html *::-webkit-scrollbar-track {
 }
 
 // Custom Tippy Tooltip
-
 // Tippy
 body {
     .tippy-box {
@@ -90,6 +93,10 @@ body {
     .tippy-box[data-placement^='bottom'] > .tippy-arrow:before {
         top: -8px;
     }
+}
+// Custim ToastMessage
+.toast-message {
+    margin-top: var(--header-height);
 }
 
 // Grid System

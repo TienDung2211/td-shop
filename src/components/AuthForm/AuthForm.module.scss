@@ -9,7 +9,7 @@
 
 .header {
     height: 60px;
-    padding: 0 2px 0 44px;
+    padding: 0 24px 0 44px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -20,6 +20,13 @@
     font-size: 2.2rem;
     font-weight: 600;
     color: var(--text-color);
+    cursor: default;
+}
+
+.switch-btn {
+    font-size: 1.9rem;
+    font-weight: 500;
+    color: var(--primary-color);
 }
 
 .body {
@@ -99,6 +106,12 @@
 
 .controls {
     margin-top: 80px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.controls-register {
+    margin-top: 20px;
     display: flex;
     justify-content: flex-end;
 }

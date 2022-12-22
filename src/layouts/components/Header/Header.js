@@ -82,14 +82,28 @@ function Header() {
     const [user, setUser] = useState(null);
     const [isLoadUser, setIsLoadUser] = useState(false);
 
+    const HandleSwitchType = () => {
+        if (typeModal === 'login') {
+            setTypeModal('register');
+        } else {
+            setTypeModal('login');
+        }
+    };
+
     useEffect(() => {
         const getUserInfo = async () => {
             setIsLoadUser(true);
 
-            let dataApi = await userServices.getUser();
+            const access = JSON.parse(localStorage.getItem('access'));
 
-            if (dataApi?.data) {
-                setUser(dataApi.data);
+            if (access) {
+                let dataApi = await userServices.getUser();
+
+                if (dataApi?.data) {
+                    setUser(dataApi.data);
+                }
+            } else {
+                setUser(null);
             }
 
             setIsLoadUser(false);
@@ -135,7 +149,7 @@ function Header() {
                                             className={cx('navbar-item')}
                                             onClick={() => {
                                                 setIsModal(true);
-                                                setTypeModal('signin');
+                                                setTypeModal('register');
                                             }}
                                         >
                                             <span>Đăng ký</span>
@@ -198,6 +212,7 @@ function Header() {
                         onLogin={() => {
                             setIsModal(false);
                         }}
+                        onSwitchType={HandleSwitchType}
                         clickBack={() => setIsModal(false)}
                     />
                 </Modal>

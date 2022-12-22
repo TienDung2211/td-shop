@@ -12,6 +12,7 @@ import Button from '~/components/Button';
 import Slider from '~/components/Slider';
 import Policy from '~/components/Policy/Policy';
 import productServices from '~/services/productServices';
+import cartServices from '~/services/cartServices';
 import images from '~/assets/images';
 
 const cx = classNames.bind(styles);
@@ -20,6 +21,12 @@ function DetailProduct() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [slider, setSlider] = useState([]);
+
+    const handleAddCart = async () => {
+        let data = await cartServices.addCart(Number(id));
+
+        console.log(data);
+    };
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -141,6 +148,7 @@ function DetailProduct() {
                                                         outline
                                                         large
                                                         leftIcon={<FontAwesomeIcon icon={faCartPlus} />}
+                                                        onClick={() => handleAddCart()}
                                                     >
                                                         Thêm vào giỏ hàng
                                                     </Button>

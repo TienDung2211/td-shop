@@ -10,35 +10,159 @@ import authServices from '~/services/authServices';
 
 const cx = classNames.bind(styles);
 
-function RegisterForm({ clickBack }) {
-    // const [username, setUsername] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [errMsg, setErrMsg] = useState('');
+function RegisterForm({ clickBack, onSwitchType }) {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
-        // setErrMsg('');
-    }, []);
+        setErrMsg('');
+    }, [firstName, lastName, email, phone, username, password, repeatPassword]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            var phoneno = /^\d{10}$/;
+            var emailno = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (!phone.match(phoneno)) {
+                setErrMsg('Vui lòng nhập số điện thoại đúng định dạng');
+                return;
+            }
+            if (!emailno.test(email)) {
+                setErrMsg('Vui lòng nhập email đúng định dạng');
+                return;
+            }
+            if (username.length < 6) {
+                setErrMsg('Tài khoản phải có tối thiểu 6 kí tự');
+                return;
+            }
+            if (password.length < 8 || repeatPassword < 8) {
+                setErrMsg('Mật khẩu phải có tối thiểu 8 kí tự');
+                return;
+            }
+            if (password !== repeatPassword) {
+                setErrMsg('Mật khẩu xác nhận không khớp');
+                return;
+            }
+
+            const data = {
+                FirstName: firstName,
+                LastName: lastName,
+                Email: email,
+                Phone: phone,
+                Username: username,
+                Password: password,
+            };
+
+            let dataAPI = await authServices.authRegister(data);
+
+            if (dataAPI?.data) {
+                console.log(dataAPI?.data);
+            } else {
+                if (dataAPI.status === 401) {
+                    setErrMsg('*Sai tài khoản hoặc mật khẩu');
+                } else {
+                    setErrMsg('*Đăng nhập thất bại');
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <div className={cx('wrapper')} onClick={(e) => e.stopPropagation()}>
             <div className={cx('header')}>
                 <h3 className={cx('heading')}>Đăng ký</h3>
+                <Button className={cx('switch-btn')} onClick={onSwitchType}>
+                    Đăng nhập
+                </Button>
             </div>
 
-            <div className={cx('body')}>
+            <form className={cx('body')} onSubmit={handleSubmit}>
                 <div className={cx('group')}>
-                    <input type="text" className={cx('input')} placeholder="Tên tài khoản" />
+                    <span className={cx('error-msg')}>{errMsg}</span>{' '}
                 </div>
                 <div className={cx('group')}>
-                    <input type="text" className={cx('input')} placeholder="Mật khẩu" />
+                    <input
+                        type="text"
+                        className={cx('input')}
+                        placeholder="Nhập họ"
+                        required
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
                 </div>
                 <div className={cx('group')}>
-                    <input type="text" className={cx('input')} placeholder="Nhập lại mật khẩu" />
+                    <input
+                        type="text"
+                        className={cx('input')}
+                        placeholder="Nhập tên"
+                        required
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                </div>
+                <div className={cx('group')}>
+                    <input
+                        type="email"
+                        className={cx('input')}
+                        placeholder="Nhập email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                <div className={cx('group')}>
+                    <input
+                        type="text"
+                        className={cx('input')}
+                        placeholder="Nhập số điện thoại"
+                        required
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
+                </div>
+                <div className={cx('group')}>
+                    <input
+                        type="text"
+                        className={cx('input')}
+                        placeholder="Tên tài khoản"
+                        required
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div className={cx('group')}>
+                    <input
+                        type="text"
+                        className={cx('input')}
+                        placeholder="Mật khẩu"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className={cx('group')}>
+                    <input
+                        type="text"
+                        className={cx('input')}
+                        placeholder="Nhập lại mật khẩu"
+                        required
+                        value={repeatPassword}
+                        onChange={(e) => setRepeatPassword(e.target.value)}
+                    />
                 </div>
 
                 <div className={cx('check')}>
                     <div>
-                        <input className={cx('confirm')} type="checkbox" id="confirm" value="confirm" />
+                        <input className={cx('confirm')} type="checkbox" id="confirm" value="confirm" required />
                     </div>
                     <label htmlFor="confirm">
                         <p className={cx('policy')}>
@@ -53,7 +177,7 @@ function RegisterForm({ clickBack }) {
                         </p>
                     </label>
                 </div>
-                <div className={cx('controls')}>
+                <div className={cx('controls-register')}>
                     <Button border transparent className={cx('back-btn')} onClick={clickBack}>
                         Trở lại
                     </Button>
@@ -61,7 +185,7 @@ function RegisterForm({ clickBack }) {
                         Đăng ký
                     </Button>
                 </div>
-            </div>
+            </form>
 
             <div className={cx('footer')}>
                 <Button

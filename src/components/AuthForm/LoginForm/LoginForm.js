@@ -10,7 +10,7 @@ import authServices from '~/services/authServices';
 
 const cx = classNames.bind(styles);
 
-function LoginForm({ onLogin, clickBack }) {
+function LoginForm({ onLogin, onSwitchType, clickBack }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -49,6 +49,9 @@ function LoginForm({ onLogin, clickBack }) {
         <div className={cx('wrapper')} onClick={(e) => e.stopPropagation()}>
             <div className={cx('header')}>
                 <h3 className={cx('heading')}>Đăng nhập</h3>
+                <Button className={cx('switch-btn')} onClick={onSwitchType}>
+                    Đăng ký
+                </Button>
             </div>
 
             <form className={cx('body')} onSubmit={handleSubmit}>
