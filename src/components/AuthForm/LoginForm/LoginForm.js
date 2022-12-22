@@ -7,6 +7,7 @@ import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 import Button from '~/components/Button';
 import authServices from '~/services/authServices';
+import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -83,9 +84,9 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                 </div>
 
                 <div className={cx('help')}>
-                    <a href="/" className={cx('help-link', 'help-foget-pass')}>
-                        Quên mật khẩu
-                    </a>
+                    <Link to={'/reset-password'}>
+                        <div className={cx('help-link', 'help-foget-pass')}>Quên mật khẩu</div>
+                    </Link>
                     <span className={cx('help-separation')}></span>
                     <a href="/" className={cx('help-link', 'helping')}>
                         Trợ giúp

@@ -37,37 +37,32 @@ const USER_LOGINED = [
         icon: <FontAwesomeIcon icon={faUser} />,
         title: 'Xem hồ sơ',
         to: '/setting/profile',
-        role: 'guest',
     },
     {
         icon: <FontAwesomeIcon icon={faLocationDot} />,
         title: 'Địa chỉ',
         to: '/setting/address',
-        role: 'guest',
     },
     {
         icon: <FontAwesomeIcon icon={faCartShopping} />,
         title: 'Giỏ hàng',
         to: '/cart',
-        role: 'guest',
     },
     {
         icon: <FontAwesomeIcon icon={faFileInvoice} />,
         title: 'Đơn hàng',
         to: '/setting/order',
-        role: 'guest',
     },
     {
         icon: <FontAwesomeIcon icon={faUserTie} />,
         title: 'Quản lí',
         to: '/manager/account',
-        role: 'emloyee',
+        role: 'ROLE_EMPLOYEE',
     },
     {
         icon: <FontAwesomeIcon icon={faGear} />,
         title: 'Cài đặt',
         to: '/setting/profile',
-        role: 'guest',
     },
     {
         icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,

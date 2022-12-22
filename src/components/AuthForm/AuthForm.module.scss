@@ -27,6 +27,7 @@
     font-size: 1.9rem;
     font-weight: 500;
     color: var(--primary-color);
+    background-color: transparent;
 }
 
 .body {
@@ -61,7 +62,7 @@
 
 .help-link {
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
 }
 
 .help-separation {
@@ -159,4 +160,35 @@
 .socials-google {
     background-color: var(--white-color);
     color: #666;
+}
+
+// Confirm Email
+.confirm-email {
+    font-family: var(--font-family);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 24px 44px;
+    .heading {
+        font-size: 2rem;
+        font-weight: 500;
+        // opacity: 0.9;
+        color: var(--text-color);
+        line-height: 40px;
+    }
+}
+
+.instruction {
+    display: flex;
+    flex-direction: column;
+}
+
+.step {
+    font-size: 1.6rem;
+    color: var(--text-color);
+    line-height: 2.6rem;
+    // opacity: 0.9;
+    .active {
+        // opacity: 1;
+        color: var(--red-color);
+    }
 }

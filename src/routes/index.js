@@ -9,6 +9,7 @@ import SortProduct from '~/pages/SortProduct';
 import DetailProduct from '~/pages/DetailProduct';
 import Cart from '~/pages/Cart';
 import TestData from '~/pages/TestData/TestData';
+import ResetPassword from '~/pages/ResetPassword';
 
 // Setting
 import Profile from '~/pages/Settings/Profile';
@@ -27,6 +28,7 @@ const publicRoutes = [
     { path: '/', component: Home },
     { path: '/cart', component: Cart },
     { path: '/sort', component: SortProduct },
+    { path: '/reset-password', component: ResetPassword, layout: null },
     { path: '/detail-product/:id', component: DetailProduct },
     { path: '/setting/profile', component: Profile, layout: SettingsLayout },
     { path: '/setting/address', component: Address, layout: SettingsLayout },

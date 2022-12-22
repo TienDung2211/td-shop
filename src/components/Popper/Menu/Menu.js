@@ -20,6 +20,29 @@ function Menu({ children, items = [], hideOnClick = false, onChange = defaultFn,
     const renderItems = () => {
         return current.data.map((item, index) => {
             const isParent = !!item.children;
+            if (item?.role) {
+                const user = JSON.parse(localStorage.getItem('user'));
+
+                if (user.Role === 'ROLE_EMPLOYEE' || user.Role === 'ROLE_ADMIN') {
+                    return (
+                        <MenuItem
+                            key={index}
+                            data={item}
+                            onClick={() => {
+                                if (isParent) {
+                                    setHistory((prev) => [...prev, item.children]);
+                                } else {
+                                    onChange(item);
+                                }
+
+                                if (item.title === 'Đăng xuất') {
+                                    clickLogout();
+                                }
+                            }}
+                        />
+                    );
+                } else return;
+            }
             return (
                 <MenuItem
                     key={index}

@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './Settings.module.scss';
 
+import { Link } from 'react-router-dom';
+
 const cx = classNames.bind(styles);
 
 const controls = [
@@ -28,9 +30,9 @@ function Settings() {
                 <div className={cx('control-list')}>
                     {controls.map((control) => {
                         return (
-                            <a href={'/setting/' + control.key} className={cx('control-item')} key={control.id}>
+                            <Link to={'/setting/' + control.key} className={cx('control-item')} key={control.id}>
                                 {control.name}
-                            </a>
+                            </Link>
                         );
                     })}
                 </div>
