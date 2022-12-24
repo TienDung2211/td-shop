@@ -9,8 +9,18 @@ export const get = async (path, options = {}) => {
     return response.data;
 };
 
-export const post = async (path, options = {}) => {
-    const response = await request.post(path, options);
+export const post = async (path, data, headers = {}) => {
+    const response = await request.post(path, data, headers);
+    return response.data;
+};
+
+export const put = async (path, data, headers = {}) => {
+    const response = await request.put(path, data, headers);
+    return response.data;
+};
+
+export const remove = async (path, headers = {}) => {
+    const response = await request.delete(path, headers);
     return response.data;
 };
 

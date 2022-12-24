@@ -1,16 +1,39 @@
 import HeadlessTippy from '@tippyjs/react/headless';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames/bind';
 
-import { Wrapper as PopperWrapper } from '~/components/Popper';
 import styles from './Cart.module.scss';
+import { Wrapper as PopperWrapper } from '~/components/Popper';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect, useContext } from 'react';
+
 import CartItem from './CartItem';
+import images from '~/assets/images';
 import Button from '~/components/Button';
+import DataContext from '~/context/DataContext';
+import cartServices from '~/services/cartServices';
 
 const cx = classNames.bind(styles);
 
 function Cart() {
+    const [products, setProducts] = useState([]);
+
+    const { render, setRender } = useContext(DataContext);
+
+    const removeProduct = async (id) => {
+        let api = await cartServices.removeCart(id);
+        setRender(!render);
+    };
+
+    useEffect(() => {
+        const fetchAPI = async () => {
+            var dataAPI = await cartServices.getMyCart();
+            if (dataAPI?.CartItems) {
+                setProducts(dataAPI?.CartItems);
+            }
+        };
+        fetchAPI();
+    }, [render]);
     return (
         <div>
             <HeadlessTippy
@@ -20,28 +43,26 @@ function Cart() {
                     <div className={cx('cart-wrapper')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
                             <div className={cx('cart-popper')}>
-                                {/* <div className={cx('cart--empty')}>
-                                    <img src={images.imgCartEmpty} alt="" className={cx('cart-img--empty')} />
-                                    <span className={cx('cart-text--empty')}>Chưa có sản phẩm</span>
-                                </div> */}
-                                <div className={cx('cart-exists')}>
-                                    <h3 className={cx('cart-heading')}>Sản phẩm đã thêm</h3>
-                                    <div className={cx('cart-list')}>
-                                        <CartItem />
-                                        <CartItem />
-                                        <CartItem />
-                                        <CartItem />
-                                        <CartItem />
-                                        <CartItem />
-                                        <CartItem />
-                                        <CartItem />
+                                {products.length > 0 ? (
+                                    <div className={cx('cart-exists')}>
+                                        <h3 className={cx('cart-heading')}>Sản phẩm đã thêm</h3>
+                                        <div className={cx('cart-list')}>
+                                            {products.map((item) => (
+                                                <CartItem key={item.Id} data={item} onRemoveProduct={removeProduct} />
+                                            ))}
+                                        </div>
+                                        <div className={cx('cart-btn-all')}>
+                                            <Button to="/cart" primary>
+                                                Xem tất cả
+                                            </Button>
+                                        </div>
                                     </div>
-                                    <div className={cx('cart-btn-all')}>
-                                        <Button to="/cart" primary>
-                                            Xem tất cả
-                                        </Button>
+                                ) : (
+                                    <div className={cx('cart--empty')}>
+                                        <img src={images.imgCartEmpty} alt="" className={cx('cart-img--empty')} />
+                                        <span className={cx('cart-text--empty')}>Chưa có sản phẩm</span>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </PopperWrapper>
                     </div>

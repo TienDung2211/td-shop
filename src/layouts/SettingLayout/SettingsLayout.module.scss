@@ -1,10 +1,10 @@
 .wrapper {
     display: flex;
+    width: 100%;
     justify-content: center;
-    background-image: url('../../assets/images/background.jpg');
     background-repeat: no-repeat;
     background-size: cover;
-    width: 100%;
+    background-image: url('../../assets/images/background.jpg');
 }
 
 .container {
@@ -14,25 +14,14 @@
     margin-top: var(--header-height);
 }
 
-.path {
-    margin: 20px 0;
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.05);
-    display: flex;
-    width: 15%;
-}
-
-.path::after {
-    content: '';
-    position: absolute;
-    border-width: 18px 30px;
-    border-style: solid;
-    border-color: transparent transparent transparent rgba(0, 0, 0, 0.05);
-
-    top: 0%;
-    right: -60px;
-}
-
 .content {
     display: flex;
+    margin-top: 50px;
+    margin-right: 12px;
+}
+
+.page {
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-left: 12px;
+    border-radius: 6px;
 }

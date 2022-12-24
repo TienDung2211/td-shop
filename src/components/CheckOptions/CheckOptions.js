@@ -1,15 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './CheckOptions.module.scss';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function CheckOptions({ data, onChangeVariations }) {
-    const state = useLocation().state;
-
-    useEffect(() => {}, [state]);
-
     return data ? (
         <div className={cx('wrapper')}>
             <div className={cx('title')}>{data.name}</div>

@@ -1,7 +1,7 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    margin-left: 40px;
+    padding: 20px 40px;
 }
 
 .title {
@@ -24,7 +24,7 @@
 }
 
 .label-item {
-    width: 200px;
+    width: 180px;
     color: var(--black-color);
     font-size: 1.4rem;
     font-weight: 600;
@@ -33,6 +33,7 @@
 .value-item,
 .input-item {
     flex: 1;
+    max-width: 400px;
     color: var(--text-color);
     font-size: 1.6rem;
     padding-left: 1.6rem;
@@ -44,8 +45,42 @@
     outline: 1px solid var(--low-separation-color);
 }
 
+.input-item.confirm {
+    max-width: 20px;
+    width: 20px;
+    height: 20px;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+
+.confirm--label {
+    margin-left: 12px;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.date-input {
+    font-size: 1.7rem;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.group {
+    margin-left: 180px;
+    display: flex;
+}
+
+.error-msg {
+    width: 100%;
+    color: var(--red-color);
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
 .custom-select {
     flex: 1;
+    max-width: 400px;
     color: var(--text-color);
     font-size: 1.6rem;
     padding: 0 16px;
@@ -58,10 +93,61 @@
 .button-layout-view,
 .button-layout-update {
     margin-top: 40px;
-    margin-left: 200px;
+    margin-left: 180px;
+    max-width: 400px;
 }
 
 .button-layout-update {
     display: flex;
     justify-content: space-between;
+}
+
+// Address Item
+.item-address {
+    width: 100%;
+    display: flex;
+}
+
+.type-address {
+    width: 160px;
+    color: var(--black-color);
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.info {
+    flex: 1;
+    max-width: 400px;
+    color: var(--black-color);
+    font-size: 1.7rem;
+    font-weight: 400;
+    line-height: 2.2rem;
+}
+
+.icon {
+    width: 24px;
+}
+
+.icon.map {
+    color: var(--primary-color);
+}
+
+.icon.location {
+    color: var(--red-color);
+}
+
+.icon.user {
+    color: var(--separation-color);
+}
+
+.button-layout {
+    width: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button + .button {
+    margin-left: 16px;
 }

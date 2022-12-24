@@ -97,8 +97,7 @@
 }
 
 .full-name,
-.phone,
-.address {
+.phone {
     display: flex;
     margin-top: 16px;
     font-size: 1.6rem;
@@ -111,6 +110,40 @@
         flex: 8;
         font-weight: 500;
         color: var(--text-color);
+    }
+}
+
+.address {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    font-size: 1.6rem;
+    .lable {
+        flex: 2;
+        font-weight: 500;
+        color: #727070;
+
+        &:hover .text {
+            display: block;
+        }
+    }
+    .text {
+        display: none;
+    }
+    .custom-select {
+        height: 30px;
+        flex: 8;
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: var(--text-color);
+
+        .option {
+            width: 50%;
+            height: 30px;
+            line-height: 2.5rem;
+            // font-size: 2rem;
+            font-weight: 500;
+        }
     }
 }
 

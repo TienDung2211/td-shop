@@ -1,8 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from '../AuthForm.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { useState, useEffect } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 
@@ -31,8 +31,14 @@ function RegisterForm({ clickBack, onSwitchType }) {
         e.preventDefault();
 
         try {
+            // eslint-disable-next-line
             var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+            // eslint-disable-next-line
             var emailno = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if (phone.length < 10) {
+                setErrMsg('Số điện thoại phải có 10 chữ số');
+                return;
+            }
             if (!phone.match(phoneno)) {
                 setErrMsg('Vui lòng nhập số điện thoại đúng định dạng');
                 return;

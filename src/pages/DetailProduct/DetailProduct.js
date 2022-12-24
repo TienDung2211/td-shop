@@ -1,19 +1,22 @@
 import classNames from 'classnames/bind';
-import styles from './DetailProduct.module.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import styles from './DetailProduct.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faStar as fasStar, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
+import images from '~/assets/images';
 import Button from '~/components/Button';
 // import Product from '~/components/Product';
 import Slider from '~/components/Slider';
+import DataContext from '~/context/DataContext';
 import Policy from '~/components/Policy/Policy';
-import productServices from '~/services/productServices';
 import cartServices from '~/services/cartServices';
-import images from '~/assets/images';
+import { ToastContainer, toast } from 'react-toastify';
+import productServices from '~/services/productServices';
 
 const cx = classNames.bind(styles);
 
@@ -22,10 +25,17 @@ function DetailProduct() {
     const [product, setProduct] = useState(null);
     const [slider, setSlider] = useState([]);
 
-    const handleAddCart = async () => {
-        let data = await cartServices.addCart(Number(id));
+    const { render, setRender } = useContext(DataContext);
 
-        console.log(data);
+    const handleAddCart = async () => {
+        let data = await cartServices.addCart(id);
+
+        toast.success('Thêm sản phẩm vào giỏ hàng thành công', {
+            position: toast.POSITION.TOP_RIGHT,
+            className: 'toast-message',
+        });
+
+        setRender(!render);
     };
 
     useEffect(() => {
@@ -284,6 +294,7 @@ function DetailProduct() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     ) : null;
 }

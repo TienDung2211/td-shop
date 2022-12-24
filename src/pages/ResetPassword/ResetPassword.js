@@ -1,9 +1,9 @@
 import classNames from 'classnames/bind';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './ResetPassword.module.scss';
 
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
 
 import Button from '~/components/Button';
 import authServices from '~/services/authServices';
@@ -24,6 +24,7 @@ function ResetPassword() {
     const handleSubmitEmail = async (e) => {
         e.preventDefault();
         try {
+            // eslint-disable-next-line
             var emailno = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if (!email.match(emailno)) {
                 setErrMsg('Vui lòng nhập email đúng định dạng');
@@ -75,8 +76,6 @@ function ResetPassword() {
 
             let dataAPI = await authServices.authVerifyResetPassword(data);
 
-            console.log(dataAPI);
-
             if (dataAPI.status === 400) {
                 setErrMsg('Mã xác nhận không chính xác');
                 setInfo('');
@@ -108,8 +107,6 @@ function ResetPassword() {
 
             let dataAPI = await authServices.authResetPassword(data);
 
-            console.log(dataAPI);
-
             if (dataAPI.data) {
                 toast.success('Lấy lại mật khẩu thành công! Quay lại trang chủ để đăng nhập', {
                     position: toast.POSITION.TOP_RIGHT,
@@ -132,7 +129,7 @@ function ResetPassword() {
                 {!sendEmail && !verify && (
                     <form className={cx('body')} onSubmit={handleSubmitEmail}>
                         <div className={cx('group')}>
-                            <span className={cx('error-msg')}>{errMsg}</span>{' '}
+                            <span className={cx('error-msg')}>{errMsg}</span>
                         </div>
                         <div className={cx('group')}>
                             <input

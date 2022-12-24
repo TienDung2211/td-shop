@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GlobalStyles from './components/GlobalStyles';
+import { DataProvider } from './context/DataContext';
 // import authStore from './stores/auth/authStore';
 // import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     // <Provider store={authStore}>
-    <GlobalStyles>
-        <App />
-    </GlobalStyles>,
+    <DataProvider>
+        <GlobalStyles>
+            <App />
+        </GlobalStyles>
+    </DataProvider>,
     // </Provider>,
 );
 
