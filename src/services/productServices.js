@@ -14,7 +14,7 @@ const productServices = {
                 } else if (filter === 'price-desc') {
                     paramsFilter = `&sort=price,DESC`;
                 } else if (filter === 'deal-hot') {
-                    paramsFilter = `&sort=productPromotion.discountRate,desc`;
+                    paramsFilter = `&sort=productPromotion.discountRate,DESC`;
                 }
             }
 

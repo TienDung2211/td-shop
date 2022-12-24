@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './Options.module.scss';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
@@ -19,11 +19,7 @@ function Options({ data }) {
                             key={index}
                             to={'/sort'}
                             state={{
-                                masterId: data.id,
-                                id: variationOption.id,
                                 value: `${variationOption.id}`,
-                                load: true,
-                                loadSideBar: true,
                             }}
                         >
                             <div className={cx('item')}>{variationOption.value}</div>

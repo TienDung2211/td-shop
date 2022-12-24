@@ -18,12 +18,12 @@ function SortProduct() {
     const [products, setProducts] = useState([]);
     const [variations, setVariations] = useState('');
     const [totalPages, setTotalPages] = useState(1);
+    // const [keyword, setKeyword] = useState('');
 
     const keyVariation = useLocation().state;
 
     const handleChangeFilter = (data) => {
         setFilter(data);
-        keyVariation.load = true;
     };
 
     const onChangeVariations = () => {
@@ -36,20 +36,16 @@ function SortProduct() {
         }
 
         setVariations(checked.join());
-
-        keyVariation.load = true;
         keyVariation.value = '';
     };
 
     useEffect(() => {
         const fetchAPI = async () => {
-            let keyword = '';
             let dataAPI;
-            if (keyVariation?.load && keyVariation && keyVariation.value !== '') {
-                dataAPI = await productServices.getAllProducts(filter, page, keyVariation.value, keyword);
-                keyVariation.load = false;
+            if (keyVariation && keyVariation.value !== '') {
+                dataAPI = await productServices.getAllProducts(filter, page, keyVariation.value);
             } else {
-                dataAPI = await productServices.getAllProducts(filter, page, variations, keyword);
+                dataAPI = await productServices.getAllProducts(filter, page, variations);
             }
 
             setProducts(dataAPI.content);

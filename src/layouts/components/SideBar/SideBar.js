@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import styles from './SideBar.module.scss';
 
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -14,8 +13,6 @@ const cx = classNames.bind(styles);
 function SideBar({ onChangeVariations }) {
     const [varitons, setVaritons] = useState([]);
 
-    const state = useLocation().state;
-
     useEffect(() => {
         const fetchAPI = async () => {
             let dataAPI = await variationServices.getAllVariations();
@@ -24,9 +21,7 @@ function SideBar({ onChangeVariations }) {
         };
 
         fetchAPI();
-
-        console.log('SideBar', state.id);
-    }, [state.id]);
+    }, []);
 
     return varitons ? (
         <aside className={cx('wrapper')}>
@@ -35,15 +30,11 @@ function SideBar({ onChangeVariations }) {
                     <FontAwesomeIcon icon={faList} className={cx('category-heading-icon')} />
                     Danh mục
                 </h3>
-                {state.loadSideBar && (
-                    <ul className={cx('category-list')}>
-                        {varitons.map((variation, index) => {
-                            return (
-                                <CheckOptions key={index} data={variation} onChangeVariations={onChangeVariations} />
-                            );
-                        })}
-                    </ul>
-                )}
+                <ul className={cx('category-list')}>
+                    {varitons.map((variation, index) => {
+                        return <CheckOptions key={index} data={variation} onChangeVariations={onChangeVariations} />;
+                    })}
+                </ul>
             </nav>
         </aside>
     ) : null;
