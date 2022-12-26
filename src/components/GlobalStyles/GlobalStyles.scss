@@ -5,6 +5,7 @@
     --primary-color: #058bd2;
     --low-primary-color: #d7e8fe;
 
+    --green-color: rgb(8, 171, 8);
     --white-color: #fff;
     --black-color: #000;
     --red-color: #f0430e;
@@ -54,11 +55,26 @@ input,
 
 a[href] {
     text-decoration: none;
+    color: var(--text-color);
+    cursor: default;
 }
 
 .item:hover {
     background-color: #f1f1f2;
     cursor: pointer;
+}
+
+.input-variation-option {
+    width: 100%;
+    height: 30px;
+    outline: 1px solid var(--text-color);
+    border-radius: 2px;
+    font-size: 1.5rem;
+    padding: 0 12px;
+}
+
+.input-variation-option + .input-variation-option {
+    margin-top: 12px;
 }
 
 // Scroll Bar

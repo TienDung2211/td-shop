@@ -1,7 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useContext } from 'react';
 // import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,18 +18,19 @@ import {
     faCartShopping,
 } from '@fortawesome/free-solid-svg-icons';
 
-// import Button from '~/components/Button';
-import images from '~/assets/images';
-import Menu from '~/components/Popper/Menu';
-import Search from './Search';
 import Cart from './Cart';
 import QrCode from './QrCode';
-import Notification from './Notification';
+import Search from './Search';
+import images from '~/assets/images';
 import Modal from '~/components/Modal';
-import AuthForm from '~/components/AuthForm/AuthForm';
-import OptionsPopper from '~/components/OptionsPopper';
-import authServices from '~/services/authServices';
+import Notification from './Notification';
+import Menu from '~/components/Popper/Menu';
+import DataContext from '~/context/DataContext';
 import userServices from '~/services/userServices';
+import authServices from '~/services/authServices';
+import AuthForm from '~/components/AuthForm/AuthForm';
+import { ToastContainer, toast } from 'react-toastify';
+import OptionsPopper from '~/components/OptionsPopper';
 
 const cx = classNames.bind(styles);
 
@@ -56,7 +58,7 @@ const USER_LOGINED = [
     {
         icon: <FontAwesomeIcon icon={faUserTie} />,
         title: 'Quản lí',
-        to: '/manager/account',
+        to: '/manager/product',
         role: 'ROLE_EMPLOYEE',
     },
     {
@@ -76,6 +78,8 @@ function Header() {
     const [typeModal, setTypeModal] = useState('login');
     const [user, setUser] = useState(null);
     const [isLoadUser, setIsLoadUser] = useState(false);
+
+    const { render, setRender } = useContext(DataContext);
 
     const HandleSwitchType = () => {
         if (typeModal === 'login') {
@@ -105,7 +109,7 @@ function Header() {
         };
 
         getUserInfo();
-    }, [isModal]);
+    }, [isModal, render]);
 
     return (
         <div className={cx('wrapper')}>
@@ -171,6 +175,7 @@ function Header() {
                                                 clickLogout={() => {
                                                     setUser(null);
                                                     authServices.authLogOut();
+                                                    setRender(!render);
                                                 }}
                                             >
                                                 {
@@ -200,12 +205,17 @@ function Header() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
             {isModal && (
                 <Modal closeModal={() => setIsModal(false)}>
                     <AuthForm
                         data={typeModal}
                         onLogin={() => {
                             setIsModal(false);
+                            toast.success('Đăng nhập thành công!', {
+                                position: toast.POSITION.TOP_RIGHT,
+                                className: 'toast-message',
+                            });
                         }}
                         onSwitchType={HandleSwitchType}
                         clickBack={() => setIsModal(false)}

@@ -9,6 +9,7 @@ const images = {
     imgHome: require('~/assets/images/img_home.jpg'),
     imgMomo: require('~/assets/images/img_momo.png'),
     imgBank: require('~/assets/images/img_bank.jpg'),
+    imgVnPay: require('~/assets/images/img_VnPay.png'),
     imgBackGround: require('~/assets/images/background.jpg'),
 };
 

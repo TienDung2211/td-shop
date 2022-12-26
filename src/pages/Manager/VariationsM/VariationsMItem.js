@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './CategoryM.module.scss';
+import styles from './VariationsM.module.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPen } from '@fortawesome/free-solid-svg-icons';
@@ -7,11 +7,11 @@ import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-function CategoryMItem({ data }) {
+function VariationsMItem({ data, onClickVariation }) {
     return (
-        <div className={cx('item-layout')}>
+        <div className={cx('item-layout')} onClick={onClickVariation}>
             <div className={cx('info')}>
-                <span className={cx('info-item')}>{data}</span>
+                <span className={cx('info-item')}>{data.name}</span>
             </div>
             <Button className={cx('button')} transparent rounded iconOnly={<FontAwesomeIcon icon={faPen} />}></Button>
             <Button
@@ -24,4 +24,4 @@ function CategoryMItem({ data }) {
     );
 }
 
-export default CategoryMItem;
+export default VariationsMItem;

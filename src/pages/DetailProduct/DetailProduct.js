@@ -10,8 +10,8 @@ import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
 import images from '~/assets/images';
 import Button from '~/components/Button';
-// import Product from '~/components/Product';
 import Slider from '~/components/Slider';
+import Product from '~/components/Product';
 import DataContext from '~/context/DataContext';
 import Policy from '~/components/Policy/Policy';
 import cartServices from '~/services/cartServices';
@@ -23,6 +23,7 @@ const cx = classNames.bind(styles);
 function DetailProduct() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
+    const [productByBrand, setProductByBrand] = useState([]);
     const [slider, setSlider] = useState([]);
 
     const { render, setRender } = useContext(DataContext);
@@ -30,12 +31,26 @@ function DetailProduct() {
     const handleAddCart = async () => {
         let data = await cartServices.addCart(id);
 
-        toast.success('Thêm sản phẩm vào giỏ hàng thành công', {
-            position: toast.POSITION.TOP_RIGHT,
-            className: 'toast-message',
-        });
+        if (data?.status === 200) {
+            toast.success('Thêm sản phẩm vào giỏ hàng thành công.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            setRender(!render);
+        } else {
+            toast.info('Đăng nhập để thêm giỏ hàng.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        }
+    };
 
-        setRender(!render);
+    const getProductByBrand = async () => {
+        let api = await productServices.getProductByBrand(product?.Brand?.id);
+
+        console.log(api);
+
+        setProductByBrand(api.content);
     };
 
     useEffect(() => {
@@ -54,6 +69,7 @@ function DetailProduct() {
         };
 
         fetchAPI();
+        getProductByBrand();
     }, [id]);
 
     return product ? (
@@ -264,35 +280,35 @@ function DetailProduct() {
                         <Policy />
                     </div>
                 </div>
-                <div className={cx('grid-row', 'other-products-layout')}>
-                    <div className={cx('grid-row', 'other-products')}>
-                        <div className={cx('grid-column-4')}>
-                            <span className={cx('orther-products-lable')}>Cùng thương hiệu {product.Brand.name}</span>
+                {productByBrand.length > 0 ? (
+                    <div className={cx('grid-row', 'other-products-layout')}>
+                        <div className={cx('grid-row', 'other-products')}>
+                            <div className={cx('grid-column-4')}>
+                                <span className={cx('orther-products-lable')}>
+                                    Cùng thương hiệu {product.Brand.name}
+                                </span>
+                            </div>
+                            <div className={cx('grid-column-2')}>
+                                <Button to="/sort" transparent large className={cx('view-all-btn')}>
+                                    Xem tất cả {'>>'}
+                                </Button>
+                            </div>
                         </div>
-                        <div className={cx('grid-column-2')}>
-                            <Button to="/sort" transparent large className={cx('view-all-btn')}>
-                                Xem tất cả {'>>'}
-                            </Button>
+                        <div className={cx('grid-row')}>
+                            {productByBrand.map((product, index) => {
+                                if (index < 5) {
+                                    return (
+                                        <div className={cx('grid-column-20percent')} key={index}>
+                                            <Product data={product} />
+                                        </div>
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            })}
                         </div>
                     </div>
-                    <div className={cx('grid-row')}>
-                        {/* <div className={cx('grid-column-20percent')}>
-                            <Product />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <Product />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <Product />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <Product />
-                        </div>
-                        <div className={cx('grid-column-20percent')}>
-                            <Product />
-                        </div> */}
-                    </div>
-                </div>
+                ) : null}
             </div>
             <ToastContainer />
         </div>

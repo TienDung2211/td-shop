@@ -1,6 +1,9 @@
 import classNames from 'classnames/bind';
 import styles from './Manager.module.scss';
+
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import userServices from '~/services/userServices';
 
 const cx = classNames.bind(styles);
 
@@ -9,11 +12,12 @@ const controls = [
         id: 0,
         name: 'Quản lí tài khoản',
         key: 'account',
+        role: 'ROLE_ADMIN',
     },
     {
         id: 1,
         name: 'Quản lí danh mục',
-        key: 'category',
+        key: 'variaton',
     },
     {
         id: 2,
@@ -38,11 +42,44 @@ const controls = [
 ];
 
 function Manager() {
+    const [user, setUser] = useState(null);
+
+    const getUserInfo = async () => {
+        const access = JSON.parse(localStorage.getItem('access'));
+
+        if (access) {
+            let dataApi = await userServices.getUser();
+
+            if (dataApi?.data) {
+                setUser(dataApi.data);
+                console.log(dataApi);
+            }
+        } else {
+            setUser(null);
+        }
+    };
+    useEffect(() => {
+        getUserInfo();
+    }, []);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('grid-full-width')}>
                 <div className={cx('control-list')}>
                     {controls.map((control) => {
+                        if (control?.role) {
+                            if (control.role === user?.Role.name) {
+                                return (
+                                    <Link
+                                        to={'/manager/' + control.key}
+                                        className={cx('control-item')}
+                                        key={control.id}
+                                    >
+                                        {control.name}
+                                    </Link>
+                                );
+                            } else return;
+                        }
                         return (
                             <Link to={'/manager/' + control.key} className={cx('control-item')} key={control.id}>
                                 {control.name}

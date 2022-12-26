@@ -20,9 +20,11 @@ function Cart() {
 
     const { render, setRender } = useContext(DataContext);
 
-    const removeProduct = async (id) => {
+    const removeCart = async (id) => {
         let api = await cartServices.removeCart(id);
-        setRender(!render);
+        if (api?.status === 200) {
+            setRender(!render);
+        }
     };
 
     useEffect(() => {
@@ -48,11 +50,11 @@ function Cart() {
                                         <h3 className={cx('cart-heading')}>Sản phẩm đã thêm</h3>
                                         <div className={cx('cart-list')}>
                                             {products.map((item) => (
-                                                <CartItem key={item.Id} data={item} onRemoveProduct={removeProduct} />
+                                                <CartItem key={item.Id} data={item} onRemoveProduct={removeCart} />
                                             ))}
                                         </div>
                                         <div className={cx('cart-btn-all')}>
-                                            <Button to="/cart" primary>
+                                            <Button to="/cart" outline border primary>
                                                 Xem tất cả
                                             </Button>
                                         </div>

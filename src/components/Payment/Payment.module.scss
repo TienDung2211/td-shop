@@ -20,6 +20,17 @@
     color: var(--text-color);
 }
 
+.no-user {
+    height: 200px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 500;
+    opacity: 0.7;
+}
+
 // Product
 
 .list {
@@ -92,8 +103,15 @@
 }
 
 // Info
-.info-layout {
-    // border-left: 3px solid var(--primary-color);
+.error-msg {
+    width: 100%;
+    color: var(--red-color);
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.group {
+    margin-top: 16px;
 }
 
 .full-name,
@@ -102,14 +120,31 @@
     margin-top: 16px;
     font-size: 1.6rem;
     .lable {
-        flex: 2;
+        flex: 3;
         font-weight: 500;
         color: #727070;
     }
     .value {
-        flex: 8;
+        flex: 7;
         font-weight: 500;
         color: var(--text-color);
+    }
+}
+
+.price {
+    display: flex;
+    margin-top: 24px;
+    height: 40px;
+    font-size: 1.6rem;
+    .lable {
+        flex: 3;
+        font-weight: 500;
+        color: #727070;
+    }
+    .value {
+        flex: 7;
+        font-weight: 500;
+        color: var(--red-color);
     }
 }
 
@@ -119,7 +154,7 @@
     margin-top: 16px;
     font-size: 1.6rem;
     .lable {
-        flex: 2;
+        flex: 3;
         font-weight: 500;
         color: #727070;
 
@@ -127,12 +162,28 @@
             display: block;
         }
     }
+    .value {
+        flex: 7;
+        font-weight: 500;
+        color: var(--text-color);
+        cursor: default;
+        .active {
+            color: var(--primary-color);
+            text-decoration: underline;
+
+            &:hover {
+                cursor: pointer;
+                color: var(--primary-color);
+                opacity: 0.8;
+            }
+        }
+    }
     .text {
         display: none;
     }
     .custom-select {
         height: 30px;
-        flex: 8;
+        flex: 7;
         font-size: 1.6rem;
         font-weight: 500;
         color: var(--text-color);
@@ -141,7 +192,6 @@
             width: 50%;
             height: 30px;
             line-height: 2.5rem;
-            // font-size: 2rem;
             font-weight: 500;
         }
     }
@@ -225,18 +275,6 @@
             font-size: 1.6rem;
             color: var(--red-color);
         }
-    }
-}
-
-.price {
-    margin: 16px 0;
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: #727070;
-
-    .price-value {
-        font-size: 1.5rem;
-        color: var(--text-color);
     }
 }
 

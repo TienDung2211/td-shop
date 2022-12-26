@@ -14,7 +14,7 @@ const productServices = {
                 } else if (filter === 'price-desc') {
                     paramsFilter = `&sort=price,DESC`;
                 } else if (filter === 'deal-hot') {
-                    paramsFilter = `&sort=productPromotion.discountRate,DESC`;
+                    paramsFilter = `&sort=currentDiscountRate,DESC`;
                 }
             }
 
@@ -41,6 +41,14 @@ const productServices = {
     getProductById: async (id) => {
         try {
             const res = await request.get(`/product/get/${id}`);
+            return res.data;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    getProductByBrand: async (id) => {
+        try {
+            const res = await request.get(`/product/search?brand-id=${id}`);
             return res.data;
         } catch (error) {
             console.log(error);

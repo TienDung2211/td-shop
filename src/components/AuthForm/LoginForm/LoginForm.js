@@ -1,13 +1,14 @@
 import classNames from 'classnames/bind';
 import styles from '../AuthForm.module.scss';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 
-import Button from '~/components/Button';
-import authServices from '~/services/authServices';
 import { Link } from 'react-router-dom';
+import Button from '~/components/Button';
+import DataContext from '~/context/DataContext';
+import authServices from '~/services/authServices';
 
 const cx = classNames.bind(styles);
 
@@ -15,7 +16,8 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [user, setUser] = useState(false);
+
+    const { render, setRender } = useContext(DataContext);
 
     useEffect(() => {
         setErrMsg('');
@@ -33,7 +35,8 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
             let dataAPI = await authServices.authLogin(data);
 
             if (dataAPI?.data) {
-                setUser(true);
+                setRender(!render);
+                onLogin();
             } else {
                 if (dataAPI.status === 401) {
                     setErrMsg('*Sai tài khoản hoặc mật khẩu');
@@ -107,7 +110,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                     <Button border transparent className={cx('back-btn')} onClick={clickBack}>
                         Trở lại
                     </Button>
-                    <Button type="submit" primary border onClick={user ? onLogin() : null}>
+                    <Button type="submit" primary border>
                         Đăng nhập
                     </Button>
                 </div>

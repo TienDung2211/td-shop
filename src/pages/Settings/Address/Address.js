@@ -186,7 +186,7 @@ function Address() {
             setWards(api.data);
         };
         const apiGetAddress = async () => {
-            const api = await addressServices.getMyAddress(idDistrict);
+            const api = await addressServices.getMyAddress();
             setAddress(api.data);
         };
 

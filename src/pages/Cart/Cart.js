@@ -1,24 +1,27 @@
 import classNames from 'classnames/bind';
 import styles from './Cart.module.scss';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
-import Button from '~/components/Button';
-import Policy from '~/components/Policy/Policy';
 import Modal from '~/components/Modal';
+import Button from '~/components/Button';
 import Payment from '~/components/Payment';
+import DataContext from '~/context/DataContext';
+import Policy from '~/components/Policy/Policy';
 import cartServices from '~/services/cartServices';
+import { ToastContainer, toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
 function Cart() {
-    const [showPayment, setShowPayment] = useState(false);
     const [products, setProducts] = useState([]);
-    const [render, setRender] = useState(true);
-    const [labelSelect, setLabelSelect] = useState('Chọn tất cả');
+    const [showPayment, setShowPayment] = useState(false);
     const [selectProduct, setSelectProduct] = useState([]);
+    const [labelSelect, setLabelSelect] = useState('Chọn tất cả');
+    const { render, setRender } = useContext(DataContext);
 
     const changeAmount = async (id, amount) => {
         const data = {
@@ -33,11 +36,21 @@ function Cart() {
         }
     };
 
-    const removeProduct = async (id) => {
+    const removeCart = async (id) => {
         let api = await cartServices.removeCart(id);
 
         if (api.status === 200) {
+            toast.success('Xóa thành công sản phẩm khỏi giỏ hàng.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+
             setRender(!render);
+        } else {
+            toast.success('Lỗi không xác định, ui lòng thử lại sau.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
         }
     };
 
@@ -75,9 +88,19 @@ function Cart() {
         setSelectProduct(select);
     };
 
+    const handlePaymentSuccess = () => {
+        setShowPayment(false);
+        toast.success('Đặt hàng thành công. Truy cập Cài đặt -> Đơn hàng để xem chi tiết', {
+            position: toast.POSITION.TOP_RIGHT,
+            className: 'toast-message',
+        });
+        setRender(!render);
+    };
+
     useEffect(() => {
         const fetchAPI = async () => {
             var dataAPI = await cartServices.getMyCart();
+
             setProducts(dataAPI?.CartItems);
         };
         fetchAPI();
@@ -120,7 +143,7 @@ function Cart() {
                             {products && (
                                 <div className={cx('cart-list')}>
                                     {products.map((data, index) => (
-                                        <div key={data?.id} className={cx('cart-item')}>
+                                        <div key={index} className={cx('cart-item')}>
                                             <div className={cx('grid-column-50percent')}>
                                                 <div className={cx('select-layout')}>
                                                     <input type="checkbox" className={cx('check')} value={index} />
@@ -170,7 +193,7 @@ function Cart() {
                                                     transparent
                                                     className={cx('delete-btn')}
                                                     onClick={() => {
-                                                        removeProduct(data?.Product.Id);
+                                                        removeCart(data?.Product.Id);
                                                     }}
                                                 >
                                                     Xóa
@@ -203,12 +226,13 @@ function Cart() {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
             {showPayment && (
                 <Modal closeModal={() => setShowPayment(false)}>
                     <Payment
                         data={selectProduct}
                         clickBack={() => setShowPayment(false)}
-                        clickPay={() => setShowPayment(false)}
+                        onPayment={handlePaymentSuccess}
                     />
                 </Modal>
             )}

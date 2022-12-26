@@ -14,7 +14,6 @@ const cartServices = {
                     },
                 },
             );
-
             return res;
         } catch (error) {
             console.log(error);
@@ -24,7 +23,7 @@ const cartServices = {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
-            const res = await request.get('/cart/my-cart', {
+            const res = await request.get('/cart/my-cart?sort=Id,ASC', {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
