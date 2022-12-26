@@ -1,23 +1,28 @@
 import classNames from 'classnames/bind';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './VariationsM.module.scss';
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from '~/components/Button';
+import DataContext from '~/context/DataContext';
 import VariationsMItem from './VariationsMItem';
+import { ToastContainer, toast } from 'react-toastify';
 import variationServices from '~/services/variationServices';
 
 const cx = classNames.bind(styles);
 
-function CategoryM() {
+function VariationM() {
     const [variations, setVariations] = useState([]);
     const [idVariation, setIdVariation] = useState(1);
-    const [nameVariation, setNameVariation] = useState('');
     const [options, setOptions] = useState([]);
-    const [action, setAction] = useState('add');
+    const [action, setAction] = useState('view');
+    const [nameVariation, setNameVariation] = useState('');
     const [numberOptions, setNumberOptions] = useState(5);
+
+    const { render, setRender } = useContext(DataContext);
 
     const getAllVariations = async () => {
         let api = await variationServices.getAllVariations();
@@ -37,39 +42,164 @@ function CategoryM() {
         let array = [];
 
         for (let i = 0; i < numberOptions; i++) {
-            array.push('<input name="option" class=input-variation-option placeholder="Nhập tùy chọn"/>');
+            array.push('<input type=text name="option" class=input-variation-option placeholder="Nhập tùy chọn"/>');
         }
         return array.join(' ');
     };
 
-    const handleSubmitAdd = async () => {
-        const data = {
-            Name: 'Đồ họa',
-            MasterCategory: 1,
-            VariationOptions: ['A', 'B', 'C'],
-        };
+    const handleRenderOptions = () => {
+        let array = [];
 
-        alert('abc');
+        for (let i = 0; i < options.length; i++) {
+            array.push(
+                `<input type=text name="option" value="${options[i].value}" class=input-variation-option placeholder="Nhập tùy chọn"/>`,
+            );
+        }
+        return array.join(' ');
     };
 
-    const handleSubmitUpdate = async (id) => {
+    const handleGetValueVariation = () => {
+        const optionsInput = document.querySelectorAll('input[name=option]');
+
+        let options = [];
+
+        optionsInput.forEach((item) => {
+            if (item?.value !== '') {
+                options.push(item.value);
+            }
+        });
+
+        return options;
+    };
+
+    const handleSubmitAdd = async (e) => {
+        e.preventDefault();
+
         const data = {
-            Name: 'string',
-            VariationOptions: ['string'],
+            Name: nameVariation,
+            MasterCategory: 1,
+            VariationOptions: handleGetValueVariation(),
         };
 
-        alert('abc');
+        var api = await variationServices.addVariation(data);
+
+        console.log(api);
+
+        if (api?.status === 200) {
+            setRender(!render);
+            toast.success('Thêm danh mục mới thành công', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            setAction('view');
+        } else {
+            if (api?.status === 403) {
+                toast.info('Vui lòng đăng nhập để tiếp tục thêm danh mục.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else if (api.message === 'Variation name existed') {
+                toast.info('Thêm danh mục đã tồn tại.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else {
+                toast.error('Lỗi không xác định, vui lòng thử lại sau.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            }
+        }
+    };
+
+    const handlePassVariation = (data) => {
+        setAction('update');
+        setIdVariation(data.id);
+        setNameVariation(data.name);
+        setNumberOptions('1');
+        setOptions(data.setOfVariationOptions);
+    };
+
+    const handleSubmitUpdate = async (e) => {
+        e.preventDefault();
+
+        const data = {
+            Name: nameVariation,
+            VariationOptions: handleGetValueVariation(),
+        };
+
+        var api = await variationServices.updateVariation(idVariation, data);
+
+        // console.log(api);
+
+        if (api?.status === 200) {
+            setRender(!render);
+            toast.success('Cập nhập danh mục thành công.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            setAction('view');
+        } else {
+            if (api?.status === 403) {
+                toast.info('Vui lòng đăng nhập để tiếp tục cập nhập danh mục.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else {
+                toast.error('Lỗi không xác định, vui lòng thử lại sau.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            }
+        }
+    };
+
+    const handleRemoveVariation = async (id) => {
+        let api = await variationServices.removeVariation(id);
+
+        console.log(api);
+
+        if (api?.status === 200) {
+            setRender(!render);
+            toast.success('Xóa danh mục thành công', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            setIdVariation(1);
+            setAction('view');
+        } else {
+            if (api?.status === 403) {
+                toast.info('Vui lòng đăng nhập để tiếp tục xóa danh mục.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else {
+                toast.error('Lỗi không xác định, vui lòng thử lại sau.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            }
+        }
     };
 
     useEffect(() => {
         getAllVariations();
         getVariationOptions();
-    }, [idVariation, numberOptions]);
+    }, [idVariation, numberOptions, render, action]);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('control')}>
-                <Button rounded approach iconOnly={<FontAwesomeIcon icon={faPlus} />}></Button>
+                <Button
+                    rounded
+                    approach
+                    iconOnly={<FontAwesomeIcon icon={faPlus} />}
+                    onClick={() => {
+                        setNameVariation('');
+                        setAction('add');
+                        setNumberOptions(5);
+                    }}
+                ></Button>
                 <form className={cx('control-filt')}>
                     <div className={cx('input-layout')}>
                         <input className={cx('input')} type="text" placeholder="Nhập tên tìm kiếm"></input>
@@ -90,6 +220,15 @@ function CategoryM() {
                             data={variation}
                             onClickVariation={() => {
                                 setIdVariation(variation.id);
+                                setAction('view');
+                            }}
+                            onClickUpdate={(e) => {
+                                e.stopPropagation();
+                                handlePassVariation(variation);
+                            }}
+                            onClickRemove={(e) => {
+                                e.stopPropagation();
+                                handleRemoveVariation(variation.id);
                             }}
                         />
                     ))}
@@ -113,7 +252,14 @@ function CategoryM() {
                         <form onSubmit={handleSubmitAdd}>
                             <span className={cx('options-title')}>
                                 Nhóm tùy chọn{' '}
-                                <input name="title" className={cx('input-title')} placeholder="Nhập tiêu đề" />
+                                <input
+                                    required
+                                    name="title"
+                                    value={nameVariation}
+                                    className={cx('input-title')}
+                                    placeholder="Nhập tiêu đề"
+                                    onChange={(e) => setNameVariation(e.target.value)}
+                                />
                             </span>
                             <span className={cx('amount')}>
                                 Số lượng tùy chọn{' '}
@@ -130,7 +276,14 @@ function CategoryM() {
                                 dangerouslySetInnerHTML={{ __html: handleRenderInputOptions() }}
                             ></div>
                             <div className={cx('button-layout')}>
-                                <Button outline border transparent>
+                                <Button
+                                    outline
+                                    border
+                                    transparent
+                                    onClick={() => {
+                                        setAction('view');
+                                    }}
+                                >
                                     Hủy
                                 </Button>
                                 <Button outline border primary type="submit">
@@ -144,10 +297,41 @@ function CategoryM() {
                         <form onSubmit={handleSubmitUpdate}>
                             <span className={cx('options-title')}>
                                 Nhóm tùy chọn{' '}
-                                <input name="title" className={cx('input-title')} placeholder="Nhập tiêu đề" />
+                                <input
+                                    required
+                                    name="title"
+                                    value={nameVariation}
+                                    className={cx('input-title')}
+                                    placeholder="Nhập tiêu đề"
+                                    onChange={(e) => setNameVariation(e.target.value)}
+                                />
                             </span>
+
+                            {/* <div className={cx('option-list')}>
+                                {variationUpdate && variationUpdate.setOfVariationOptions
+                                    ? options.map((option, index) => (
+                                          <input
+                                              key={index}
+                                              value={option.value}
+                                              type="text"
+                                              name="option"
+                                              className={cx('input-variation-option')}
+                                              placeholder="Nhập tùy chọn"
+                                              //   onChange={(e) => {
+                                              //       option.value = e.target.value;
+                                              //   }}
+                                          />
+                                      ))
+                                    : null}
+                            </div> */}
+
+                            <div
+                                className={cx('option-list')}
+                                dangerouslySetInnerHTML={{ __html: handleRenderOptions() }}
+                            ></div>
+
                             <span className={cx('amount')}>
-                                Số lượng tùy chọn{' '}
+                                Số lượng tùy chọn mới{' '}
                                 <input
                                     value={numberOptions}
                                     className={cx('input-amount')}
@@ -160,20 +344,29 @@ function CategoryM() {
                                 className={cx('option-list')}
                                 dangerouslySetInnerHTML={{ __html: handleRenderInputOptions() }}
                             ></div>
+
                             <div className={cx('button-layout')}>
-                                <Button outline border transparent>
+                                <Button
+                                    outline
+                                    border
+                                    transparent
+                                    onClick={() => {
+                                        setAction('view');
+                                    }}
+                                >
                                     Hủy
                                 </Button>
                                 <Button outline border primary type="submit">
-                                    Xác nhận
+                                    Cập nhập
                                 </Button>
                             </div>
                         </form>
                     )}
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }
 
-export default CategoryM;
+export default VariationM;

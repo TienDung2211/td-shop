@@ -53,7 +53,7 @@ function Home() {
 
     useEffect(() => {
         const fetchAPI = async () => {
-            let dataAPI = await productServices.getAllProducts(filter, page);
+            let dataAPI = await productServices.getProducts(filter, page);
             setProducts(dataAPI.content);
             setTotalPages(dataAPI.totalPages);
             setPage(dataAPI.pageable.pageNumber);

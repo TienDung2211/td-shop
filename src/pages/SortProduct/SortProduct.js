@@ -18,7 +18,6 @@ function SortProduct() {
     const [products, setProducts] = useState([]);
     const [variations, setVariations] = useState('');
     const [totalPages, setTotalPages] = useState(1);
-    // const [keyword, setKeyword] = useState('');
 
     const keyVariation = useLocation().state;
 
@@ -43,9 +42,9 @@ function SortProduct() {
         const fetchAPI = async () => {
             let dataAPI;
             if (keyVariation && keyVariation.value !== '') {
-                dataAPI = await productServices.getAllProducts(filter, page, keyVariation.value);
+                dataAPI = await productServices.getProducts(filter, page, keyVariation.value);
             } else {
-                dataAPI = await productServices.getAllProducts(filter, page, variations);
+                dataAPI = await productServices.getProducts(filter, page, variations);
             }
 
             setProducts(dataAPI.content);

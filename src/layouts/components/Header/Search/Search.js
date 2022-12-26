@@ -31,7 +31,7 @@ function Search() {
 
         const fetchApi = async () => {
             setLoading(true);
-            const result = await productServices.getAllProducts(null, 0, null, keyword);
+            const result = await productServices.getProducts(null, 0, null, keyword);
             setSearchResults(result.content);
             setLoading(false);
         };

@@ -70,6 +70,28 @@ const orderServices = {
             console.log(error);
         }
     },
+    //Employee
+    getAllOrder: async (id = 0) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            let paramsStatus = '';
+
+            if (id !== 0) {
+                paramsStatus = `&status-id=${id}`;
+            }
+
+            const res = await request.get(`/order/get-all?&sort=Id,ASC${paramsStatus}`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res.data;
+        } catch (error) {
+            console.log(error);
+        }
+    },
 };
 
 export default orderServices;

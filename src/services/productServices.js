@@ -1,7 +1,8 @@
 import * as request from '~/utils/request';
 
 const productServices = {
-    getAllProducts: async (filter = null, page = 0, variations = null, keyword = null) => {
+    // Guest
+    getProducts: async (filter = null, page = 0, variations = null, keyword = null) => {
         try {
             let paramsFilter = '';
             if (filter) {
@@ -49,6 +50,23 @@ const productServices = {
     getProductByBrand: async (id) => {
         try {
             const res = await request.get(`/product/search?brand-id=${id}`);
+            return res.data;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+
+    // Employee
+    getAllProducts: async () => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.get(`/product/get-all`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
             return res.data;
         } catch (error) {
             console.log(error);

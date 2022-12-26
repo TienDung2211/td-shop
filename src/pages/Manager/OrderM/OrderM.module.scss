@@ -5,7 +5,7 @@
     margin-left: 24px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     border-radius: 3px;
-    overflow: hidden;
+    // overflow: hidden;
 }
 
 .control {
@@ -29,39 +29,8 @@
     font-family: var(--font-family);
     border-radius: 2px;
     padding: 12px 24px 12px 0;
+    width: 220px;
 }
-
-.label {
-    font-family: var(--font-family);
-    background-color: var(--white-color);
-    width: 200px;
-    height: 36px;
-    padding: 0 16px;
-    font-size: 1.4rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 1;
-}
-
-.options {
-    width: 200px;
-    margin-top: -8px;
-}
-
-.options-item {
-    width: 100%;
-    padding: 12px 16px;
-
-    font-size: 1.4rem;
-    font-weight: 400;
-    color: var(--text-color);
-}
-.options-item.selection-item {
-    color: var(--red-color);
-}
-
 // Input
 
 .input-layout {

@@ -48,7 +48,7 @@ function OrderItem({ data, onClickViewDetail }) {
                     <div className={cx('total')}>
                         <span className={cx('price')}>
                             Tổng giá : {getTotalPrice()}
-                            <span> $</span>
+                            <span> ₫</span>
                         </span>
                     </div>
                 </div>

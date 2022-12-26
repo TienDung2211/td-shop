@@ -1,12 +1,13 @@
 import classNames from 'classnames/bind';
 import styles from './OptionsPopper.module.scss';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Options from '~/components/Options';
 import HeadlessTippy from '@tippyjs/react/headless';
+import DataContext from '~/context/DataContext';
 import variationServices from '~/services/variationServices';
 
 const cx = classNames.bind(styles);
@@ -25,6 +26,8 @@ function OptionsPopper({ white, lowBlack, manager, className }) {
     const [show, setShow] = useState(false);
     const [varitons, setVaritons] = useState([]);
 
+    const { render } = useContext(DataContext);
+
     useEffect(() => {
         const fetchAPI = async () => {
             let dataAPI = await variationServices.getAllVariations();
@@ -33,7 +36,7 @@ function OptionsPopper({ white, lowBlack, manager, className }) {
         };
 
         fetchAPI();
-    }, []);
+    }, [render]);
 
     return varitons ? (
         <div className={cx('wrapper')}>

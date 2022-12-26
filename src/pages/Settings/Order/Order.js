@@ -6,9 +6,9 @@ import { useEffect, useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faImagePortrait, faPhoneSquare, faMapLocation } from '@fortawesome/free-solid-svg-icons';
 
+import OrderItem from './OrderItem';
 import Button from '~/components/Button';
 import DataContext from '~/context/DataContext';
-import OrderItem from './OrderItem';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
 

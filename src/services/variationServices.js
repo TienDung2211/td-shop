@@ -17,6 +17,51 @@ const variationServices = {
             console.log(error);
         }
     },
+    addVariation: async (data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post('/variation/add', data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    updateVariation: async (id, data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.put(`/variation/update/${id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.log(error);
+        }
+    },
+    removeVariation: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.remove(`/variation/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.log(error);
+        }
+    },
 };
 
 export default variationServices;

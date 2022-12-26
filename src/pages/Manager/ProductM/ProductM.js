@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind';
 import styles from './ProductM.module.scss';
 
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +9,7 @@ import { faAngleDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Button from '~/components/Button';
 import OptionsPopper from '~/components/OptionsPopper';
 import ProductMItem from './ProductMItem';
+import productServices from '~/services/productServices';
 
 const cx = classNames.bind(styles);
 
@@ -56,6 +57,17 @@ const dataCart = [
 ];
 
 function ProductM() {
+    const [products, setProducts] = useState([]);
+
+    const getAllProducts = async () => {
+        let api = await productServices.getAllProducts();
+        console.log(api);
+    };
+
+    useEffect(() => {
+        getAllProducts();
+    }, []);
+
     return (
         <div className={cx('wrapper')}>
             <div className={cx('control')}>
