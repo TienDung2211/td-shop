@@ -1,11 +1,11 @@
 .wrapper {
     background-color: var(--white-color);
-    height: 550px;
+    // height: 550px;
     width: 100%;
     margin-left: 24px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     border-radius: 3px;
-    overflow: hidden;
+    // overflow: hidden;
 }
 
 .control {
@@ -48,7 +48,7 @@
 }
 
 // Button
-.button-layout {
+.button-control {
     margin-left: 24px;
 }
 
@@ -81,19 +81,37 @@
 .info {
     flex: 1;
     display: flex;
+    height: 80px;
+    padding: 4px 12px;
     font-family: var(--font-family);
 
-    .name {
+    .main-info {
         flex: 1;
-        font-size: 1.6rem;
-        line-height: 2rem;
-        height: 6rem;
-        margin-left: 8px;
+        display: flex;
+        flex-direction: column;
 
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
+        .name {
+            flex: 4;
+            font-size: 1.6rem;
+            font-weight: 500;
+            opacity: 0.9;
+            line-height: 2rem;
+            height: 4rem;
+
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+
+        .brand-discount {
+            flex: 2;
+            display: flex;
+
+            .brand {
+                min-width: 200px;
+            }
+        }
     }
 
     .additional {
@@ -106,15 +124,12 @@
 
         .price {
             color: var(--red-color);
-            flex: 1.5;
+            flex: 2;
             font-size: 1.6rem;
+            margin-top: 4px;
         }
 
-        .vender {
-            flex: 1;
-        }
-
-        .location {
+        .amount {
             flex: 1;
         }
     }
@@ -122,4 +137,148 @@
 
 .button + .button {
     margin-left: 24px;
+}
+
+// Form
+
+.form-layout {
+    margin: 30px;
+}
+
+.group-item {
+    display: flex;
+    align-items: center;
+    height: 56px;
+}
+
+.label-item {
+    width: 180px;
+    color: var(--black-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.value-item,
+.input-item {
+    flex: 1;
+    // max-width: 400px;
+    color: var(--text-color);
+    font-size: 1.6rem;
+    padding-left: 1.6rem;
+    font-weight: 400;
+}
+
+.input-item {
+    height: 36px;
+    border-radius: 2px;
+    outline: 1px solid var(--low-separation-color);
+}
+
+.input-item-select {
+    height: 40px;
+    flex: 1;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.input-item-image {
+    flex: 1;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.group {
+    margin-left: 180px;
+    display: flex;
+}
+
+.error-msg {
+    width: 100%;
+    color: var(--red-color);
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.button-layout {
+    margin-top: 40px;
+    margin-left: 180px;
+    // max-width: 400px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.attributes-list {
+    margin-bottom: 20px;
+}
+
+// Images
+.group-image {
+    display: flex;
+}
+
+.group-image + .group-image {
+    margin-top: 24px;
+}
+
+.image-layout {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-image {
+    width: 100%;
+    height: 36px;
+    display: flex;
+    align-items: center;
+
+    .add-image,
+    .remove-all-image {
+        flex: 1;
+        width: 100%;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: 1px solid var(--low-separation-color);
+        border-radius: 0px;
+        font-size: 1.6rem;
+        font-weight: 500;
+        opacity: 0.8;
+    }
+}
+
+.add-image {
+    width: 100%;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: 1px solid var(--low-separation-color);
+    border-radius: 4px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.display {
+    padding: 12px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--low-separation-color);
+    .image-item {
+        width: 300px;
+        height: 200px;
+    }
+    .update-remove {
+        display: flex;
+        flex-direction: column;
+        margin-left: 32px;
+
+        .remove {
+            margin-top: 20px;
+        }
+    }
 }

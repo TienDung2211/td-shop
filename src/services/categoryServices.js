@@ -1,44 +1,19 @@
 import * as request from '~/utils/request';
 
-const cartServices = {
-    addCart: async (id) => {
+const categoryServices = {
+    getAllCategory: async () => {
         try {
-            const access = JSON.parse(localStorage.getItem('access'));
-
-            const res = await request.post(
-                '/cart/add',
-                { ProductId: id },
-                {
-                    headers: {
-                        Authorization: `Bearer ${access}`,
-                    },
-                },
-            );
+            const res = await request.get('/category/get?master-category=1');
             return res;
         } catch (error) {
             console.error(error.response.data);
         }
     },
-    getMyCart: async () => {
+    addCategory: async (data) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
-            const res = await request.get('/cart/my-cart?sort=Id,ASC', {
-                headers: {
-                    Authorization: `Bearer ${access}`,
-                },
-            });
-
-            return res.data;
-        } catch (error) {
-            console.error(error.response.data);
-        }
-    },
-    changeAmount: async (data) => {
-        try {
-            const access = JSON.parse(localStorage.getItem('access'));
-
-            const res = await request.post('/cart/change-quantity', data, {
+            const res = await request.post('/category/add', data, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -49,19 +24,30 @@ const cartServices = {
             console.error(error.response.data);
         }
     },
-    removeCart: async (id) => {
+    updateCategory: async (id, data) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
-            const res = await request.post(
-                '/cart/remove',
-                { ProductId: id },
-                {
-                    headers: {
-                        Authorization: `Bearer ${access}`,
-                    },
+            const res = await request.put(`/category/update/${id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
                 },
-            );
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    removeCategory: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.remove(`/category/delete/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
 
             return res;
         } catch (error) {
@@ -70,4 +56,4 @@ const cartServices = {
     },
 };
 
-export default cartServices;
+export default categoryServices;

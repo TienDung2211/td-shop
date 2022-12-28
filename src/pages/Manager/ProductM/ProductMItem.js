@@ -8,27 +8,39 @@ import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-function ProductMItem({ data }) {
+function ProductMItem({ data, onClickUpdate, onClickRemove }) {
     return (
         <div className={cx('item')}>
-            <img src={data.image} className={cx('image')} alt="Ảnh" />
+            <img src={data.ImageUrl} className={cx('image')} alt="Ảnh" />
             <div className={cx('info')}>
-                <span className={cx('name')}>{data.name}</span>
+                <div className={cx('main-info')}>
+                    <span className={cx('name')}>{data.Name}</span>
+                    <div className={cx('brand-discount')}>
+                        <span className={cx('brand')}>Thương hiệu : {data.Brand.name}</span>
+                        {data.Discount && <span className={cx('discount')}>Khuyến mãi : {data.Discount.Name}</span>}
+                    </div>
+                </div>
                 <div className={cx('additional')}>
                     <span className={cx('price')}>
-                        {data.price}
+                        {data.Price}
                         <span>₫</span>
                     </span>
-                    <span className={cx('vender')}>{data.vender}</span>
-                    <span className={cx('location')}>{data.location}</span>
+                    <span className={cx('amount')}>Đã bán : {data.SelAmount}</span>
                 </div>
             </div>
-            <Button className={cx('button')} transparent rounded iconOnly={<FontAwesomeIcon icon={faPen} />}></Button>
+            <Button
+                className={cx('button')}
+                transparent
+                rounded
+                iconOnly={<FontAwesomeIcon icon={faPen} />}
+                onClick={onClickUpdate}
+            ></Button>
             <Button
                 className={cx('button')}
                 transparent
                 rounded
                 iconOnly={<FontAwesomeIcon icon={faTrashCan} />}
+                onClick={onClickRemove}
             ></Button>
         </div>
     );

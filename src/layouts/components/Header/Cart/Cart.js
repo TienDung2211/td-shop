@@ -18,12 +18,12 @@ const cx = classNames.bind(styles);
 function Cart() {
     const [products, setProducts] = useState([]);
 
-    const { render, setRender } = useContext(DataContext);
+    const { render, renderCart, setRenderCart } = useContext(DataContext);
 
     const removeCart = async (id) => {
         let api = await cartServices.removeCart(id);
         if (api?.status === 200) {
-            setRender(!render);
+            setRenderCart(!renderCart);
         }
     };
 
@@ -32,10 +32,10 @@ function Cart() {
             var dataAPI = await cartServices.getMyCart();
             if (dataAPI?.CartItems) {
                 setProducts(dataAPI?.CartItems);
-            }
+            } else setProducts([]);
         };
         fetchAPI();
-    }, [render]);
+    }, [render, renderCart]);
     return (
         <div>
             <HeadlessTippy

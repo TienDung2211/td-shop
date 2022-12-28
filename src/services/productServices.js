@@ -36,7 +36,7 @@ const productServices = {
             const res = await request.get(`/product/search${endpoint}`);
             return res.data;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getProductById: async (id) => {
@@ -44,7 +44,7 @@ const productServices = {
             const res = await request.get(`/product/get/${id}`);
             return res.data;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getProductByBrand: async (id) => {
@@ -52,7 +52,7 @@ const productServices = {
             const res = await request.get(`/product/search?brand-id=${id}`);
             return res.data;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
 
@@ -61,7 +61,7 @@ const productServices = {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
-            const res = await request.get(`/product/get-all`, {
+            const res = await request.get(`/product/admin/search?page=0&size=20`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -69,7 +69,37 @@ const productServices = {
 
             return res.data;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
+        }
+    },
+    addProduct: async (data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post(`/product/add`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    getAllAttributes: async () => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.get(`/attribute-set/get-all?page=0&size=20&sort=Id,ASC`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res.data;
+        } catch (error) {
+            console.error(error.response.data);
         }
     },
 };

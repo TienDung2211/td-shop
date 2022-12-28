@@ -15,26 +15,63 @@ const cx = classNames.bind(styles);
 
 function OrderM() {
     const [orders, setOrders] = useState([]);
+    const [renderPage, setRenderPage] = useState(true);
+    const [idStatus, setIdStatus] = useState(0);
 
-    const { render, setRender } = useContext(DataContext);
+    const { render } = useContext(DataContext);
 
     const getAllOrder = async () => {
         const access = JSON.parse(localStorage.getItem('access'));
 
         if (access) {
-            let dataApi = await orderServices.getAllOrder();
+            let api = await orderServices.getAllOrder(idStatus);
 
-            console.log(dataApi);
+            console.log('order', api);
 
-            if (dataApi?.content) {
-                setOrders(dataApi.content);
+            if (api?.content) {
+                setOrders(api.content);
             }
         }
     };
 
+    const handleChangeStatus = (select) => {
+        setIdStatus(select.label);
+    };
+
+    const handleChangeStatusOrder = async (idO, idS) => {
+        const data = {
+            OrderId: idO,
+            StatusId: idS,
+        };
+
+        const api = await orderServices.changeStatusOrder(data);
+
+        console.log(api);
+
+        if (api?.status === 200) {
+            toast.success('Cập nhập trạng thái đơn hàng thành công.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            setRenderPage(!renderPage);
+            return true;
+        } else if (api === undefined) {
+            toast.error('Vui lòng đăng nhập để tiếp tục.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        } else if (api.status === 400) {
+            toast.info('Lỗi không xác định, vui lòng thử lại.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        }
+        return false;
+    };
+
     useEffect(() => {
         getAllOrder();
-    }, [render]);
+    }, [render, renderPage, idStatus]);
 
     return (
         <div className={cx('wrapper')}>
@@ -44,7 +81,7 @@ function OrderM() {
                         <Select
                             formatOptionLabel={(option) => `${option.value}`}
                             placeholder="Chọn tình trạng đơn hàng"
-                            // onChange={handleChangePayment}
+                            onChange={handleChangeStatus}
                             options={[
                                 { value: 'Tất cả đơn hàng', label: 0 },
                                 { value: 'Chờ thanh toán', label: 1 },
@@ -69,10 +106,11 @@ function OrderM() {
             </div>
 
             <div className={cx('results')}>
-                {orders.map((order) => {
-                    return <OrderMItem data={order} />;
+                {orders.map((order, index) => {
+                    return <OrderMItem key={index} data={order} onChangeStatus={handleChangeStatusOrder} />;
                 })}
             </div>
+            <ToastContainer />
         </div>
     );
 }

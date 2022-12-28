@@ -2,96 +2,691 @@ import classNames from 'classnames/bind';
 import styles from './ProductM.module.scss';
 
 import { useState, useEffect, useContext } from 'react';
-
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 
+import Select from 'react-select';
 import Button from '~/components/Button';
-import OptionsPopper from '~/components/OptionsPopper';
 import ProductMItem from './ProductMItem';
+import DataContext from '~/context/DataContext';
+import brandServices from '~/services/brandServices';
 import productServices from '~/services/productServices';
+import categoryServices from '~/services/categoryServices';
+import variationServices from '~/services/variationServices';
+import ImageUploading from 'react-images-uploading';
+import { ToastContainer, toast } from 'react-toastify';
+import OptionsPopperM from './OptionsPopperM';
 
 const cx = classNames.bind(styles);
 
-const dataCart = [
-    {
-        id: 0,
-        name: 'Laptop Lenovo Ideapad Slim 5 15ITL05 82FG01HPVN (15.6" Intel Core i5-1135G7/16GB/512GB SSD/Windows 11 Home SL/1.7kg)',
-        price: 17490000,
-        vender: 'SamSung',
-        location: 'America',
-        image: 'https://lh3.googleusercontent.com/iPsbVuP_Dxz5k5IeS0uwyRzZ4YA2Vw4vDt_OraOmvpKGTVBKFXPNqJthrn-PPTTr1E5BaeYAFdZj_Gfjq-3WJxAx-WtecXiR=w500-rw',
-    },
-    {
-        id: 1,
-        name: 'Laptop ACER Spin 5 SP513-52N-556V NX.GR7SV.004 (13.3" Full HD/Intel Core i5-8250U/8GB/256GB SSD/Windows 10 Home SL 64-bit/1.5kg)',
-        price: 21499000,
-        vender: 'SamSung',
-        location: 'America',
-        image: 'https://lh3.googleusercontent.com/eSTPgChkodGi0H_f0Qp6bvPGDejkhMJTvpmNR-doH0qdNBrFXGcbft7N_BJxoKcfoZ_r1U8M9CcX-Ms9Yw=w500-rw',
-    },
-    {
-        id: 2,
-        name: 'Cáp chuyển đổi Type C sang USB Type B Unitek YC474BK',
-        price: 132000,
-        vender: 'SamSung',
-        location: 'America',
-        image: 'https://lh3.googleusercontent.com/eE4-ROdHcNqz3VWepK8O9j9SYNHaN_5zegAFxmSPUhIuno0QqX5-iTA6SMkJSUEu82bHr2L0tAG2kldrWKQ=w500-rw',
-    },
-    {
-        id: 3,
-        name: 'Tai nghe Bluetooth True Wireless Soundpeats T2 (Đen)',
-        price: 1349000,
-        vender: 'SamSung',
-        location: 'America',
-        image: 'https://lh3.googleusercontent.com/jf9IxHr4omwRVLO_plUvwEZqlCeXuDnKhIZZcepDzu8_OaiPPDI5NGJ_LGFKKEupuCkK6lNqdzahijstSpnmr6VgqOZ6e1o=w500-rw',
-    },
-    {
-        id: 4,
-        name: 'Laptop ACER Nitro 5 AN515-45-R9SC NH.QBRSV.001 (15.6" Full HD/ 144Hz/Ryzen 7 5800H/8GB/512GB SSD/NVIDIA GeForce RTX 3070/Windows 10 Home 64-bit/2.2kg)',
-        price: 36990000,
-        vender: 'SamSung',
-        location: 'America',
-        image: 'https://lh3.googleusercontent.com/c8lEMABOL3Q8i2NxuiK306ID3gnSts2d7h67L-vOfU92Mv0neVYVDGh36vFfQNM3rMG8AM48hwVCjIGqi-NwO1p8nHJ6vb9w=w500-rw',
-    },
-];
-
 function ProductM() {
+    const maxNumber = 7;
     const [products, setProducts] = useState([]);
+    const [updateProduct, setUpdateProduct] = useState(null);
+    const [action, setAction] = useState('view');
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('');
+    const [shortDescription, setShortDescription] = useState('');
+    const [total, setTotal] = useState('');
+    const [mainImage, setMainImage] = useState([]);
+    const [otherImages, setOtherImages] = useState([]);
+    const [errMsg, setErrMsg] = useState('');
+    const { render, setRender } = useContext(DataContext);
+
+    const onChangeMainImage = (imageList, addUpdateIndex) => {
+        setMainImage(imageList);
+        console.log(imageList, addUpdateIndex);
+    };
+
+    const onChangeOtherImage = (imageList, addUpdateIndex) => {
+        setOtherImages(imageList);
+    };
+
+    //Brand
+    const [optionsBrand, setOptionsBrand] = useState([]);
+    const [brand, setBrand] = useState(null);
+    //Category
+    const [optionsCategory, setOptionsCategory] = useState([]);
+    const [categorys, setCategorys] = useState([]);
+    //Variation
+    const [optionsVariation, setOptionsVariation] = useState([]);
+    const [variations, setVariations] = useState([]);
+    //Attribute
+    const [optionsAttribute, setOptionsAttribute] = useState([]);
+    const [attributes, setAttributes] = useState([]);
 
     const getAllProducts = async () => {
         let api = await productServices.getAllProducts();
-        console.log(api);
+
+        if (api?.content) {
+            setProducts(api?.content);
+        }
     };
 
+    const getAllVariations = async () => {
+        let api = await variationServices.getAllVariations();
+
+        var options = [];
+        api.content.forEach((list) => {
+            options.push({ label: list.id, value: '+' + list.name, disabled: true });
+            list?.setOfVariationOptions.forEach((item) => {
+                options.push({ label: item.id, value: item.value });
+            });
+        });
+        setOptionsVariation(options);
+    };
+
+    const handleChangeVariations = (selectedOption) => {
+        setVariations(selectedOption);
+    };
+
+    const getValueVariations = () => {
+        let array = [];
+
+        variations.forEach((item) => {
+            array.push(item.label);
+        });
+
+        return array;
+    };
+
+    const getAllCategorys = async () => {
+        let api = await categoryServices.getAllCategory();
+
+        var options = [];
+        api.data.forEach((list) => {
+            options.push({ label: list.Id, value: '+' + list.Name, disabled: true });
+            list?.ChildCategories.forEach((item) => {
+                options.push({ label: item.Id, value: item.Name });
+            });
+        });
+        setOptionsCategory(options);
+    };
+
+    const handleChangeCategory = (selectedOption) => {
+        setCategorys(selectedOption);
+    };
+
+    const getValueCategorys = () => {
+        let array = [];
+
+        categorys.forEach((item) => {
+            array.push(item.label);
+        });
+
+        return array;
+    };
+
+    const getAllBrands = async () => {
+        let api = await brandServices.getAllBrands();
+
+        var options = [];
+        api.content.forEach((item) => {
+            options.push({ label: item.id, value: item.name });
+        });
+        setOptionsBrand(options);
+    };
+
+    const handleChangeBrand = (selectedOption) => {
+        setBrand(selectedOption);
+    };
+
+    const getAllAttributes = async () => {
+        let api = await productServices.getAllAttributes();
+
+        const attributes = api.content[0]?.setOfAttributes;
+
+        var options = [];
+        attributes.forEach((item) => {
+            options.push({ label: item.id, value: item.name });
+        });
+        setOptionsAttribute(options);
+    };
+
+    const handleChangeAttributes = (selectedOption) => {
+        setAttributes(selectedOption);
+    };
+
+    const getValueAttributes = (async) => {
+        const label = document.querySelectorAll('div[name=label-attribute]');
+        const value = document.querySelectorAll('input[name=value-attribute]');
+
+        let object = {};
+
+        for (let i = 0; i < label.length; i++) {
+            object[label[i].id] = value[i].value;
+        }
+
+        return object;
+    };
+
+    const handleRenderAttribute = () => {
+        let array = [];
+
+        for (let i = 0; i < attributes.length; i++) {
+            array.push(
+                `<div class="label-attribute" name="label-attribute" id=${Number(attributes[i].label)}>${
+                    'Thông số kĩ thuật ' + attributes[i].value
+                }</div><input type="text" required name="value-attribute" class="input-attribute-value" placeholder="Nhập giá trị"/>`,
+            );
+        }
+        return array.join(' ');
+    };
+
+    const getValueMainImage = () => {
+        return mainImage[0].data_url;
+    };
+
+    const getValueOrderImage = () => {
+        let array = [];
+        for (let i = 0; i < otherImages.length; i++) {
+            array.push(otherImages[i].data_url);
+        }
+
+        return array;
+    };
+
+    const handleSubmitAdd = async (e) => {
+        e.preventDefault();
+        if (brand === null) {
+            setErrMsg('Bạn chưa chọn Thương hiệu');
+            return;
+        }
+        if (categorys.length === 0) {
+            setErrMsg('Bạn chưa chọn Thể loại');
+            return;
+        }
+        if (variations.length === 0) {
+            setErrMsg('Bạn chưa chọn Danh mục');
+            return;
+        }
+        if (attributes.length === 0) {
+            setErrMsg('Bạn chưa chọn Thông số kĩ thuật');
+            return;
+        }
+        if (mainImage.length === 0) {
+            setErrMsg('Bạn chưa chọn Hình ảnh chính');
+            return;
+        }
+        if (otherImages.length === 0) {
+            setErrMsg('Bạn chưa chọn Hình ảnh khác');
+            return;
+        }
+        const data = {
+            ProductInfo: {
+                Name: name,
+                Price: price,
+                Description: description,
+                ShortDescription: shortDescription,
+                Total: total,
+                BrandId: brand.label,
+                CategoryIds: getValueCategorys(),
+                Attributes: getValueAttributes(),
+                Variations: getValueVariations(),
+            },
+            MainImage: getValueMainImage(),
+            OtherImage: getValueOrderImage(),
+        };
+
+        console.log(data);
+
+        const api = await productServices.addProduct(data);
+
+        console.log(api);
+
+        if (api?.status === 200) {
+            setRender(!render);
+            toast.success('Thêm sản phẩm mới thành công', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            // setAction('view');
+        } else {
+            if (api?.status === 403) {
+                toast.info('Vui lòng đăng nhập để tiếp tục thêm sản phẩm.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else if (api.message === 'Product name existed') {
+                toast.info('Thêm sản phẩm đã tồn tại.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else {
+                toast.error('Lỗi không xác định, vui lòng thử lại sau.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            }
+        }
+    };
+
+    const handleClickUpdate = () => {
+        setAction('update');
+        handlePassData();
+    };
+
+    const handlePassData = () => {};
+
+    const handleRemoveProduct = async () => {};
+
+    const handleChangeStatus = async () => {};
+
+    const handleSumitUpdate = async () => {};
+
     useEffect(() => {
+        getAllBrands();
         getAllProducts();
-    }, []);
+        getAllCategorys();
+        getAllVariations();
+        getAllAttributes();
+    }, [errMsg, render, action]);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('control')}>
-                <Button rounded approach iconOnly={<FontAwesomeIcon icon={faPlus} />}></Button>
+                <Button
+                    rounded
+                    approach
+                    iconOnly={<FontAwesomeIcon icon={faPlus} />}
+                    onClick={() => {
+                        setAction('add');
+                    }}
+                ></Button>
                 <form className={cx('control-filt')}>
-                    <OptionsPopper lowBlack manager />
+                    <OptionsPopperM lowBlack manager />
 
                     <div className={cx('input-layout')}>
                         <input className={cx('input')} type="text" placeholder="Nhập tên tìm kiếm"></input>
                     </div>
-
-                    <div className={cx('button-layout')}>
+                    <div className={cx('button-control')}>
                         <Button primary border>
                             Áp dụng
                         </Button>
                     </div>
                 </form>
             </div>
+            {action === 'view' && products.length > 0 && (
+                <div className={cx('results')}>
+                    {products.map((item, index) => {
+                        return (
+                            <ProductMItem
+                                key={index}
+                                data={item}
+                                onClickUpdate={handleClickUpdate}
+                                onClickRemove={handleRemoveProduct}
+                            />
+                        );
+                    })}
+                </div>
+            )}
+            {action === 'add' && (
+                <form className={cx('form-layout')} onSubmit={handleSubmitAdd}>
+                    <div className={cx('group')}>
+                        <span className={cx('error-msg')}>{errMsg}</span>
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Tên sản phẩm : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="text"
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Mô tả ngắn : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="text"
+                            required
+                            value={shortDescription}
+                            onChange={(e) => setShortDescription(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Mô tả : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="text"
+                            required
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Giá : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="number"
+                            required
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Số lượng sản phẩm : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="number"
+                            required
+                            value={total}
+                            onChange={(e) => setTotal(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Thương hiệu : </div>
+                        <div className={cx('input-item-select')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                placeholder="Chọn thương hiệu..."
+                                onChange={handleChangeBrand}
+                                options={optionsBrand}
+                            />
+                        </div>
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Thể loại : </div>
+                        <div className={cx('input-item-select')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                isOptionDisabled={(option) => option.disabled}
+                                isMulti
+                                placeholder="Chọn thể loại..."
+                                onChange={handleChangeCategory}
+                                options={optionsCategory}
+                            />
+                        </div>
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Danh mục : </div>
+                        <div className={cx('input-item-select')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                isOptionDisabled={(option) => option.disabled}
+                                isMulti
+                                placeholder="Chọn danh mục..."
+                                onChange={handleChangeVariations}
+                                options={optionsVariation}
+                            />
+                        </div>
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Thông số kĩ thuật : </div>
+                        <div className={cx('input-item-select')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                isMulti
+                                placeholder="Chọn thông số kĩ thuật..."
+                                onChange={handleChangeAttributes}
+                                options={optionsAttribute}
+                            />
+                        </div>
+                    </div>
+                    <div
+                        className={cx('attributes-list')}
+                        dangerouslySetInnerHTML={{ __html: handleRenderAttribute() }}
+                    ></div>
+                    <div className={cx('group-image')}>
+                        <div className={cx('label-item')}>Ảnh chính : </div>
+                        <div className={cx('input-item-image')}>
+                            <ImageUploading
+                                value={mainImage}
+                                onChange={onChangeMainImage}
+                                dataURLKey="data_url"
+                                acceptType={['jpg', 'gif', 'png']}
+                            >
+                                {({
+                                    imageList,
+                                    onImageUpload,
+                                    onImageUpdate,
+                                    onImageRemove,
+                                    isDragging,
+                                    dragProps,
+                                }) => (
+                                    <div className={cx('image-layout')}>
+                                        <span
+                                            style={isDragging ? { color: 'red' } : null}
+                                            onClick={onImageUpload}
+                                            {...dragProps}
+                                            className={cx('add-image')}
+                                        >
+                                            Chọn hình ảnh
+                                        </span>
+                                        {imageList.map((image, index) => (
+                                            <div key={index} className={cx('display')}>
+                                                <img src={image.data_url} alt="" className={cx('image-item')} />
+                                                <div className={cx('update-remove')}>
+                                                    <Button
+                                                        onClick={() => onImageUpdate(index)}
+                                                        className={cx('update')}
+                                                        border
+                                                    >
+                                                        Cập nhập
+                                                    </Button>
+                                                    <Button
+                                                        onClick={() => onImageRemove(index)}
+                                                        className={cx('remove')}
+                                                        border
+                                                    >
+                                                        Xóa
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </ImageUploading>
+                        </div>
+                    </div>
 
-            <div className={cx('results')}>
-                {dataCart.map((data) => {
-                    return <ProductMItem data={data} />;
-                })}
-            </div>
+                    <div className={cx('group-image')}>
+                        <div className={cx('label-item')}>Ảnh khác : </div>
+                        <div className={cx('input-item-image')}>
+                            <ImageUploading
+                                multiple
+                                value={otherImages}
+                                onChange={onChangeOtherImage}
+                                maxNumber={maxNumber}
+                                dataURLKey="data_url"
+                                acceptType={['jpg', 'gif', 'png']}
+                            >
+                                {({
+                                    imageList,
+                                    onImageUpload,
+                                    onImageUpdate,
+                                    onImageRemove,
+                                    onImageRemoveAll,
+                                    isDragging,
+                                    dragProps,
+                                }) => (
+                                    <div className={cx('image-layout')}>
+                                        <div className={cx('btn-image')}>
+                                            <span
+                                                style={isDragging ? { color: 'red' } : null}
+                                                onClick={onImageUpload}
+                                                {...dragProps}
+                                                className={cx('add-image')}
+                                            >
+                                                Chọn hình ảnh
+                                            </span>
+                                            <span onClick={onImageRemoveAll} className={cx('remove-all-image')}>
+                                                Xóa tất cả
+                                            </span>
+                                        </div>
+                                        {imageList.map((image, index) => (
+                                            <div key={index} className={cx('display')}>
+                                                <img src={image.data_url} alt="" className={cx('image-item')} />
+                                                <div className={cx('update-remove')}>
+                                                    <Button
+                                                        onClick={() => onImageUpdate(index)}
+                                                        className={cx('update')}
+                                                        border
+                                                    >
+                                                        Đổi ảnh
+                                                    </Button>
+                                                    <Button
+                                                        onClick={() => onImageRemove(index)}
+                                                        className={cx('remove')}
+                                                        border
+                                                    >
+                                                        Xóa
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </ImageUploading>
+                        </div>
+                    </div>
+
+                    <div className={cx('button-layout')}>
+                        <Button outline border primary type="submit">
+                            Xác nhận
+                        </Button>
+                        <Button
+                            outline
+                            border
+                            onClick={() => {
+                                setAction('view');
+                            }}
+                        >
+                            Hủy
+                        </Button>
+                    </div>
+                </form>
+            )}
+            {action === 'update' && (
+                <form className={cx('form-layout')} onSubmit={handleSubmitAdd}>
+                    <span>Update</span>
+
+                    <div className={cx('group')}>
+                        <span className={cx('error-msg')}>{errMsg}</span>
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Tên sản phẩm : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="text"
+                            required
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Mô tả ngắn : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="text"
+                            required
+                            value={shortDescription}
+                            onChange={(e) => setShortDescription(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Mô tả : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="text"
+                            required
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Giá : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="number"
+                            required
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Số lượng sản phẩm : </div>
+                        <input
+                            className={cx('input-item')}
+                            type="number"
+                            required
+                            value={total}
+                            onChange={(e) => setTotal(e.target.value)}
+                        />
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Thương hiệu : </div>
+                        <div className={cx('input-item-select')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                placeholder="Chọn thương hiệu..."
+                                onChange={handleChangeBrand}
+                                options={optionsBrand}
+                            />
+                        </div>
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Thể loại : </div>
+                        <div className={cx('input-item-select')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                isOptionDisabled={(option) => option.disabled}
+                                isMulti
+                                placeholder="Chọn thể loại..."
+                                onChange={handleChangeCategory}
+                                options={optionsCategory}
+                            />
+                        </div>
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Danh mục : </div>
+                        <div className={cx('input-item-select')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                isOptionDisabled={(option) => option.disabled}
+                                isMulti
+                                placeholder="Chọn danh mục..."
+                                onChange={handleChangeVariations}
+                                options={optionsVariation}
+                            />
+                        </div>
+                    </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Thông số kĩ thuật : </div>
+                        <div className={cx('input-item-select')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                isMulti
+                                placeholder="Chọn thông số kĩ thuật..."
+                                onChange={handleChangeAttributes}
+                                options={optionsAttribute}
+                            />
+                        </div>
+                    </div>
+                    <div
+                        className={cx('attributes-list')}
+                        dangerouslySetInnerHTML={{ __html: handleRenderAttribute() }}
+                    ></div>
+
+                    <div className={cx('button-layout')}>
+                        <Button outline border primary type="submit">
+                            Xác nhận
+                        </Button>
+                        <Button
+                            outline
+                            border
+                            onClick={() => {
+                                setAction('view');
+                            }}
+                        >
+                            Hủy
+                        </Button>
+                    </div>
+                </form>
+            )}
+            <ToastContainer />
         </div>
     );
 }

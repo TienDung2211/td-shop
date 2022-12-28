@@ -16,26 +16,31 @@ const controls = [
     },
     {
         id: 1,
-        name: 'Quản lí danh mục',
-        key: 'variaton',
-    },
-    {
-        id: 2,
         name: 'Quản lí sản phẩm',
         key: 'product',
     },
     {
-        id: 3,
+        id: 2,
         name: 'Quản lí đơn hàng',
         key: 'order',
     },
     {
-        id: 4,
+        id: 3,
         name: 'Quản lí khuyến mãi',
         key: 'sale',
     },
     {
+        id: 4,
+        name: 'Quản lí danh mục',
+        key: 'variaton',
+    },
+    {
         id: 5,
+        name: 'Quản lí thể loại',
+        key: 'category',
+    },
+    {
+        id: 6,
         name: 'Quản lí bình luận',
         key: 'comment',
     },
@@ -52,7 +57,6 @@ function Manager() {
 
             if (dataApi?.data) {
                 setUser(dataApi.data);
-                console.log(dataApi);
             }
         } else {
             setUser(null);

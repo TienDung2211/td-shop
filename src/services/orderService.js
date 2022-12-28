@@ -13,7 +13,7 @@ const orderServices = {
 
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     cancelOrder: async (data) => {
@@ -28,7 +28,7 @@ const orderServices = {
 
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getMyOrder: async (id = 0) => {
@@ -49,7 +49,7 @@ const orderServices = {
 
             return res.data;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getPaymentMethod: async () => {
@@ -58,7 +58,7 @@ const orderServices = {
 
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getShip: async () => {
@@ -67,7 +67,7 @@ const orderServices = {
 
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     //Employee
@@ -89,7 +89,22 @@ const orderServices = {
 
             return res.data;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
+        }
+    },
+    changeStatusOrder: async (data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post('/order/admin/change-status', data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
         }
     },
 };

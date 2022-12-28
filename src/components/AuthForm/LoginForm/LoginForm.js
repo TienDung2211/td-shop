@@ -17,7 +17,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-    const { render, setRender } = useContext(DataContext);
+    const { render, setRender, renderCart, setRenderCart } = useContext(DataContext);
 
     useEffect(() => {
         setErrMsg('');
@@ -35,13 +35,14 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
             let dataAPI = await authServices.authLogin(data);
 
             if (dataAPI?.data) {
-                setRender(!render);
                 onLogin();
+                setRenderCart(!renderCart);
+                setRender(!render);
             } else {
-                if (dataAPI.status === 401) {
-                    setErrMsg('*Sai tài khoản hoặc mật khẩu');
-                } else {
-                    setErrMsg('*Đăng nhập thất bại');
+                if (dataAPI.message === 'Login failed: your account has been banned') {
+                    setErrMsg('Tài khoản của bạn đã bị vô hiệu hóa');
+                } else if (dataAPI.status === 401) {
+                    setErrMsg('Sai tài khoản hoặc mật khẩu');
                 }
             }
         } catch (error) {

@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 
 function VariationM() {
     const [variations, setVariations] = useState([]);
-    const [idVariation, setIdVariation] = useState(1);
+    const [idVariation, setIdVariation] = useState(0);
     const [options, setOptions] = useState([]);
     const [action, setAction] = useState('view');
     const [nameVariation, setNameVariation] = useState('');
@@ -237,21 +237,25 @@ function VariationM() {
                 <div className={cx('variation-options')}>
                     {action === 'view' && (
                         <div>
-                            <span className={cx('options-title')}>Tùy chọn {nameVariation}</span>
-                            <div className={cx('option-list')}>
-                                {options.map((item, index) => (
-                                    <div key={index} className={cx('option')}>
-                                        {item.value}
+                            {options.length > 0 && (
+                                <div>
+                                    <span className={cx('options-title')}>Danh mục {nameVariation}</span>
+                                    <div className={cx('option-list')}>
+                                        {options.map((item, index) => (
+                                            <div key={index} className={cx('option')}>
+                                                {item.value}
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            )}
                         </div>
                     )}
 
                     {action === 'add' && (
                         <form onSubmit={handleSubmitAdd}>
                             <span className={cx('options-title')}>
-                                Nhóm tùy chọn{' '}
+                                Danh mục{' '}
                                 <input
                                     required
                                     name="title"
@@ -296,7 +300,7 @@ function VariationM() {
                     {action === 'update' && (
                         <form onSubmit={handleSubmitUpdate}>
                             <span className={cx('options-title')}>
-                                Nhóm tùy chọn{' '}
+                                Danh mục{' '}
                                 <input
                                     required
                                     name="title"
@@ -306,24 +310,6 @@ function VariationM() {
                                     onChange={(e) => setNameVariation(e.target.value)}
                                 />
                             </span>
-
-                            {/* <div className={cx('option-list')}>
-                                {variationUpdate && variationUpdate.setOfVariationOptions
-                                    ? options.map((option, index) => (
-                                          <input
-                                              key={index}
-                                              value={option.value}
-                                              type="text"
-                                              name="option"
-                                              className={cx('input-variation-option')}
-                                              placeholder="Nhập tùy chọn"
-                                              //   onChange={(e) => {
-                                              //       option.value = e.target.value;
-                                              //   }}
-                                          />
-                                      ))
-                                    : null}
-                            </div> */}
 
                             <div
                                 className={cx('option-list')}

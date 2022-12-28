@@ -9,11 +9,10 @@ const authServices = {
             if (res?.data) {
                 localStorage.setItem('access', JSON.stringify(res?.data?.AccessToken));
                 localStorage.setItem('refresh', JSON.stringify(res?.data?.RefreshToken));
-                localStorage.setItem('user', JSON.stringify(res?.data?.UserInfo));
             }
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     authRegister: async (data) => {
@@ -21,20 +20,19 @@ const authServices = {
             const res = await request.post('/auth/register', data);
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     authLogOut: () => {
         localStorage.removeItem('access');
         localStorage.removeItem('refresh');
-        localStorage.removeItem('user');
     },
     authSendEmailForgotPassword: async (data) => {
         try {
             const res = await request.post('/email/send-forgot-password-email', data);
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     authVerifyResetPassword: async (data) => {
@@ -42,7 +40,7 @@ const authServices = {
             const res = await request.post('/auth/reset-password-verification', data);
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     authResetPassword: async (data) => {
@@ -50,7 +48,7 @@ const authServices = {
             const res = await request.post('/auth/reset-password', data);
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
 };

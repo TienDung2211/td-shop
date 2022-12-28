@@ -6,7 +6,7 @@ const variationServices = {
             const res = await request.get('/variation/get-all');
             return res.data;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getVariationById: async (id) => {
@@ -14,7 +14,7 @@ const variationServices = {
             const res = await request.get(`/variation/get/${id}`);
             return res.data;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     addVariation: async (data) => {
@@ -29,7 +29,7 @@ const variationServices = {
 
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     updateVariation: async (id, data) => {
@@ -44,7 +44,7 @@ const variationServices = {
 
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     removeVariation: async (id) => {
@@ -59,7 +59,7 @@ const variationServices = {
 
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
 };

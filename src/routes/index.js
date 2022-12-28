@@ -17,11 +17,12 @@ import Address from '~/pages/Settings/Address';
 import Order from '~/pages/Settings/Order';
 
 // Manager
+import SaleM from '~/pages/Manager/SaleM';
+import OrderM from '~/pages/Manager/OrderM';
 import AccountM from '~/pages/Manager/AccountM';
 import ProductM from '~/pages/Manager/ProductM';
 import CommentM from '~/pages/Manager/CommentM';
-import SaleM from '~/pages/Manager/SaleM';
-import OrderM from '~/pages/Manager/OrderM';
+import CategoryM from '~/pages/Manager/CategoryM';
 import VariationsM from '~/pages/Manager/VariationsM';
 
 const publicRoutes = [
@@ -39,6 +40,7 @@ const publicRoutes = [
     { path: '/manager/sale', component: SaleM, layout: ManagerLayout },
     { path: '/manager/comment', component: CommentM, layout: ManagerLayout },
     { path: '/manager/order', component: OrderM, layout: ManagerLayout },
+    { path: '/manager/category', component: CategoryM, layout: ManagerLayout },
     { path: '/test', component: TestData },
 ];
 

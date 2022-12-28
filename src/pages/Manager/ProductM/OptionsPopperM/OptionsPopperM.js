@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind';
-import styles from './OptionsPopper.module.scss';
+import styles from './OptionsPopperM.module.scss';
 
 import { useState, useEffect, useContext } from 'react';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,7 @@ import variationServices from '~/services/variationServices';
 
 const cx = classNames.bind(styles);
 
-function OptionsPopper({ white, lowBlack, manager, className }) {
+function OptionsPopperM({ white, lowBlack, manager, className }) {
     const layout = cx('layout', {
         manager,
         [className]: className,
@@ -52,9 +52,6 @@ function OptionsPopper({ white, lowBlack, manager, className }) {
                         onMouseLeave={() => {
                             setShow(false);
                         }}
-                        onBlur={() => {
-                            setShow(false);
-                        }}
                     >
                         <div className={cx('list-variations')}>
                             {varitons.map((variation, index) => {
@@ -81,4 +78,4 @@ function OptionsPopper({ white, lowBlack, manager, className }) {
     ) : null;
 }
 
-export default OptionsPopper;
+export default OptionsPopperM;

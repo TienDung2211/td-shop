@@ -11,7 +11,7 @@ const initialState = {
 //         const dataAPI = await authServices.authLogin(data);
 //         return { user: dataAPI?.data };
 //     } catch (error) {
-//         console.log(error);
+//         console.error(error.response.data);
 //     }
 // });
 
@@ -28,7 +28,7 @@ export const authSlice = createSlice({
                 const dataAPI = authServices.authLogin(data);
                 return dataAPI?.data;
             } catch (error) {
-                console.log(error);
+                console.error(error.response.data);
             }
         },
         logout: (state) => {

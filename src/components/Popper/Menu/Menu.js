@@ -5,14 +5,35 @@ import styles from './Menu.module.scss';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import MenuItem from './MenuItem';
 import HeaderMenu from './HeaderMenu';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import userServices from '~/services/userServices';
+import DataContext from '~/context/DataContext';
 
 const cx = classNames.bind(styles);
 
 const defaultFn = () => {};
 
 function Menu({ children, items = [], hideOnClick = false, onChange = defaultFn, clickLogout }) {
-    useEffect(() => {}, [items]);
+    const [user, setUser] = useState(null);
+
+    const { render } = useContext(DataContext);
+
+    const getUserInfo = async () => {
+        const access = JSON.parse(localStorage.getItem('access'));
+
+        if (access) {
+            let dataApi = await userServices.getUser();
+
+            if (dataApi?.data) {
+                setUser(dataApi.data);
+            }
+        } else {
+            setUser(null);
+        }
+    };
+    useEffect(() => {
+        getUserInfo();
+    }, [items, render]);
 
     const [history, setHistory] = useState([{ data: items }]);
     const current = history[history.length - 1];
@@ -21,9 +42,7 @@ function Menu({ children, items = [], hideOnClick = false, onChange = defaultFn,
         return current.data.map((item, index) => {
             const isParent = !!item.children;
             if (item?.role) {
-                const user = JSON.parse(localStorage.getItem('user'));
-
-                if (user.Role === 'ROLE_EMPLOYEE' || user.Role === 'ROLE_ADMIN') {
+                if (user?.Role.name === 'ROLE_EMPLOYEE' || user?.Role.name === 'ROLE_ADMIN') {
                     return (
                         <MenuItem
                             key={index}

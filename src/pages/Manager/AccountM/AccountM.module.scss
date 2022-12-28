@@ -1,6 +1,6 @@
 .wrapper {
     background-color: var(--white-color);
-    height: 550px;
+    // height: 550px;
     width: 100%;
     margin-left: 24px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
@@ -83,11 +83,78 @@
 }
 
 // Button
-.button-layout {
+.button-apply {
     margin-left: 24px;
 }
 
 .results {
     height: 500px;
     overflow-y: auto;
+}
+
+// Form
+.add-employee-layout {
+    padding: 32px 80px;
+}
+
+.title {
+    font-size: 2.2rem;
+    font-weight: 500;
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.group-item {
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+.label-item {
+    width: 160px;
+    color: var(--black-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.value-item,
+.input-item {
+    flex: 1;
+    color: var(--text-color);
+    font-size: 1.6rem;
+    padding-left: 1.6rem;
+    font-weight: 400;
+}
+
+.input-item {
+    height: 40px;
+    outline: 1px solid var(--low-separation-color);
+}
+
+.date-input {
+    font-size: 1.7rem;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.group {
+    margin-left: 160px;
+    display: flex;
+}
+
+.error-msg {
+    width: 100%;
+    color: var(--red-color);
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+//Button
+
+.button-layout {
+    margin-top: 40px;
+    margin-left: 160px;
+    display: flex;
+    justify-content: space-around;
 }

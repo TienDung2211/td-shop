@@ -6,7 +6,7 @@ const addressServices = {
             const res = await request.get('/province/get-all');
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getDisTrictByIdProvince: async (data) => {
@@ -14,7 +14,7 @@ const addressServices = {
             const res = await request.get(`/district/get-by-province/${data}`);
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getWardByIdDistrict: async (data) => {
@@ -22,7 +22,7 @@ const addressServices = {
             const res = await request.get(`/wards/get-by-district/${data}`);
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     addAddress: async (data) => {
@@ -36,7 +36,7 @@ const addressServices = {
             });
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     getMyAddress: async () => {
@@ -51,7 +51,7 @@ const addressServices = {
 
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     updateAddress: async (id, data) => {
@@ -65,7 +65,7 @@ const addressServices = {
             });
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
     removeAddress: async (data) => {
@@ -79,7 +79,7 @@ const addressServices = {
             });
             return res;
         } catch (error) {
-            console.log(error);
+            console.error(error.response.data);
         }
     },
 };

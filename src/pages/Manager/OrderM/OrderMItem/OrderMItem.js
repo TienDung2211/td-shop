@@ -14,15 +14,15 @@ const optionsStatus = [
     { value: 'Đã hủy', label: 5 },
 ];
 
-function OrderMItem({ data }) {
+function OrderMItem({ data, onChangeStatus }) {
     const [status, setStatus] = useState({});
     const [idStatus, setIdStatus] = useState(1);
 
     const getStatus = () => {
         optionsStatus.forEach((item) => {
             if (data.OrderStatus.id === item.label) {
-                setStatus(item);
                 setIdStatus(item.label);
+                setStatus(item);
             }
         });
     };
@@ -40,7 +40,7 @@ function OrderMItem({ data }) {
 
     useEffect(() => {
         getStatus();
-    }, [idStatus]);
+    }, [idStatus, data]);
 
     return (
         <div className={cx('item')}>
@@ -69,7 +69,15 @@ function OrderMItem({ data }) {
                     formatOptionLabel={(option) => `${option.value}`}
                     value={status}
                     placeholder="Chọn tình trạng đơn hàng"
-                    // onChange={handleChangePayment}
+                    onChange={(option) => {
+                        if (option.label !== idStatus) {
+                            const result = onChangeStatus(data.Id, option.label);
+                            if (result) {
+                                setIdStatus(option.label);
+                                setStatus(option);
+                            }
+                        }
+                    }}
                     options={optionsStatus}
                 />
             </div>

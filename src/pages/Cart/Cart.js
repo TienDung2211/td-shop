@@ -21,7 +21,7 @@ function Cart() {
     const [showPayment, setShowPayment] = useState(false);
     const [selectProduct, setSelectProduct] = useState([]);
     const [labelSelect, setLabelSelect] = useState('Chọn tất cả');
-    const { render, setRender } = useContext(DataContext);
+    const { render, renderCart, setRenderCart } = useContext(DataContext);
 
     const changeAmount = async (id, amount) => {
         const data = {
@@ -32,7 +32,7 @@ function Cart() {
         let api = await cartServices.changeAmount(data);
 
         if (api.status === 200) {
-            setRender(!render);
+            setRenderCart(!renderCart);
         }
     };
 
@@ -44,8 +44,7 @@ function Cart() {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
-
-            setRender(!render);
+            setRenderCart(!renderCart);
         } else {
             toast.success('Lỗi không xác định, ui lòng thử lại sau.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -94,7 +93,7 @@ function Cart() {
             position: toast.POSITION.TOP_RIGHT,
             className: 'toast-message',
         });
-        setRender(!render);
+        setRenderCart(!renderCart);
     };
 
     useEffect(() => {
@@ -104,7 +103,7 @@ function Cart() {
             setProducts(dataAPI?.CartItems);
         };
         fetchAPI();
-    }, [render, labelSelect]);
+    }, [render, labelSelect, renderCart]);
 
     return (
         <div className={cx('wrapper')}>
