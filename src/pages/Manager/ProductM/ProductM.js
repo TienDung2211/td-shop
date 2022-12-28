@@ -32,7 +32,8 @@ function ProductM() {
     const [mainImage, setMainImage] = useState([]);
     const [otherImages, setOtherImages] = useState([]);
     const [errMsg, setErrMsg] = useState('');
-    const { render, setRender } = useContext(DataContext);
+    const { render } = useContext(DataContext);
+    const [renderPage, setRenderPage] = useState(true);
 
     const onChangeMainImage = (imageList, addUpdateIndex) => {
         setMainImage(imageList);
@@ -236,12 +237,12 @@ function ProductM() {
         console.log(api);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Thêm sản phẩm mới thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             // setAction('view');
+            setRenderPage(!renderPage);
         } else {
             if (api?.status === 403) {
                 toast.info('Vui lòng đăng nhập để tiếp tục thêm sản phẩm.', {
@@ -281,7 +282,7 @@ function ProductM() {
         getAllCategorys();
         getAllVariations();
         getAllAttributes();
-    }, [errMsg, render, action]);
+    }, [errMsg, render, action, renderPage]);
 
     return (
         <div className={cx('wrapper')}>

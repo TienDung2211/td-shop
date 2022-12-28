@@ -29,18 +29,19 @@ function Order() {
     const [detailOrder, setDetailOrder] = useState(null);
     const [active, setActive] = useState(0);
 
-    const { render, setRender } = useContext(DataContext);
+    const { render } = useContext(DataContext);
+    const [renderPage, setRenderPage] = useState(true);
 
     const handleCancelOrder = async (id) => {
         let api = await orderServices.cancelOrder(id);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Hủy đơn hàng thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setViewDetail(false);
+            setRenderPage(!renderPage);
         } else {
             if (api.message === 'Only awaiting payment order can be canceled') {
                 toast.info('Chỉ đơn hàng đang xử lý mới hủy đơn hàng được', {
@@ -62,17 +63,15 @@ function Order() {
         if (access) {
             let dataApi = await orderServices.getMyOrder(active);
 
-            console.log(dataApi);
-
             if (dataApi?.content) {
                 setOrders(dataApi.content);
-            }
+            } else setOrders([]);
         }
     };
 
     useEffect(() => {
         getMyOrder();
-    }, [render, active]);
+    }, [render, active, renderPage]);
 
     return orders ? (
         <div className={cx('wrapper')}>

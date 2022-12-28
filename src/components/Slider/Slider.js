@@ -44,7 +44,7 @@ function Slider({ data }) {
         <div className={cx('wrapper')}>
             {data.length !== 0 ? (
                 <div className={cx('slider-image-layout')} key={data[sliderIndex].id}>
-                    <img src={data[sliderIndex].url} alt="Ảnh" className={cx('image')} />
+                    <img src={data[sliderIndex]?.url} alt="Ảnh" className={cx('image')} />
                     <Button
                         rounded
                         iconOnly={<FontAwesomeIcon icon={faAngleLeft} />}

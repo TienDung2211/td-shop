@@ -69,28 +69,26 @@ function RegisterForm({ clickBack, onSwitchType }) {
                 Password: password,
             };
 
-            let dataAPI = await authServices.authRegister(data);
+            let api = await authServices.authRegister(data);
 
-            console.log(dataAPI);
-
-            if (dataAPI?.data) {
-                console.log(dataAPI?.data);
+            if (api?.data) {
+                console.log(api?.data);
                 setConfirmEmail(true);
                 toast.success('Đăng ký tài khoản thành công! Vui lòng xác thực gmail để đăng nhập', {
                     position: toast.POSITION.TOP_RIGHT,
                     className: 'toast-message',
                 });
             } else {
-                if (dataAPI.status === 400) {
-                    if (dataAPI.message === 'Email existed') {
+                if (api.status === 400) {
+                    if (api.message === 'Email existed') {
                         setErrMsg('Email này đã được đăng ký tài khoản');
-                    } else if (dataAPI.message === 'Username existed') {
+                    } else if (api.message === 'Username existed') {
                         setErrMsg('Tên tài khoản đã tồn tại');
                     } else {
                         setErrMsg('Lỗi không xác định, vui lòng thử lại sau');
                     }
                 } else {
-                    setErrMsg('*Đăng ký thất bại');
+                    setErrMsg('Đăng ký thất bại');
                 }
             }
         } catch (error) {

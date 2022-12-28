@@ -138,7 +138,7 @@ function AccountM() {
                         setErrMsg('Lỗi không xác định, vui lòng thử lại sau');
                     }
                 } else {
-                    setErrMsg('*Đăng ký thất bại');
+                    setErrMsg('Đăng ký thất bại');
                 }
             }
         } catch (error) {

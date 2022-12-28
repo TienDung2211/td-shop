@@ -46,7 +46,7 @@ function Cart() {
             });
             setRenderCart(!renderCart);
         } else {
-            toast.success('Lỗi không xác định, ui lòng thử lại sau.', {
+            toast.success('Lỗi không xác định, vui lòng thử lại sau.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });

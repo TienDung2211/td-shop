@@ -28,7 +28,9 @@ function VariationM() {
     const [idUpdateOption, setIdUpdateOption] = useState(0);
     const [errMsg, setErrMsg] = useState('');
 
-    const { render, setRender } = useContext(DataContext);
+    const { render } = useContext(DataContext);
+
+    const [renderPage, setRenderPage] = useState(true);
 
     const getAllCategorys = async () => {
         let api = await categoryServices.getAllCategory();
@@ -59,12 +61,12 @@ function VariationM() {
         var api = await categoryServices.addCategory(data);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Thêm tùy chọn mới thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setRenderOption(false);
+            setRenderPage(!renderPage);
         } else if (api === undefined) {
             toast.error('Vui lòng đăng nhập để tiếp tục thêm tùy chọn.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -93,12 +95,12 @@ function VariationM() {
         var api = await categoryServices.addCategory(data);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Thêm thể loại mới thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setRenderParentOption(false);
+            setRenderPage(!renderPage);
         } else if (api === undefined) {
             toast.error('Vui lòng đăng nhập để tiếp tục thêm thể loại.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -126,12 +128,12 @@ function VariationM() {
         var api = await categoryServices.updateCategory(idUpdateOption, data);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Cập nhập tùy chọn thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setRenderOption(false);
+            setRenderPage(!renderPage);
         } else if (api === undefined) {
             toast.error('Vui lòng đăng nhập để tiếp tục cập nhập tùy chọn.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -159,12 +161,12 @@ function VariationM() {
         var api = await categoryServices.updateCategory(idCategory, data);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Cập nhập thể loại thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setRenderParentOption(false);
+            setRenderPage(!renderPage);
         } else if (api === undefined) {
             toast.error('Vui lòng đăng nhập để tiếp tục cập nhập thể loại.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -184,19 +186,14 @@ function VariationM() {
         console.log(api);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Xóa tùy chọn thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setRenderOption(false);
+            setRenderPage(!renderPage);
         } else if (api === undefined) {
             toast.error('Vui lòng đăng nhập để tiếp tục xóa tùy chọn.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: 'toast-message',
-            });
-        } else if (api.status === 400) {
-            toast.info('Tên tùy chọn đã tồn tại.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
@@ -209,12 +206,12 @@ function VariationM() {
         console.log(api);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Xóa thể loại thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setRenderParentOption(false);
+            setRenderPage(!renderPage);
         } else if (api === undefined) {
             toast.error('Vui lòng đăng nhập để tiếp tục xóa thể loại.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -226,7 +223,7 @@ function VariationM() {
     useEffect(() => {
         getAllCategorys();
         getCategoryOptions();
-    }, [idCategory, render, errMsg]);
+    }, [idCategory, render, errMsg, renderPage]);
 
     return (
         <div className={cx('wrapper')}>

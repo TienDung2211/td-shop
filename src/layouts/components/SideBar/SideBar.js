@@ -1,27 +1,31 @@
 import classNames from 'classnames/bind';
 import styles from './SideBar.module.scss';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { faList } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import CheckOptions from '~/components/CheckOptions';
 import variationServices from '~/services/variationServices';
+import DataContext from '~/context/DataContext';
 
 const cx = classNames.bind(styles);
 
 function SideBar({ onChangeVariations }) {
     const [varitons, setVaritons] = useState([]);
 
+    const { render } = useContext(DataContext);
+
     useEffect(() => {
         const fetchAPI = async () => {
-            let dataAPI = await variationServices.getAllVariations();
-            const results = dataAPI.content;
-            setVaritons(results);
+            let api = await variationServices.getAllVariations();
+            if (api?.status === 200) {
+                setVaritons(api.content);
+            }
         };
 
         fetchAPI();
-    }, []);
+    }, [render]);
 
     return varitons ? (
         <aside className={cx('wrapper')}>

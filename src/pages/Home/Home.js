@@ -19,27 +19,42 @@ const options = [
 const dataSlider = [
     {
         id: 0,
-        url: 'https://cf.shopee.vn/file/5f3df7c16d4f3a9b4e09f6044dd2c3c8',
+        url: 'https://lh3.googleusercontent.com/CKZ-vKNDPMU9ZSI6BUDtb4eLuIGf4FJ1l1COFudsEG77dN4S_EWa-Fae9F3M1H7lB9OUxedcgD31HXUALOTsOzi1m6Hnp0Yi=rw-w1090',
         limited: true,
     },
     {
         id: 1,
-        url: 'https://cf.shopee.vn/file/9859b8c5023899959b7a1bdd7318f971',
+        url: 'https://lh3.googleusercontent.com/pWh0ITIYXEY3wrXl4YsC_xUy3Y3Eq_yTwVof7Nsk5aYx-iAtQ7xT2X-piMZWtdsD8DBdxIbYiPW_9duCX8A_ROYk-FdWLwQ=rw-w523',
         limited: false,
     },
     {
         id: 2,
-        url: 'https://cf.shopee.vn/file/6b0ebb66b13a3150c2ec1073524fed7d',
+        url: 'https://theme.hstatic.net/1000026716/1000440777/14/slideshow_1.jpg?v=31811',
         limited: false,
     },
     {
         id: 3,
-        url: 'https://cf.shopee.vn/file/b85ab0fdc2723ff92f799bcebeb24662',
+        url: 'https://theme.hstatic.net/1000026716/1000440777/14/slideshow_2.jpg?v=31811',
         limited: true,
     },
     {
         id: 4,
-        url: 'https://cf.shopee.vn/file/c786ed03343b61dbaf08c418d504da58',
+        url: 'https://theme.hstatic.net/1000026716/1000440777/14/slideshow_8.jpg?v=31811',
+        limited: true,
+    },
+    {
+        id: 5,
+        url: 'https://theme.hstatic.net/1000026716/1000440777/14/slideshow_5.jpg?v=31811',
+        limited: true,
+    },
+    {
+        id: 6,
+        url: 'https://theme.hstatic.net/1000026716/1000440777/14/slideshow_9.jpg?v=31811',
+        limited: true,
+    },
+    {
+        id: 7,
+        url: 'https://theme.hstatic.net/1000026716/1000440777/14/slideshow_13.jpg?v=31811',
         limited: true,
     },
 ];
@@ -53,10 +68,10 @@ function Home() {
 
     useEffect(() => {
         const fetchAPI = async () => {
-            let dataAPI = await productServices.getProducts(filter, page);
-            setProducts(dataAPI.content);
-            setTotalPages(dataAPI.totalPages);
-            setPage(dataAPI.pageable.pageNumber);
+            let api = await productServices.getProducts(filter, page);
+            setProducts(api.content);
+            setTotalPages(api.totalPages);
+            setPage(api.pageable.pageNumber);
         };
 
         fetchAPI();
@@ -72,7 +87,7 @@ function Home() {
                     <div className={cx('grid-column-4')}>
                         <div className={cx('fixed-image-layout')}>
                             <div className={cx('fixed-image')}>
-                                <img src={dataSlider[1].url} alt="Ảnh" className={cx('image')} />
+                                <img src={dataSlider[0].url} alt="Ảnh" className={cx('image')} />
                             </div>
                             <div className={cx('fixed-image')}>
                                 <img src={dataSlider[2].url} alt="Ảnh" className={cx('image')} />

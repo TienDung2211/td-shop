@@ -30,7 +30,8 @@ function Address() {
     const [addressUpdate, setAddressUpdate] = useState(null);
     const [errMsg, setErrMsg] = useState('');
 
-    const { render, setRender } = useContext(DataContext);
+    const { render } = useContext(DataContext);
+    const [renderPage, setRenderPage] = useState(true);
 
     const onChangeProvince = (e) => {
         setIdProvince(e.target.value);
@@ -39,7 +40,6 @@ function Address() {
         setIdDistrict(e.target.value);
     };
     const onChangeWard = (e) => {
-        console.log(e.target.value);
         setIdWard(e.target.value);
     };
 
@@ -50,7 +50,7 @@ function Address() {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
-            setRender(!render);
+            setRenderPage(!renderPage);
         } else {
             toast('Lỗi bất ngờ xảy ra, vui lòng thử lại', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -99,8 +99,8 @@ function Address() {
                     className: 'toast-message',
                 });
                 setView(!view);
-                setRender(!render);
                 setErrMsg('');
+                setRenderPage(!renderPage);
             } else {
                 setErrMsg('Thêm địa chỉ không thành công, vui lòng thử lại');
             }
@@ -150,10 +150,10 @@ function Address() {
                 });
                 setAddressUpdate(null);
                 setView(!view);
-                setRender(!render);
                 setErrMsg('');
+                setRenderPage(!renderPage);
             } else {
-                setErrMsg('Thêm địa chỉ không thành công, vui lòng thử lại');
+                setErrMsg('Cập nhập địa chỉ không thành công, vui lòng thử lại');
             }
         } catch (error) {
             console.log(error);
@@ -194,7 +194,7 @@ function Address() {
         apiAllProvinces();
         apiGetDistricts();
         apiGetWards();
-    }, [idProvince, idDistrict, errMsg, render]);
+    }, [idProvince, idDistrict, errMsg, render, renderPage]);
 
     return address ? (
         <div className={cx('wrapper')}>

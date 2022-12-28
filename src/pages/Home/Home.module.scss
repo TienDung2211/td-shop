@@ -1,10 +1,10 @@
 .slider-layout {
     display: flex;
-    height: 240px;
+    height: 360px;
 }
 
 .fixed-image-layout {
-    height: var(--image-height);
+    height: 360px;
     display: flex;
     flex-direction: column;
 
@@ -14,7 +14,7 @@
 }
 
 .fixed-image {
-    height: 114px;
+    height: 174px;
     display: flex;
     .image {
         width: 100%;

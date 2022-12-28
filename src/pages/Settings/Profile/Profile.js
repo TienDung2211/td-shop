@@ -3,9 +3,10 @@ import styles from './Profile.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 import Button from '~/components/Button';
-import { useEffect, useState } from 'react';
 import userServices from '~/services/userServices';
+import DataContext from '~/context/DataContext';
 import { ToastContainer, toast } from 'react-toastify';
+import { useEffect, useState, useContext } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -19,6 +20,8 @@ function Profile() {
     const [phone, setPhone] = useState('');
     const [gender, setGender] = useState(null);
     const [errMsg, setErrMsg] = useState('');
+
+    const { render, setRender } = useContext(DataContext);
 
     const handleUpdateInfo = async (e) => {
         e.preventDefault();
@@ -49,21 +52,17 @@ function Profile() {
                 Gender: gender,
             };
 
-            console.log('data', data);
+            let api = await userServices.updateInfo(data);
 
-            let dataAPI = await userServices.updateInfo(data);
-
-            console.log('Update Info', dataAPI);
-
-            if (dataAPI?.data) {
-                console.log(dataAPI?.data);
+            if (api?.data) {
+                console.log(api?.data);
                 toast.success('Cập nhập thông tin thành công', {
                     position: toast.POSITION.TOP_RIGHT,
                     className: 'toast-message',
                 });
                 setView(true);
                 setErrMsg('');
-                getUserInfo();
+                setRender(!render);
             }
         } catch (error) {
             console.log(error);
@@ -100,7 +99,7 @@ function Profile() {
 
     useEffect(() => {
         getUserInfo();
-    }, [view, errMsg]);
+    }, [view, errMsg, render]);
 
     return user ? (
         <div className={cx('wrapper')}>

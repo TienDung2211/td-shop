@@ -31,8 +31,6 @@ const productServices = {
 
             let endpoint = `?page=${page}${paramsVariations}${paramsFilter}${paramsKeyword}`;
 
-            console.log(endpoint);
-
             const res = await request.get(`/product/search${endpoint}`);
             return res.data;
         } catch (error) {

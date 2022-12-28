@@ -137,6 +137,7 @@ function SaleM() {
         setEndDate(data.endDate);
         setDiscount(data.discountRate * 100);
         setUpdatePromotion(data);
+        // setValueCategorys()
         setAction('update');
     };
 
@@ -154,8 +155,21 @@ function SaleM() {
         return array;
     };
 
-    const handleUpdatePromotion = async (id) => {
-        const api = await promotionServices.deletePromotion(id);
+    const handleUpdatePromotion = async () => {
+        if (categorys.length === 0) {
+            setErrMsg('Bạn chưa chọn Thể loại');
+            return;
+        }
+        const data = {
+            Name: name,
+            Description: description,
+            DiscountRate: discount / 100,
+            StartDate: startDate.replace('T', ' '),
+            EndDate: endDate.replace('T', ' '),
+            Categories: getValueCategorys(),
+        };
+
+        const api = await promotionServices.updatePromotion(updatePromotion.id, data);
         console.log(api);
         if (api?.status === 200) {
             toast.success('Cập nhập khuyến mãi thành công', {
@@ -164,11 +178,23 @@ function SaleM() {
             });
             setRenderPage(!renderPage);
             setAction('view');
-        } else if (api === undefined) {
-            toast.error('Vui lòng đăng nhập để tiếp tục cập nhập khuyến mãi.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: 'toast-message',
-            });
+        } else {
+            if (api === undefined) {
+                toast.info('Vui lòng đăng nhập để tiếp tục cập nhập khuyến mãi.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else if (api.message === 'Promotion name existed') {
+                toast.info('Tên khuyến mãi đã tồn tại.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else {
+                toast.error('Lỗi không xác định, vui lòng thử lại sau.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            }
         }
     };
 
@@ -386,6 +412,7 @@ function SaleM() {
                             border
                             onClick={() => {
                                 setAction('view');
+                                setUpdatePromotion(null);
                             }}
                         >
                             Hủy

@@ -22,11 +22,16 @@ function VariationM() {
     const [nameVariation, setNameVariation] = useState('');
     const [numberOptions, setNumberOptions] = useState(5);
 
-    const { render, setRender } = useContext(DataContext);
+    const { render } = useContext(DataContext);
+
+    const [renderPage, setRenderPage] = useState(true);
 
     const getAllVariations = async () => {
         let api = await variationServices.getAllVariations();
-        setVariations(api.content);
+
+        if (api?.status === 200) {
+            setVariations(api.content);
+        } else setVariations([]);
     };
 
     const getVariationOptions = () => {
@@ -86,12 +91,12 @@ function VariationM() {
         console.log(api);
 
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Thêm danh mục mới thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setAction('view');
+            setRenderPage(!renderPage);
         } else {
             if (api?.status === 403) {
                 toast.info('Vui lòng đăng nhập để tiếp tục thêm danh mục.', {
@@ -130,15 +135,13 @@ function VariationM() {
 
         var api = await variationServices.updateVariation(idVariation, data);
 
-        // console.log(api);
-
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Cập nhập danh mục thành công.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setAction('view');
+            setRenderPage(!renderPage);
         } else {
             if (api?.status === 403) {
                 toast.info('Vui lòng đăng nhập để tiếp tục cập nhập danh mục.', {
@@ -157,16 +160,14 @@ function VariationM() {
     const handleRemoveVariation = async (id) => {
         let api = await variationServices.removeVariation(id);
 
-        console.log(api);
-
         if (api?.status === 200) {
-            setRender(!render);
             toast.success('Xóa danh mục thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setIdVariation(1);
             setAction('view');
+            setRenderPage(!renderPage);
         } else {
             if (api?.status === 403) {
                 toast.info('Vui lòng đăng nhập để tiếp tục xóa danh mục.', {
@@ -185,7 +186,7 @@ function VariationM() {
     useEffect(() => {
         getAllVariations();
         getVariationOptions();
-    }, [idVariation, numberOptions, render, action]);
+    }, [idVariation, numberOptions, render, action, renderPage]);
 
     return (
         <div className={cx('wrapper')}>
