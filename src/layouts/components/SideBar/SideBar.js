@@ -19,9 +19,7 @@ function SideBar({ onChangeVariations }) {
     useEffect(() => {
         const fetchAPI = async () => {
             let api = await variationServices.getAllVariations();
-            if (api?.status === 200) {
-                setVaritons(api.content);
-            }
+            setVaritons(api.content);
         };
 
         fetchAPI();
