@@ -17,7 +17,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
     const [password, setPassword] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-    const { render, setRender, renderCart, setRenderCart } = useContext(DataContext);
+    const { render, setRender } = useContext(DataContext);
 
     useEffect(() => {
         setErrMsg('');
@@ -36,7 +36,6 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
 
             if (dataAPI?.data) {
                 onLogin();
-                setRenderCart(!renderCart);
                 setRender(!render);
             } else {
                 if (dataAPI.message === 'Login failed: your account has been banned') {

@@ -142,9 +142,9 @@ function Payment({ data, clickBack, onPayment }) {
             <div className={cx('grid-row')}>
                 <div className={cx('grid-column-50percent')}>
                     <div className={cx('list')}>
-                        {data.map((item) => {
+                        {data.map((item, index) => {
                             return (
-                                <div key={item.id} className={cx('item')}>
+                                <div key={index} className={cx('item')}>
                                     <div className={cx('item-layout-img')}>
                                         <img src={item.Product.ImageUrl} alt="" className={cx('item-img')} />
                                     </div>

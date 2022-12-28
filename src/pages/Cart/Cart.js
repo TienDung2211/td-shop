@@ -85,6 +85,7 @@ function Cart() {
         }
 
         setSelectProduct(select);
+        console.log(select);
     };
 
     const handlePaymentSuccess = () => {

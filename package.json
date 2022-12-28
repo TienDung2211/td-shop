@@ -19,6 +19,7 @@
         "FormData": "^0.10.1",
         "normalize.css": "^8.0.1",
         "react": "^18.2.0",
+        "react-datetime-picker": "^4.1.1",
         "react-dom": "^18.2.0",
         "react-images-uploading": "^3.1.7",
         "react-redux": "^8.0.5",

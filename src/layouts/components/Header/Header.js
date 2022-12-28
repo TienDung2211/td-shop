@@ -81,12 +81,20 @@ function Header() {
 
     const { render, setRender } = useContext(DataContext);
 
-    const HandleSwitchType = () => {
+    const handleSwitchType = () => {
         if (typeModal === 'login') {
             setTypeModal('register');
         } else {
             setTypeModal('login');
         }
+    };
+
+    const handleLoginSuccess = () => {
+        setIsModal(false);
+        toast.success('Đăng nhập thành công!', {
+            position: toast.POSITION.TOP_RIGHT,
+            className: 'toast-message',
+        });
     };
 
     useEffect(() => {
@@ -96,10 +104,10 @@ function Header() {
             const access = JSON.parse(localStorage.getItem('access'));
 
             if (access) {
-                let dataApi = await userServices.getUser();
+                let api = await userServices.getUser();
 
-                if (dataApi?.data) {
-                    setUser(dataApi.data);
+                if (api?.data) {
+                    setUser(api.data);
                 }
             } else {
                 setUser(null);
@@ -210,14 +218,8 @@ function Header() {
                 <Modal closeModal={() => setIsModal(false)}>
                     <AuthForm
                         data={typeModal}
-                        onLogin={() => {
-                            setIsModal(false);
-                            toast.success('Đăng nhập thành công!', {
-                                position: toast.POSITION.TOP_RIGHT,
-                                className: 'toast-message',
-                            });
-                        }}
-                        onSwitchType={HandleSwitchType}
+                        onLogin={handleLoginSuccess}
+                        onSwitchType={handleSwitchType}
                         clickBack={() => setIsModal(false)}
                     />
                 </Modal>

@@ -2,8 +2,9 @@ import classNames from 'classnames/bind';
 import styles from './Manager.module.scss';
 
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import DataContext from '~/context/DataContext';
 import userServices from '~/services/userServices';
+import { useEffect, useState, useContext } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -49,14 +50,16 @@ const controls = [
 function Manager() {
     const [user, setUser] = useState(null);
 
+    const { render } = useContext(DataContext);
+
     const getUserInfo = async () => {
         const access = JSON.parse(localStorage.getItem('access'));
 
         if (access) {
-            let dataApi = await userServices.getUser();
+            let api = await userServices.getUser();
 
-            if (dataApi?.data) {
-                setUser(dataApi.data);
+            if (api?.data) {
+                setUser(api.data);
             }
         } else {
             setUser(null);
@@ -64,7 +67,7 @@ function Manager() {
     };
     useEffect(() => {
         getUserInfo();
-    }, []);
+    }, [render]);
 
     return (
         <div className={cx('wrapper')}>

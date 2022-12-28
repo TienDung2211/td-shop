@@ -25,9 +25,6 @@ function OrderM() {
 
         if (access) {
             let api = await orderServices.getAllOrder(idStatus);
-
-            console.log('order', api);
-
             if (api?.content) {
                 setOrders(api.content);
             }

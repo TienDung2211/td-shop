@@ -9,8 +9,10 @@ import { faAngleRight, faStar as fasStar, faCartPlus } from '@fortawesome/free-s
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
 import images from '~/assets/images';
+import Modal from '~/components/Modal';
 import Button from '~/components/Button';
 import Slider from '~/components/Slider';
+import Payment from '~/components/Payment';
 import Product from '~/components/Product';
 import DataContext from '~/context/DataContext';
 import Policy from '~/components/Policy/Policy';
@@ -22,22 +24,45 @@ const cx = classNames.bind(styles);
 
 function DetailProduct() {
     const { id } = useParams();
-    const [product, setProduct] = useState(null);
-    const [productByBrand, setProductByBrand] = useState([]);
     const [slider, setSlider] = useState([]);
+    const [product, setProduct] = useState(null);
+    const [data, setData] = useState([]);
+    const [showPayment, setShowPayment] = useState(false);
+    const [productByBrand, setProductByBrand] = useState([]);
 
-    const { render, setRender } = useContext(DataContext);
+    const { render, renderCart, setRenderCart } = useContext(DataContext);
+
+    const getProduct = async () => {
+        let api = await productServices.getProductById(id);
+
+        setProduct(api);
+
+        let mainImg = { id: 0, url: api.ImageUrl, label: null };
+
+        let images = Array.from(api.Images);
+
+        images.unshift(mainImg);
+
+        setSlider(images);
+    };
+
+    const getProductByBrand = async () => {
+        if (product) {
+            let api = await productServices.getProductByBrand(product?.Brand?.id);
+            setProductByBrand(api?.content);
+        } else setProductByBrand([]);
+    };
 
     const handleAddCart = async () => {
-        let data = await cartServices.addCart(id);
+        let api = await cartServices.addCart(id);
 
-        if (data?.status === 200) {
+        if (api?.status === 200) {
             toast.success('Thêm sản phẩm vào giỏ hàng thành công.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
-            setRender(!render);
-        } else {
+            setRenderCart(!renderCart);
+        } else if (api === undefined) {
             toast.info('Đăng nhập để thêm giỏ hàng.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
@@ -45,32 +70,19 @@ function DetailProduct() {
         }
     };
 
-    const getProductByBrand = async () => {
-        let api = await productServices.getProductByBrand(product?.Brand?.id);
-
-        console.log(api);
-
-        setProductByBrand(api.content);
+    const handlePaymentSuccess = () => {
+        setShowPayment(false);
+        toast.success('Đặt hàng thành công. Truy cập Cài đặt -> Đơn hàng để xem chi tiết', {
+            position: toast.POSITION.TOP_RIGHT,
+            className: 'toast-message',
+        });
+        setRenderCart(!renderCart);
     };
 
     useEffect(() => {
-        const fetchAPI = async () => {
-            let dataAPI = await productServices.getProductById(id);
-
-            setProduct(dataAPI);
-
-            let mainImg = { id: 0, url: dataAPI.ImageUrl, label: null };
-
-            let images = Array.from(dataAPI.Images);
-
-            images.unshift(mainImg);
-
-            setSlider(images);
-        };
-
-        fetchAPI();
+        getProduct();
         getProductByBrand();
-    }, [id]);
+    }, [id, render]);
 
     return product ? (
         <div className={cx('wrapper')}>
@@ -181,12 +193,20 @@ function DetailProduct() {
                                                 </div>
                                                 <div className={cx('grid-column-50percent')}>
                                                     {product.Status.Id === 2 ? (
-                                                        <Button primary border large>
-                                                            Mua hàng
+                                                        <Button
+                                                            primary
+                                                            border
+                                                            large
+                                                            onClick={() => {
+                                                                setData([{ Product: product, Quantity: 1 }]);
+                                                                setShowPayment(true);
+                                                            }}
+                                                        >
+                                                            Mua ngay
                                                         </Button>
                                                     ) : (
                                                         <Button disable outline border large>
-                                                            Mua hàng
+                                                            Sản phẩm hiện hết hàng
                                                         </Button>
                                                     )}
                                                 </div>
@@ -280,7 +300,7 @@ function DetailProduct() {
                         <Policy />
                     </div>
                 </div>
-                {productByBrand.length > 0 ? (
+                {productByBrand?.length > 0 ? (
                     <div className={cx('grid-row', 'other-products-layout')}>
                         <div className={cx('grid-row', 'other-products')}>
                             <div className={cx('grid-column-4')}>
@@ -311,6 +331,11 @@ function DetailProduct() {
                 ) : null}
             </div>
             <ToastContainer />
+            {showPayment && (
+                <Modal closeModal={() => setShowPayment(false)}>
+                    <Payment data={data} clickBack={() => setShowPayment(false)} onPayment={handlePaymentSuccess} />
+                </Modal>
+            )}
         </div>
     ) : null;
 }
