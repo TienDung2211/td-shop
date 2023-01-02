@@ -1,6 +1,5 @@
 import classNames from 'classnames/bind';
 import styles from './SaleMItem.module.scss';
-import { useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPen } from '@fortawesome/free-solid-svg-icons';

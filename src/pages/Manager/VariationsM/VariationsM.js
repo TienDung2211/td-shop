@@ -29,7 +29,7 @@ function VariationM() {
     const getAllVariations = async () => {
         let api = await variationServices.getAllVariations();
 
-        if (api?.status === 200) {
+        if (api?.content) {
             setVariations(api.content);
         } else setVariations([]);
     };

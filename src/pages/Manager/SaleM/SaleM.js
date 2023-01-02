@@ -272,7 +272,7 @@ function SaleM() {
                             type="datetime-local"
                             required
                             value={startDate}
-                            onChange={(e) => setStartDate(Date(e.target.value))}
+                            onChange={(e) => setStartDate(e.target.value)}
                         />
                     </div>
                     <div className={cx('group-item')}>
