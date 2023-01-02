@@ -137,25 +137,23 @@ function SaleM() {
         setEndDate(data.endDate);
         setDiscount(data.discountRate * 100);
         setUpdatePromotion(data);
-        // setValueCategorys()
-        setAction('update');
-    };
-
-    const setValueCategorys = () => {
+        // Set Category
         let array = [];
 
         optionsCategory.forEach((option) => {
-            updatePromotion?.categories.map((item) => {
-                if (option.label === item) {
+            data?.Categories.forEach((item) => {
+                if (option.label === item?.id) {
                     array.push(option);
                 }
             });
         });
 
-        return array;
+        setCategorys(array);
+        setAction('update');
     };
 
-    const handleUpdatePromotion = async () => {
+    const handleUpdatePromotion = async (e) => {
+        e.preventDefault();
         if (categorys.length === 0) {
             setErrMsg('Bạn chưa chọn Thể loại');
             return;
@@ -395,7 +393,7 @@ function SaleM() {
                                 formatOptionLabel={(option) => `${option.value}`}
                                 isOptionDisabled={(option) => option.disabled}
                                 isMulti
-                                value={[optionsCategory[1], optionsCategory[3]]}
+                                value={categorys}
                                 placeholder="Chọn thể loại..."
                                 onChange={handleChangeCategory}
                                 options={optionsCategory}

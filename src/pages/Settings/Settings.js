@@ -3,6 +3,7 @@ import styles from './Settings.module.scss';
 
 import { Link } from 'react-router-dom';
 import Button from '~/components/Button';
+import { SETTING_OPTIONS } from '~/components/MenuOptions/MenuOptions';
 
 const cx = classNames.bind(styles);
 
@@ -35,7 +36,7 @@ function Settings() {
                         </Button>
                     </div>
                     <div className={cx('control-list')}>
-                        {controls.map((control) => {
+                        {SETTING_OPTIONS.map((control) => {
                             return (
                                 <Link to={'/setting/' + control.key} className={cx('control-item')} key={control.id}>
                                     {control.name}

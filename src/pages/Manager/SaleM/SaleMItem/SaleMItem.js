@@ -16,7 +16,12 @@ function SaleMItem({ data, onClickRemove, onClickUpdate }) {
                 <span className={cx('name')}>Mã khuyến mãi : {data.name}</span>
                 <span className={cx('desc')}>Mô mả : {data.description}</span>
                 <span className={cx('category')}>
-                    Áp dụng cho : <span className={cx('active')}>{data.category}</span>
+                    Áp dụng cho :{' '}
+                    <span className={cx('active')}>
+                        {data.Categories.map((item) => {
+                            return item.name + ' ';
+                        })}
+                    </span>
                 </span>
             </div>
             <div className={cx('discount')}>

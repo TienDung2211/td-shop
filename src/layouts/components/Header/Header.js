@@ -31,6 +31,7 @@ import authServices from '~/services/authServices';
 import AuthForm from '~/components/AuthForm/AuthForm';
 import { ToastContainer, toast } from 'react-toastify';
 import OptionsPopper from '~/components/OptionsPopper';
+import { MENU_OPTIONS } from '~/components/MenuOptions/MenuOptions';
 
 const cx = classNames.bind(styles);
 
@@ -179,7 +180,7 @@ function Header() {
                                         </li>
                                         <li className={cx('navbar-item')}>
                                             <Menu
-                                                items={USER_LOGINED}
+                                                items={MENU_OPTIONS}
                                                 clickLogout={() => {
                                                     setUser(null);
                                                     authServices.authLogOut();
