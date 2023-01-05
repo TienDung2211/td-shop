@@ -328,7 +328,7 @@ function VariationM() {
                 </div>
 
                 <div className={cx('variation-options')}>
-                    {options.length > 0 && (
+                    {idCategory !== 0 && (
                         <div>
                             <span className={cx('options-title')}>Thể loại {nameCategory}</span>
                             {!renderOption ? (
