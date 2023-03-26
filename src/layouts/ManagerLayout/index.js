@@ -1,32 +1,18 @@
-import classNames from 'classnames/bind';
 import Manager from '~/pages/Manager';
-import styles from './ManagerLayout.module.scss';
+import classNames from 'classnames/bind';
 import Button from '~/components/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import styles from './ManagerLayout.module.scss';
 
 const cx = classNames.bind(styles);
 
 function ManagerLayout({ children }) {
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('container')}>
-                <div className={cx('grid')}>
-                    <div className={cx('grid-full-width')}>
-                        <div className={cx('grid-row')}>
-                            <div className={cx('path')}>
-                                <Button to="/" transparent>
-                                    Trang chủ
-                                </Button>
-                            </div>
-                        </div>
-                        <div className={cx('grid-row')}>
-                            <div className={cx('grid-column-3')}>
-                                <Manager />
-                            </div>
-                            <div className={cx('grid-column-9', 'content')}>
-                                <div className={cx('page')}>{children}</div>
-                            </div>
-                        </div>
-                    </div>
+        <div className={cx('w-100')}>
+            <div className={cx('row')}>
+                <Manager />
+                <div className={cx('col')}>
+                    <div className={cx('page')}>{children}</div>
                 </div>
             </div>
         </div>

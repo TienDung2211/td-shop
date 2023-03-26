@@ -1,44 +1,4 @@
-.wrapper {
-    display: flex;
-    justify-content: center;
-    // background-image: url('../../assets/images/background.jpg');
-    // background-repeat: no-repeat;
-    // background-size: cover;
-    width: 100%;
-    height: 100vh;
-}
-
-.container {
-    width: var(--width-app);
-    display: flex;
-    flex-direction: column;
-    margin-top: 52px;
-}
-
-.path {
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.05);
-    display: flex;
-    width: 18%;
-    margin-bottom: 32px;
-}
-
-.path::after {
-    content: '';
-    position: absolute;
-    border-width: 18px 30px;
-    border-style: solid;
-    border-color: transparent transparent transparent rgba(0, 0, 0, 0.05);
-
-    top: 0%;
-    right: -60px;
-}
-
-.content {
-    display: flex;
-    flex-direction: column;
-}
-
 .page {
     min-height: 600px;
+    margin: 24px;
 }

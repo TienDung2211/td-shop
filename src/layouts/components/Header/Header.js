@@ -35,45 +35,6 @@ import { MENU_OPTIONS } from '~/components/MenuOptions/MenuOptions';
 
 const cx = classNames.bind(styles);
 
-const USER_LOGINED = [
-    {
-        icon: <FontAwesomeIcon icon={faUser} />,
-        title: 'Xem hồ sơ',
-        to: '/setting/profile',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faLocationDot} />,
-        title: 'Địa chỉ',
-        to: '/setting/address',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faCartShopping} />,
-        title: 'Giỏ hàng',
-        to: '/cart',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faFileInvoice} />,
-        title: 'Đơn hàng',
-        to: '/setting/order',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faUserTie} />,
-        title: 'Quản lí',
-        to: '/manager/product',
-        role: 'ROLE_EMPLOYEE',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faGear} />,
-        title: 'Cài đặt',
-        to: '/setting/profile',
-    },
-    {
-        icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
-        title: 'Đăng xuất',
-        separation: true,
-    },
-];
-
 function Header() {
     const [isModal, setIsModal] = useState(false);
     const [typeModal, setTypeModal] = useState('login');

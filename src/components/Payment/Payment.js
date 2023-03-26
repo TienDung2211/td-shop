@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './Payment.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import Button from '~/components/Button';
 import userServices from '~/services/userServices';
@@ -37,10 +37,10 @@ function Payment({ data, clickBack, onPayment }) {
         const access = JSON.parse(localStorage.getItem('access'));
 
         if (access) {
-            let dataApi = await userServices.getUser();
+            let api = await userServices.getUser();
 
-            if (dataApi?.data) {
-                setUser(dataApi.data);
+            if (api?.data) {
+                setUser(api.data);
             }
         } else {
             setUser(null);
@@ -260,8 +260,7 @@ function Payment({ data, clickBack, onPayment }) {
 
 export default Payment;
 
-{
-    /* <div className={cx('discount')}>
+/* <div className={cx('discount')}>
     <div className={cx('discount-code')}>
         Mã giảm giá : <span className={cx('discount-code-primary')}>ABCD</span>
     </div>
@@ -269,4 +268,3 @@ export default Payment;
         <span className={cx('discount-value-primary')}>- 10000000 ₫</span>
     </div>
 </div> */
-}

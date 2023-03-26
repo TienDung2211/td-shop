@@ -7,6 +7,11 @@ import {
     faGear,
     faUserTie,
     faCartShopping,
+    faLaptop,
+    faComment,
+    faFolder,
+    faAnglesDown,
+    faDiagramProject,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const MENU_OPTIONS = [
@@ -51,37 +56,44 @@ export const MENU_OPTIONS = [
 export const MANAGER_OPTIONS = [
     {
         id: 0,
+        icon: <FontAwesomeIcon icon={faUser} />,
         name: 'Quản lí tài khoản',
         key: 'account',
         role: 'ROLE_ADMIN',
     },
     {
         id: 1,
+        icon: <FontAwesomeIcon icon={faLaptop} />,
         name: 'Quản lí sản phẩm',
         key: 'product',
     },
     {
         id: 2,
+        icon: <FontAwesomeIcon icon={faFileInvoice} />,
         name: 'Quản lí đơn hàng',
         key: 'order',
     },
     {
         id: 3,
+        icon: <FontAwesomeIcon icon={faAnglesDown} />,
         name: 'Quản lí khuyến mãi',
         key: 'sale',
     },
     {
         id: 4,
+        icon: <FontAwesomeIcon icon={faDiagramProject} />,
         name: 'Quản lí danh mục',
         key: 'variaton',
     },
     {
         id: 5,
+        icon: <FontAwesomeIcon icon={faFolder} />,
         name: 'Quản lí thể loại',
         key: 'category',
     },
     {
         id: 6,
+        icon: <FontAwesomeIcon icon={faComment} />,
         name: 'Quản lí bình luận',
         key: 'comment',
     },

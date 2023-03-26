@@ -41,7 +41,7 @@ const publicRoutes = [
     { path: '/manager/comment', component: CommentM, layout: ManagerLayout },
     { path: '/manager/order', component: OrderM, layout: ManagerLayout },
     { path: '/manager/category', component: CategoryM, layout: ManagerLayout },
-    { path: '/test', component: TestData },
+    { path: '/test', component: TestData, layout: null },
 ];
 
 const privateRoutes = [];
