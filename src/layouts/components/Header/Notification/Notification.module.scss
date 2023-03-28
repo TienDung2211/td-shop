@@ -45,13 +45,28 @@
 .notify-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     height: 40px;
     padding: 0 12px;
     background-color: var(--white-color);
-    color: var(--text-color);
-    font-size: 1.5rem;
-    font-weight: 400;
-    cursor: default;
+
+    .title {
+        cursor: default;
+        color: var(--text-color);
+        font-size: 1.6rem;
+        font-weight: 600;
+    }
+
+    .read-all {
+        cursor: pointer;
+        color: var(--text-color);
+        font-size: 1.4rem;
+        font-weight: 400;
+
+        &:hover {
+            color: var(--primary-color);
+        }
+    }
 }
 
 .notify-list {
@@ -92,6 +107,7 @@
 .notify-name {
     display: block;
     font-size: 1.4rem;
+    font-weight: 400;
     color: var(--black-color);
     flex: 6;
 }
@@ -102,6 +118,19 @@
     color: var(--black-color);
     opacity: 0.5;
     flex: 4;
+}
+
+.delete {
+    width: 20px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: var(--text-color);
+    font-size: 2rem;
+
+    &:hover {
+        color: var(--red-color);
+    }
 }
 
 .notify-footer {

@@ -19,11 +19,13 @@ import Policy from '~/components/Policy/Policy';
 import cartServices from '~/services/cartServices';
 import { ToastContainer, toast } from 'react-toastify';
 import productServices from '~/services/productServices';
+import Evaluate from '~/components/Evaluate';
 
 const cx = classNames.bind(styles);
 
 function DetailProduct() {
-    const { id } = useParams();
+    const { id, brandId } = useParams();
+
     const [slider, setSlider] = useState([]);
     const [product, setProduct] = useState(null);
     const [data, setData] = useState([]);
@@ -47,9 +49,9 @@ function DetailProduct() {
     };
 
     const getProductByBrand = async () => {
-        if (product) {
-            let api = await productServices.getProductByBrand(product?.Brand?.id);
-            setProductByBrand(api?.content);
+        let api = await productServices.getProductByBrand(brandId);
+        if (api?.content !== []) {
+            setProductByBrand(api.content);
         } else setProductByBrand([]);
     };
 
@@ -329,6 +331,9 @@ function DetailProduct() {
                         </div>
                     </div>
                 ) : null}
+                <div className={cx('grid-row', 'other-products-layout')}>
+                    <Evaluate />
+                </div>
             </div>
             <ToastContainer />
             {showPayment && (

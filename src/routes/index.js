@@ -30,7 +30,7 @@ const publicRoutes = [
     { path: '/cart', component: Cart },
     { path: '/sort', component: SortProduct },
     { path: '/reset-password', component: ResetPassword, layout: null },
-    { path: '/detail-product/:id', component: DetailProduct },
+    { path: '/detail-product/:brandId/:id', component: DetailProduct },
     { path: '/setting/profile', component: Profile, layout: SettingsLayout },
     { path: '/setting/address', component: Address, layout: SettingsLayout },
     { path: '/setting/order', component: Order, layout: SettingsLayout },

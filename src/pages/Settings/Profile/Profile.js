@@ -149,6 +149,10 @@ function Profile() {
                         <div className={cx('label-item')}>Email</div>
                         <div className={cx('value-item')}>{email}</div>
                     </div>
+                    <div className={cx('group-item')}>
+                        <div className={cx('label-item')}>Số điện thoại</div>
+                        <div className={cx('value-item')}>{phone}</div>
+                    </div>
                     <div className={cx('group')}>
                         <span className={cx('error-msg')}>{errMsg}</span>
                     </div>
@@ -220,7 +224,7 @@ function Profile() {
                             onChange={(e) => setBirthDate(e.target.value)}
                         />
                     </div>
-                    <div className={cx('group-item')}>
+                    {/* <div className={cx('group-item')}>
                         <div className={cx('label-item')}>Số điện thoại</div>
                         <input
                             className={cx('input-item')}
@@ -228,7 +232,7 @@ function Profile() {
                             value={phone}
                             onChange={(e) => setPhone(e.target.value)}
                         />
-                    </div>
+                    </div> */}
                     <div className={cx('button-layout-update')}>
                         <Button outline border primary type="submit">
                             Cập nhập

@@ -9,8 +9,11 @@ const cx = classNames.bind(styles);
 function OrderItem({ data, onClickViewDetail }) {
     const getTotalPrice = () => {
         let total = 0;
+
+        console.log(data);
+
         data.OrderDetails.forEach((product) => {
-            total = total + Number(product?.FinalPrice);
+            total = total + Number(product?.FinalPrice) * product?.Quantity;
         });
 
         total = total + data?.Ship?.price;
@@ -59,30 +62,3 @@ function OrderItem({ data, onClickViewDetail }) {
 }
 
 export default OrderItem;
-
-{
-    /* <div className={cx('item')}>
-            <div className={cx('layout-img')}>
-                <img src={images.imgAccount} alt="" className={cx('img')} />
-            </div>
-            <div className={cx('info')}>
-                <div className={cx('main-info')}>
-                    <h5 className={cx('name')}>App Store App Store App Store App Store App Store</h5>
-                    <div className={cx('total')}>
-                        <span className={cx('price')}>
-                            999999999999999<span>$</span>
-                        </span>
-                        <span className={cx('multiply')}>x</span>
-                        <span className={cx('amount')}>1</span>
-                    </div>
-                </div>
-                <div className={cx('extra-info')}>
-                    <div className={cx('desc')}>
-                        The App Store gives people around the world a safe and trusted place to discover apps that meet
-                        our high standards for privacy, security, and content.
-                    </div>
-                </div>
-            </div>
-            <div className={cx('status')}>Đã nhận hàng</div>
-        </div> */
-}

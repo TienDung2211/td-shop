@@ -69,6 +69,17 @@ function Order() {
         }
     };
 
+    const getTotalPrice = () => {
+        let total = 0;
+        detailOrder.OrderDetails.forEach((product) => {
+            total = total + Number(product?.FinalPrice) * product?.Quantity;
+        });
+
+        total = total + detailOrder?.Ship?.price;
+
+        return total;
+    };
+
     useEffect(() => {
         getMyOrder();
     }, [render, active, renderPage]);
@@ -156,6 +167,12 @@ function Order() {
                                 Cách thức vận chuyển :{' '}
                                 <span className={cx('value')}>
                                     {detailOrder.Ship.name} - {detailOrder.Ship.price}
+                                </span>
+                            </div>
+                            <div className={cx('total-order')}>
+                                Tổng giá trị đơn hàng :{' '}
+                                <span className={cx('value')}>
+                                    {getTotalPrice()} {'₫'}
                                 </span>
                             </div>
                             <div className={cx('status-detail')}>

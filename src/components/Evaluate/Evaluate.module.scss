@@ -1,0 +1,255 @@
+.title {
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 500;
+    text-transform: capitalize;
+    padding: 8px 16px;
+}
+
+// Overview
+.overview-layout {
+    padding-left: 4.8rem;
+
+    .heading-overview {
+        height: 4.5rem;
+        display: flex;
+        align-items: center;
+        .average-rate {
+            font-size: 3.6rem;
+            line-height: 40px;
+            font-weight: 700;
+            white-space: nowrap;
+            margin: 0px 16px 0px 0px;
+        }
+        .info {
+            display: flex;
+            flex-direction: column;
+            .star {
+                font-size: 1.8rem;
+                .icon-star {
+                    color: var(--yellow-color);
+                }
+                .icon-star + .icon-star {
+                    margin-left: 12px;
+                }
+            }
+            .total-evaluate {
+                line-height: 20px;
+                margin-top: 1px;
+                font-size: 13px;
+                font-weight: 400;
+                color: rgb(128, 128, 137);
+            }
+        }
+    }
+
+    .detail-overview {
+        margin: 12px 0px 0px;
+        .item {
+            display: flex;
+            margin: 4px 0px;
+            -webkit-box-align: center;
+            align-items: center;
+            .small-star {
+                font-size: 1.4rem;
+                .icon-star {
+                    color: var(--yellow-color);
+                }
+                .icon-star + .icon-star {
+                    margin-left: 8px;
+                }
+            }
+            .ratio-layout {
+                width: 138px;
+                height: 6px;
+                background-color: rgb(245, 245, 250);
+                position: relative;
+                z-index: 1;
+                margin: 0px 8px;
+                border-radius: 99em;
+
+                .ratio {
+                    position: absolute;
+                    left: 0px;
+                    top: 0px;
+                    bottom: 0px;
+                    background-color: rgb(128, 128, 137);
+                    border-radius: 99em;
+                }
+            }
+            .amount {
+                font-size: 11px;
+                line-height: 16px;
+                color: rgb(128, 128, 137);
+            }
+        }
+    }
+}
+
+// comment-filter-layout
+.comment-filter-layout {
+    margin-right: 4.8rem;
+}
+
+// CommentInput
+.form-group {
+    .label {
+        margin: 6px 0;
+    }
+    .btn {
+        margin-top: 12px;
+        display: flex;
+        justify-content: end;
+    }
+}
+
+// Filter
+.filter {
+    display: flex;
+    padding: 12px 0px;
+    .filter-label {
+        flex-shrink: 0;
+        font-size: 15px;
+        line-height: 24px;
+        margin: 0px 16px 0px 0px;
+        padding-top: 4px;
+        color: rgb(56, 56, 61);
+        font-weight: 400;
+    }
+
+    .filter-options {
+        -webkit-box-flex: 1;
+        flex-grow: 1;
+        display: flex;
+        flex-wrap: wrap;
+        .option {
+            height: 32px;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 20px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            color: rgb(56, 56, 61);
+            background: rgb(245, 245, 250);
+            margin: 0px 12px 12px 0px;
+            cursor: pointer;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            user-select: none;
+
+            .icon-star {
+                margin-left: 16px;
+            }
+        }
+        .option.option-active {
+            background: rgb(240, 248, 255);
+            border: 1px solid rgb(26, 148, 255);
+        }
+    }
+}
+
+// comment-item
+.comment-item {
+    display: flex;
+    border-top: 1px solid rgb(242, 242, 242);
+    padding: 32px 0px;
+}
+
+.user {
+    margin-left: 48px;
+    .user-info {
+        .name {
+            font-size: 15px;
+            line-height: 24px;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+        .date {
+            font-size: 13px;
+            line-height: 20px;
+            color: rgb(128, 128, 137);
+        }
+    }
+
+    .amout-comment,
+    .amout-feedback {
+        margin: 12px 0px 0px;
+        color: rgb(128, 128, 137);
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 20px;
+        .text {
+            margin-left: 12px;
+        }
+        .text-amount {
+            color: rgb(56, 56, 61);
+            margin-left: 4px;
+        }
+    }
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    margin-right: 48px;
+
+    .star {
+        display: flex;
+        align-items: center;
+        font-size: 1.6rem;
+        .icon-star {
+            color: var(--yellow-color);
+        }
+        .icon-star + .icon-star {
+            margin-left: 10px;
+        }
+        .star-text {
+            margin: 0px 0px 0px 12px;
+            font-size: 15px;
+            line-height: 24px;
+            font-weight: 500;
+            color: rgb(36, 36, 36);
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+        }
+    }
+    .status {
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        margin: 0px 0px 16px;
+        .icon-status {
+            font-size: 1.4rem;
+            color: var(--green-color);
+            margin-right: 10px;
+        }
+        .status-text {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            font-size: 1.4rem;
+            font-weight: 400;
+            line-height: 20px;
+            color: rgb(0, 171, 86);
+        }
+    }
+    .comment-text {
+        font-size: 1.4rem;
+        font-weight: 400;
+        line-height: 20px;
+        margin: 0px 0px 8px;
+        white-space: pre-wrap;
+    }
+    .comment-date {
+        font-size: 1.3rem;
+        line-height: 20px;
+        margin: 0px 0px 16px;
+        color: rgb(128, 128, 137);
+    }
+}
