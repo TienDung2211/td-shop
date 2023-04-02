@@ -12,6 +12,7 @@ import {
     faFolder,
     faAnglesDown,
     faDiagramProject,
+    faFontAwesome,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const MENU_OPTIONS = [
@@ -87,12 +88,18 @@ export const MANAGER_OPTIONS = [
     },
     {
         id: 5,
+        icon: <FontAwesomeIcon icon={faFontAwesome} />,
+        name: 'Quản lí thương hiệu',
+        key: 'brand',
+    },
+    {
+        id: 6,
         icon: <FontAwesomeIcon icon={faFolder} />,
         name: 'Quản lí thể loại',
         key: 'category',
     },
     {
-        id: 6,
+        id: 7,
         icon: <FontAwesomeIcon icon={faComment} />,
         name: 'Quản lí bình luận',
         key: 'comment',

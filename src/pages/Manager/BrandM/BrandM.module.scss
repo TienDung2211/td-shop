@@ -1,0 +1,119 @@
+.view-brand-layout {
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+}
+
+.heading {
+    display: block;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+.detail-heading {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0px;
+}
+
+.detail-layout {
+    padding: 0px 40px 40px 40px;
+
+    // Input
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        .label {
+            margin: 6px 0;
+        }
+
+        .input-text {
+            height: 36px;
+            padding: 12px;
+            line-height: 20px;
+            font-size: 1.6rem;
+            outline: 1px solid var(--low-separation-color);
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .input-file {
+            height: 36px;
+            padding: 8px 12px;
+            font-size: 1.6rem;
+            outline: 1px solid var(--low-separation-color);
+            border-radius: 4px;
+        }
+    }
+}
+
+.item {
+    min-width: 162px;
+    max-width: 200px;
+    margin: 20px;
+    background-color: var(--white-color);
+    cursor: pointer;
+    position: relative;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    box-shadow: 1px 2px 2px 1px rgba(0, 0, 0, 0.2);
+    transition: transform ease-in 0.1s;
+    will-change: transform;
+}
+
+.item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.item-img {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 87.5%;
+    // margin-bottom: -12px;
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.add-layout {
+    display: flex;
+    align-items: center;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid var(--low-separation-color);
+    .text {
+        margin-left: 12px;
+        font-size: 1.6rem;
+        font-weight: 500;
+    }
+}
+
+.button-layout {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 24px;
+}
+
+//
+
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+
+    .image {
+        width: 160px;
+        height: 160px;
+        margin-top: 24px;
+        margin-right: 24px;
+    }
+}

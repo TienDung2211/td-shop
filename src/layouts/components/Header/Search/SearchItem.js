@@ -13,7 +13,11 @@ function SearchItem({ data, onClickItem }) {
                 onClickItem();
             }}
         >
-            <Link to={`/detail-product/${data.Id}`} className={cx('item-link')} preventScrollReset={true}>
+            <Link
+                to={`/detail-product/${data.Brand.id}/${data.Id}`}
+                className={cx('item-link')}
+                preventScrollReset={true}
+            >
                 <img src={data.ImageUrl} alt="Ảnh sản phẩm" className={cx('img')} />
                 <div className={cx('info')}>
                     <span className={cx('name')}>{data.Name}</span>

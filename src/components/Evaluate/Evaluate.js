@@ -5,25 +5,31 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './Evaluate.module.scss';
 
-import images from '~/assets/images';
-import Modal from '~/components/Modal';
-import Button from '~/components/Button';
-import Slider from '~/components/Slider';
-import Payment from '~/components/Payment';
-import Product from '~/components/Product';
-import DataContext from '~/context/DataContext';
-import Policy from '~/components/Policy/Policy';
-import cartServices from '~/services/cartServices';
-import { ToastContainer, toast } from 'react-toastify';
-import productServices from '~/services/productServices';
 import Overview from './Overview';
 import CommentInput from './CommentInput';
-import Filter from './Filter';
 import CommentItem from './CommentItem';
+import reviewServices from '~/services/reviewServices';
 
 const cx = classNames.bind(styles);
 
 function Evaluate() {
+    const [evaluates, setEvaluates] = useState([]);
+    const { id } = useParams();
+
+    const getAllReview = async () => {
+        const api = await reviewServices.getReviewByProductId(id);
+
+        console.log(api);
+
+        if (api?.data) {
+            setEvaluates(api.data.content);
+        }
+    };
+
+    useEffect(() => {
+        getAllReview();
+    }, []);
+
     return (
         <div className={cx('container')}>
             <div className={cx('row')}>
@@ -38,12 +44,14 @@ function Evaluate() {
                 <div className={cx('col-8')}>
                     <div className={cx('comment-filter-layout')}>
                         <CommentInput />
-                        <Filter />
+                        {/* <Filter /> */}
                     </div>
                 </div>
             </div>
             <div className={cx('row')}>
-                <CommentItem />
+                {evaluates.map((evaluate, index) => (
+                    <CommentItem key={index} data={evaluate} />
+                ))}
             </div>
         </div>
     );

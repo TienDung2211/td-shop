@@ -1,84 +1,108 @@
-import React, { useState } from 'react';
-import './SideNavBar.css';
+import React, { Component } from 'react';
+import axios from 'axios';
+import classNames from 'classnames/bind';
+import styles from './TestData.module.scss';
 
-const TestData = () => {
-    const [isExpanded, setExpendState] = useState(false);
-    const menuItems = [
-        {
-            text: 'Dashboard',
-            icon: 'icons/grid.svg',
-        },
-        {
-            text: 'Admin Profile',
-            icon: 'icons/user.svg',
-        },
-        {
-            text: 'Messages',
-            icon: 'icons/message.svg',
-        },
-        {
-            text: 'Analytics',
-            icon: 'icons/pie-chart.svg',
-        },
-        {
-            text: 'File Manager',
-            icon: 'icons/folder.svg',
-        },
-        {
-            text: 'Orders',
-            icon: 'icons/shopping-cart.svg',
-        },
-        {
-            text: 'Saved Items',
-            icon: 'icons/heart.svg',
-        },
-        {
-            text: 'Settings',
-            icon: 'icons/settings.svg',
-        },
-    ];
-    return (
-        <div className={isExpanded ? 'side-nav-container' : 'side-nav-container side-nav-container-NX'}>
-            <div className="nav-upper">
-                <div className="nav-heading">
-                    {isExpanded && (
-                        <div className="nav-brand">
-                            {/* <img src="icons/Logo.svg" alt="" />  */}
-                            <h2>Showkart</h2>
-                        </div>
-                    )}
-                    <button
-                        className={isExpanded ? 'hamburger hamburger-in' : 'hamburger hamburger-out'}
-                        onClick={() => setExpendState(!isExpanded)}
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-                <div className="nav-menu">
-                    {menuItems.map(({ text, icon }) => (
-                        <a className={isExpanded ? 'menu-item' : 'menu-item menu-item-NX'} href="#">
-                            <img className="menu-item-icon" src={icon} alt="" srcset="" />
-                            {isExpanded && <p>{text}</p>}
-                        </a>
+const cx = classNames.bind(styles);
+
+class TestData extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: '',
+            files: [],
+            imagePreviewUrls: [],
+            uploadStatus: '',
+        };
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleImageChange = this.handleImageChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleNameChange(event) {
+        this.setState({ name: event.target.value });
+    }
+
+    handleImageChange(event) {
+        let files = event.target.files;
+        let imagePreviewUrls = [];
+
+        for (let i = 0; i < files.length; i++) {
+            let reader = new FileReader();
+            reader.onloadend = () => {
+                imagePreviewUrls.push(reader.result);
+                this.setState({
+                    files: files,
+                    imagePreviewUrls: imagePreviewUrls,
+                });
+            };
+            reader.readAsDataURL(files[i]);
+        }
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        let formData = new FormData();
+
+        formData.append('name', this.state.name);
+
+        for (let i = 0; i < this.state.files.length; i++) {
+            formData.append('images[]', this.state.files[i]);
+        }
+
+        axios
+            .post('https://httpbin.org/post', formData)
+            .then((response) => {
+                this.setState({ uploadStatus: 'Upload successful!' });
+            })
+            .catch((error) => {
+                this.setState({ uploadStatus: 'Upload failed.' });
+            });
+
+        fetch('https://httpbin.org/post', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    render() {
+        let imagePreview = null;
+        if (this.state.imagePreviewUrls.length > 0) {
+            imagePreview = (
+                <div className={cx('image-preview')}>
+                    {this.state.imagePreviewUrls.map((url, index) => (
+                        <img key={index} src={url} alt="Preview" width="200" />
                     ))}
                 </div>
+            );
+        }
+
+        return (
+            <div>
+                <form onSubmit={this.handleSubmit} className={cx('form-container')}>
+                    <label>
+                        Name:
+                        <input type="text" value={this.state.name} onChange={this.handleNameChange} />
+                    </label>
+                    <br />
+                    <label>
+                        Images:
+                        <input type="file" multiple onChange={this.handleImageChange} />
+                    </label>
+                    <br />
+                    <input type="submit" className={cx('upload-status')} value="Upload" />
+                </form>
+                {imagePreview}
+                {this.state.uploadStatus}
             </div>
-            <div className="nav-footer">
-                {isExpanded && (
-                    <div className="nav-details">
-                        <img className="nav-footer-avatar" src="icons/admin-avatar.svg" alt="" srcset="" />
-                        <div className="nav-footer-info">
-                            <p className="nav-footer-user-name">M Showkat</p>
-                            <p className="nav-footer-user-position">store admin</p>
-                        </div>
-                    </div>
-                )}
-                <img className="logout-icon" src="icons/logout.svg" alt="" srcset="" />
-            </div>
-        </div>
-    );
-};
+        );
+    }
+}
 
 export default TestData;

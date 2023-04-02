@@ -7,11 +7,11 @@ import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
-function CategoryMItem({ data, onClickCategory, onClickUpdate, onClickRemove }) {
+function CategoryMItem({ data, type = true, onClickUpdate, onClickRemove }) {
     return (
-        <div className={cx('item-layout')} onClick={onClickCategory}>
+        <div className={cx('item-layout')}>
             <div className={cx('info')}>
-                <span className={cx('info-item')}>{data.Name}</span>
+                <span className={cx('info-item')}>{type ? data.name : data.Name}</span>
             </div>
             <Button
                 className={cx('button')}

@@ -85,16 +85,6 @@ function Search() {
                             ) : (
                                 <span className={cx('no-product')}>Không có sản phẩm tìm kiếm</span>
                             )}
-                            {/* <Link to="/sort">
-                                <label
-                                    className={cx('search__all')}
-                                    onClick={() => {
-                                        setShowResults(false);
-                                    }}
-                                >
-                                    Hiển thị tất cả kết quả tìm kiếm "{searchValue}"
-                                </label>
-                            </Link> */}
                         </PopperWrapper>
                     </div>
                 )}
@@ -128,12 +118,6 @@ function Search() {
                             />
                         )}
                     </button>
-                    {/* <Link
-                        to="/sort"
-                        onClick={() => {
-                            setShowResults(false);
-                        }}
-                    > */}
                     <div
                         className={cx('search-btn')}
                         onClick={() => {
@@ -142,7 +126,6 @@ function Search() {
                     >
                         <FontAwesomeIcon icon={faMagnifyingGlass} className={cx('icon')} />
                     </div>
-                    {/* </Link> */}
                 </div>
             </HeadlessTippy>
         </div>

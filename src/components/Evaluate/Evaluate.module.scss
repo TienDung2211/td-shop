@@ -97,7 +97,7 @@
         margin: 6px 0;
     }
     .btn {
-        margin-top: 12px;
+        margin-bottom: 12px;
         display: flex;
         justify-content: end;
     }
@@ -106,7 +106,7 @@
 // Filter
 .filter {
     display: flex;
-    padding: 12px 0px;
+    margin: 12px 0px;
     .filter-label {
         flex-shrink: 0;
         font-size: 15px;
@@ -131,7 +131,7 @@
             border-radius: 100px;
             color: rgb(56, 56, 61);
             background: rgb(245, 245, 250);
-            margin: 0px 12px 12px 0px;
+            margin: 0px 12px 0px 0px;
             cursor: pointer;
             display: flex;
             -webkit-box-align: center;
@@ -142,7 +142,7 @@
                 margin-left: 16px;
             }
         }
-        .option.option-active {
+        .option.optionActive {
             background: rgb(240, 248, 255);
             border: 1px solid rgb(26, 148, 255);
         }
@@ -251,5 +251,18 @@
         line-height: 20px;
         margin: 0px 0px 16px;
         color: rgb(128, 128, 137);
+    }
+}
+
+.group {
+    margin-top: 12px;
+    margin-left: 24px;
+    display: flex;
+
+    .error-msg {
+        width: 100%;
+        color: var(--red-color);
+        font-size: 1.3rem;
+        font-weight: 500;
     }
 }

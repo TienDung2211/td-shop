@@ -10,7 +10,7 @@ import { faCircleCheck, faStar as fasStar } from '@fortawesome/free-solid-svg-ic
 
 const cx = classNames.bind(styles);
 
-function CommentItem() {
+function CommentItem({ data }) {
     return (
         <div className={cx('comment-item')}>
             <div className={cx('col-4')}>
@@ -33,24 +33,67 @@ function CommentItem() {
             </div>
             <div className={cx('col-8')}>
                 <div className={cx('comment')}>
-                    <div className={cx('star')}>
-                        <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
-                        <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
-                        <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
-                        <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
-                        <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
-                        <span className={cx('star-text')}>Cực kì hài lòng</span>
-                    </div>
+                    {data.ratingValue === 5 && (
+                        <div className={cx('star')}>
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <span className={cx('star-text')}>Cực kì hài lòng</span>
+                        </div>
+                    )}
+
+                    {data.ratingValue === 4 && (
+                        <div className={cx('star')}>
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <span className={cx('star-text')}>Khá hài lòng</span>
+                        </div>
+                    )}
+
+                    {data.ratingValue === 3 && (
+                        <div className={cx('star')}>
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <span className={cx('star-text')}>Hài lòng</span>
+                        </div>
+                    )}
+
+                    {data.ratingValue === 2 && (
+                        <div className={cx('star')}>
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <span className={cx('star-text')}>Không hài lòng</span>
+                        </div>
+                    )}
+
+                    {data.ratingValue === 1 && (
+                        <div className={cx('star')}>
+                            <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
+                            <span className={cx('star-text')}>Rất không hài lòng</span>
+                        </div>
+                    )}
+
                     <div className={cx('status')}>
                         <FontAwesomeIcon icon={faCircleCheck} className={cx('icon-status')} />
                         <span className={cx('status-text')}>Đã mua hàng</span>
                     </div>
-                    <span className={cx('comment-text')}>
-                        Nhìn tổng quan thì mình thấy nó hơi gấp xíu chỗ góc vở nhưng k sao, nói chung là cái gì khen thì
-                        mọi người cũng khen hết rồi, giao hàng nhanh, mới đặt hôm qua mà mình ở ngoại thành thì sáng nay
-                        đã giao rồi. Quá nhanh luôn. Nên mua nha quý zị
-                    </span>
-                    <span className={cx('comment-date')}>Đánh giá vào 1 năm trước</span>
+                    <span className={cx('comment-text')}>{data.comment}</span>
+                    <span className={cx('comment-date')}>Đánh giá vào {data.createdAt}</span>
                 </div>
             </div>
         </div>

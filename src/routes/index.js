@@ -3,7 +3,6 @@ import SettingsLayout from '~/layouts/SettingLayout';
 import ManagerLayout from '~/layouts/ManagerLayout';
 
 // Pages
-
 import Home from '~/pages/Home';
 import SortProduct from '~/pages/SortProduct';
 import DetailProduct from '~/pages/DetailProduct';
@@ -19,6 +18,7 @@ import Order from '~/pages/Settings/Order';
 // Manager
 import SaleM from '~/pages/Manager/SaleM';
 import OrderM from '~/pages/Manager/OrderM';
+import BrandM from '~/pages/Manager/BrandM/BrandM';
 import AccountM from '~/pages/Manager/AccountM';
 import ProductM from '~/pages/Manager/ProductM';
 import CommentM from '~/pages/Manager/CommentM';
@@ -41,6 +41,7 @@ const publicRoutes = [
     { path: '/manager/comment', component: CommentM, layout: ManagerLayout },
     { path: '/manager/order', component: OrderM, layout: ManagerLayout },
     { path: '/manager/category', component: CategoryM, layout: ManagerLayout },
+    { path: '/manager/brand', component: BrandM, layout: ManagerLayout },
     { path: '/test', component: TestData, layout: null },
 ];
 

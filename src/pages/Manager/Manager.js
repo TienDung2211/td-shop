@@ -29,8 +29,6 @@ function Manager() {
             if (api?.data) {
                 setUser(api.data);
             }
-
-            // console.log(user);
         } else {
             setUser(null);
         }
@@ -62,7 +60,7 @@ function Manager() {
                 <div className={cx('nav-menu')}>
                     {MANAGER_OPTIONS.map((item) => {
                         if (item?.role) {
-                            if (item.role === user?.role) {
+                            if (item.role === user?.Role.name) {
                                 return (
                                     <Link
                                         to={'/manager/' + item.key}

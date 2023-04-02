@@ -34,7 +34,7 @@ function SaleM() {
     const [renderPage, setRenderPage] = useState(true);
 
     const getAllCategorys = async () => {
-        let api = await categoryServices.getAllCategory();
+        let api = await categoryServices.getAllParentCategory(1);
 
         var options = [];
         api.data.forEach((list) => {
