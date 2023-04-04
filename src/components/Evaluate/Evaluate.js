@@ -14,6 +14,7 @@ const cx = classNames.bind(styles);
 
 function Evaluate() {
     const [evaluates, setEvaluates] = useState([]);
+    const [checkBuy, setCheckBuy] = useState(false);
     const { id } = useParams();
 
     const getAllReview = async () => {
@@ -26,8 +27,15 @@ function Evaluate() {
         }
     };
 
+    const isCheckBuy = async () => {
+        const api = await reviewServices.checkBuyByProductId(id);
+
+        setCheckBuy(api?.data);
+    };
+
     useEffect(() => {
         getAllReview();
+        isCheckBuy();
     }, []);
 
     return (
@@ -42,10 +50,7 @@ function Evaluate() {
                     </div>
                 </div>
                 <div className={cx('col-8')}>
-                    <div className={cx('comment-filter-layout')}>
-                        <CommentInput />
-                        {/* <Filter /> */}
-                    </div>
+                    <div className={cx('comment-filter-layout')}>{checkBuy && <CommentInput />}</div>
                 </div>
             </div>
             <div className={cx('row')}>

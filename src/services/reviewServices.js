@@ -60,7 +60,7 @@ const reviewServices = {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
-            const res = await request.post(`/review/accept/${id}`, {
+            const res = await request.post(`/review/accept/${id}`, null, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -75,7 +75,7 @@ const reviewServices = {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
-            const res = await request.post(`/review/deny/${id}`, {
+            const res = await request.post(`/review/deny/${id}`, null, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },

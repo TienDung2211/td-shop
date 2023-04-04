@@ -16,6 +16,7 @@ const userServices = {
             console.error(error.response.data);
         }
     },
+
     updateInfo: async (data) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));

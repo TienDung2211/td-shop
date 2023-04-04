@@ -33,7 +33,7 @@ function CommentItem({ data }) {
             </div>
             <div className={cx('col-8')}>
                 <div className={cx('comment')}>
-                    {data.ratingValue === 5 && (
+                    {data?.ratingValue === 5 && (
                         <div className={cx('star')}>
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
@@ -44,7 +44,7 @@ function CommentItem({ data }) {
                         </div>
                     )}
 
-                    {data.ratingValue === 4 && (
+                    {data?.ratingValue === 4 && (
                         <div className={cx('star')}>
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
@@ -55,7 +55,7 @@ function CommentItem({ data }) {
                         </div>
                     )}
 
-                    {data.ratingValue === 3 && (
+                    {data?.ratingValue === 3 && (
                         <div className={cx('star')}>
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
@@ -66,7 +66,7 @@ function CommentItem({ data }) {
                         </div>
                     )}
 
-                    {data.ratingValue === 2 && (
+                    {data?.ratingValue === 2 && (
                         <div className={cx('star')}>
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
@@ -77,7 +77,7 @@ function CommentItem({ data }) {
                         </div>
                     )}
 
-                    {data.ratingValue === 1 && (
+                    {data?.ratingValue === 1 && (
                         <div className={cx('star')}>
                             <FontAwesomeIcon icon={fasStar} className={cx('icon-star')} />
                             <FontAwesomeIcon icon={farStar} className={cx('icon-star')} />
@@ -92,8 +92,8 @@ function CommentItem({ data }) {
                         <FontAwesomeIcon icon={faCircleCheck} className={cx('icon-status')} />
                         <span className={cx('status-text')}>Đã mua hàng</span>
                     </div>
-                    <span className={cx('comment-text')}>{data.comment}</span>
-                    <span className={cx('comment-date')}>Đánh giá vào {data.createdAt}</span>
+                    <span className={cx('comment-text')}>{data?.comment}</span>
+                    <span className={cx('comment-date')}>Đánh giá vào {data?.createdAt}</span>
                 </div>
             </div>
         </div>
