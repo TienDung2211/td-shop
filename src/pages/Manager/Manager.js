@@ -13,10 +13,8 @@ import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Manager() {
+function Manager({ isExpanded, onToggleClass }) {
     const [user, setUser] = useState(null);
-
-    const [isExpanded, setExpendState] = useState(true);
 
     const { render } = useContext(DataContext);
 
@@ -33,6 +31,11 @@ function Manager() {
             setUser(null);
         }
     };
+
+    const handleToogleClass = () => {
+        onToggleClass();
+    };
+
     useEffect(() => {
         getUserInfo();
     }, [render]);
@@ -43,14 +46,12 @@ function Manager() {
                 <div className={isExpanded ? cx('nav-heading') : cx('nav-heading', 'nav-heading-NX')}>
                     {isExpanded && (
                         <div className={cx('nav-brand')}>
-                            <div className={cx('logo-app')}>
-                                <img src={images.logo} alt="Logo App" />
-                            </div>
+                            <soan className={cx('web-name')}>TD-Shop</soan>
                         </div>
                     )}
                     <div
                         className={isExpanded ? cx('hamburger', 'hamburger-in') : cx('hamburger', 'hamburger-out')}
-                        onClick={() => setExpendState(!isExpanded)}
+                        onClick={() => handleToogleClass()}
                     >
                         <span></span>
                         <span></span>

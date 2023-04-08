@@ -9,10 +9,8 @@ import { faAngleRight, faStar as fasStar, faCartPlus } from '@fortawesome/free-s
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 
 import images from '~/assets/images';
-import Modal from '~/components/Modal';
 import Button from '~/components/Button';
 import Slider from '~/components/Slider';
-import Payment from '~/components/Payment';
 import Product from '~/components/Product';
 import DataContext from '~/context/DataContext';
 import Policy from '~/components/Policy/Policy';
@@ -20,6 +18,7 @@ import cartServices from '~/services/cartServices';
 import { ToastContainer, toast } from 'react-toastify';
 import productServices from '~/services/productServices';
 import Evaluate from '~/components/Evaluate';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -28,9 +27,9 @@ function DetailProduct() {
 
     const [slider, setSlider] = useState([]);
     const [product, setProduct] = useState(null);
-    const [data, setData] = useState([]);
-    const [showPayment, setShowPayment] = useState(false);
     const [productByBrand, setProductByBrand] = useState([]);
+
+    const navigate = useNavigate();
 
     const { render, renderCart, setRenderCart } = useContext(DataContext);
 
@@ -72,13 +71,10 @@ function DetailProduct() {
         }
     };
 
-    const handlePaymentSuccess = () => {
-        setShowPayment(false);
-        toast.success('Đặt hàng thành công. Truy cập Cài đặt -> Đơn hàng để xem chi tiết', {
-            position: toast.POSITION.TOP_RIGHT,
-            className: 'toast-message',
-        });
-        setRenderCart(!renderCart);
+    const handleGoToPayment = () => {
+        const data = [{ Product: product, Quantity: 1 }];
+
+        navigate('/payment', { state: { data: data } });
     };
 
     useEffect(() => {
@@ -200,8 +196,7 @@ function DetailProduct() {
                                                             border
                                                             large
                                                             onClick={() => {
-                                                                setData([{ Product: product, Quantity: 1 }]);
-                                                                setShowPayment(true);
+                                                                handleGoToPayment();
                                                             }}
                                                         >
                                                             Mua ngay
@@ -336,11 +331,6 @@ function DetailProduct() {
                 </div>
             </div>
             <ToastContainer />
-            {showPayment && (
-                <Modal closeModal={() => setShowPayment(false)}>
-                    <Payment data={data} clickBack={() => setShowPayment(false)} onPayment={handlePaymentSuccess} />
-                </Modal>
-            )}
         </div>
     ) : null;
 }

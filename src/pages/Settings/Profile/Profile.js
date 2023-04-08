@@ -43,6 +43,8 @@ function Profile() {
                 return;
             }
 
+            console.log(birthDate);
+
             const data = {
                 FirstName: fname,
                 LastName: lname,
@@ -221,18 +223,11 @@ function Profile() {
                             type="date"
                             className={cx('date-input')}
                             value={birthDate}
-                            onChange={(e) => setBirthDate(e.target.value)}
+                            onChange={(e) => {
+                                setBirthDate(e.target.value);
+                            }}
                         />
                     </div>
-                    {/* <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Số điện thoại</div>
-                        <input
-                            className={cx('input-item')}
-                            type="text"
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
-                    </div> */}
                     <div className={cx('button-layout-update')}>
                         <Button outline border primary type="submit">
                             Cập nhập

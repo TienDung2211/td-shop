@@ -6,22 +6,22 @@ import { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
-import Modal from '~/components/Modal';
 import Button from '~/components/Button';
-import Payment from '~/components/Payment';
 import DataContext from '~/context/DataContext';
 import Policy from '~/components/Policy/Policy';
 import cartServices from '~/services/cartServices';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function Cart() {
     const [products, setProducts] = useState([]);
-    const [showPayment, setShowPayment] = useState(false);
-    const [selectProduct, setSelectProduct] = useState([]);
+    // const [selectProduct, setSelectProduct] = useState([]);
     const [labelSelect, setLabelSelect] = useState('Chọn tất cả');
     const { render, renderCart, setRenderCart } = useContext(DataContext);
+
+    const navigate = useNavigate();
 
     const changeAmount = async (id, amount) => {
         const data = {
@@ -75,7 +75,7 @@ function Cart() {
         }
     };
 
-    const getSelectProducts = () => {
+    const handlePayment = () => {
         const checked = document.querySelectorAll('input[type=checkbox]:checked');
         const select = [];
         for (let i = 0; i < checked.length; i++) {
@@ -84,18 +84,17 @@ function Cart() {
             }
         }
 
-        setSelectProduct(select);
-        console.log(select);
+        navigate('/payment', { state: { data: select } });
     };
 
-    const handlePaymentSuccess = () => {
-        setShowPayment(false);
-        toast.success('Đặt hàng thành công. Truy cập Cài đặt -> Đơn hàng để xem chi tiết', {
-            position: toast.POSITION.TOP_RIGHT,
-            className: 'toast-message',
-        });
-        setRenderCart(!renderCart);
-    };
+    // const handlePaymentSuccess = () => {
+    //     setShowPayment(false);
+    //     toast.success('Đặt hàng thành công. Truy cập Cài đặt -> Đơn hàng để xem chi tiết', {
+    //         position: toast.POSITION.TOP_RIGHT,
+    //         className: 'toast-message',
+    //     });
+    //     setRenderCart(!renderCart);
+    // };
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -207,15 +206,7 @@ function Cart() {
                         <div className={cx('grid-row', 'pay')}>
                             <div className={cx('grid-column-8')}></div>
                             <div className={cx('grid-column-4')}>
-                                <Button
-                                    large
-                                    primary
-                                    border
-                                    onClick={() => {
-                                        getSelectProducts();
-                                        setShowPayment(true);
-                                    }}
-                                >
+                                <Button large primary border onClick={() => handlePayment()}>
                                     Thanh toán
                                 </Button>
                             </div>
@@ -227,15 +218,7 @@ function Cart() {
                 </div>
             </div>
             <ToastContainer />
-            {showPayment && (
-                <Modal closeModal={() => setShowPayment(false)}>
-                    <Payment
-                        data={selectProduct}
-                        clickBack={() => setShowPayment(false)}
-                        onPayment={handlePaymentSuccess}
-                    />
-                </Modal>
-            )}
+            {/* <Payment data={selectProduct} /> */}
         </div>
     );
 }

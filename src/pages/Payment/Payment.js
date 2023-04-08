@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Payment.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -10,10 +11,15 @@ import addressServices from '~/services/addressServices';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function Payment({ data, clickBack, onPayment }) {
+function Payment(props) {
+    const { state } = useLocation();
+
+    const data = state.data;
+
     const [user, setUser] = useState({});
     const [optionsAddress, setOptionsAddress] = useState([]);
     const [address, setAddress] = useState({});
@@ -77,15 +83,10 @@ function Payment({ data, clickBack, onPayment }) {
         data.forEach((item) => {
             products.push({ ProductId: item.Product.Id, Quantity: item.Quantity });
         });
-
-        console.log(products);
-
         return products;
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const handlePayment = async () => {
         try {
             const products = getProducts();
             if (products.length < 1) {
@@ -116,7 +117,6 @@ function Payment({ data, clickBack, onPayment }) {
             console.log(api);
 
             if (api.status === 200) {
-                onPayment();
             } else {
                 setErrMsg('Lỗi không xác định, vui lòng thử lại.');
                 toast.error('Lỗi không xác định, vui lòng thử lại.', {
@@ -135,12 +135,14 @@ function Payment({ data, clickBack, onPayment }) {
     }, [errMsg]);
 
     return (
-        <form onSubmit={handleSubmit} className={cx('wrapper')} onClick={(e) => e.stopPropagation()}>
-            <div className={cx('header')}>
-                <h3 className={cx('heading')}>Thanh toán</h3>
+        <div className={cx('container')}>
+            <div className={cx('row')}>
+                <div className={cx('header')}>
+                    <h3 className={cx('heading')}>Thông tin đơn hàng</h3>
+                </div>
             </div>
-            <div className={cx('grid-row')}>
-                <div className={cx('grid-column-50percent')}>
+            <div className={cx('row')}>
+                <div className={cx('col-sm-6')}>
                     <div className={cx('list')}>
                         {data.map((item, index) => {
                             return (
@@ -165,96 +167,103 @@ function Payment({ data, clickBack, onPayment }) {
                         })}
                     </div>
                 </div>
-                {user ? (
-                    <div className={cx('grid-column-50percent', 'info-layout')}>
-                        <div className={cx('group')}>
-                            <span className={cx('error-msg')}>{errMsg}</span>{' '}
-                        </div>
-                        <div className={cx('full-name')}>
-                            <span className={cx('lable')}>Họ tên</span>
-                            <span className={cx('value')}>
-                                {user.LastName} {user.FirstName}
-                            </span>
-                        </div>
-                        <div className={cx('phone')}>
-                            <span className={cx('lable')}>SĐT</span>
-                            <span className={cx('value')}>{user.Phone}</span>
-                        </div>
-                        <div className={cx('address')}>
-                            <span className={cx('lable')}>Địa chỉ</span>
-                            {optionsAddress.length > 0 ? (
+                <div className={cx('col-sm-6')}>
+                    {user ? (
+                        <div className={cx('info-layout')}>
+                            <div className={cx('group')}>
+                                <span className={cx('error-msg')}>{errMsg}</span>{' '}
+                            </div>
+                            <div>
+                                <div className={cx('full-name')}>
+                                    <span className={cx('lable')}>Họ tên</span>
+                                    <span className={cx('value')}>
+                                        {user.LastName} {user.FirstName}
+                                    </span>
+                                </div>
+                                <div className={cx('phone')}>
+                                    <span className={cx('lable')}>SĐT</span>
+                                    <span className={cx('value')}>{user.Phone}</span>
+                                </div>
+                            </div>
+                            <div className={cx('select-layout')}>
+                                <span className={cx('lable')}>Địa chỉ</span>
+                                {optionsAddress.length > 0 ? (
+                                    <div className={cx('custom-select')}>
+                                        <Select
+                                            formatOptionLabel={(option) => `${option.value}`}
+                                            value={address}
+                                            placeholder="Chọn địa chỉ..."
+                                            onChange={handleChangeAddress}
+                                            options={optionsAddress}
+                                        />
+                                    </div>
+                                ) : (
+                                    <span className={cx('value')}>
+                                        <Link to={'/setting/address'}>
+                                            Vui lòng cập nhập địa chỉ tại <span className={cx('active')}>đây</span>
+                                        </Link>
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className={cx('select-layout')}>
+                                <span className={cx('lable')}>Vận chuyển</span>
                                 <div className={cx('custom-select')}>
                                     <Select
                                         formatOptionLabel={(option) => `${option.value}`}
-                                        value={address}
-                                        placeholder="Chọn địa chỉ..."
-                                        onChange={handleChangeAddress}
-                                        options={optionsAddress}
+                                        placeholder="Chọn hình thức vận chuyển"
+                                        onChange={handleChangeShip}
+                                        options={[
+                                            { value: 'Giao hàng nhanh - 20000₫', label: 1 },
+                                            { value: 'Giao hàng tiết kiệm - 10000₫', label: 2 },
+                                        ]}
                                     />
                                 </div>
-                            ) : (
-                                <span className={cx('value')}>
-                                    <Link to={'/setting/address'}>
-                                        Vui lòng cập nhập địa chỉ tại <span className={cx('active')}>đây</span>
-                                    </Link>
-                                </span>
-                            )}
-                        </div>
-                        <div className={cx('address')}>
-                            <span className={cx('lable')}>Thanh toán</span>
-                            <div className={cx('custom-select')}>
-                                <Select
-                                    formatOptionLabel={(option) => `${option.value}`}
-                                    placeholder="Chọn hình thức thanh toán"
-                                    onChange={handleChangePayment}
-                                    options={[
-                                        { value: 'Thanh toán tiền mặt khi nhận hàng', label: 1 },
-                                        { value: 'Thanh toán bằng ví MoMo', label: 2 },
-                                        { value: 'Thanh toán bằng VNPAY', label: 3 },
-                                    ]}
-                                />
                             </div>
-                        </div>
-                        <div className={cx('address')}>
-                            <span className={cx('lable')}>Vận chuyển</span>
-                            <div className={cx('custom-select')}>
-                                <Select
-                                    formatOptionLabel={(option) => `${option.value}`}
-                                    placeholder="Chọn hình thức vận chuyển"
-                                    onChange={handleChangeShip}
-                                    options={[
-                                        { value: 'Giao hàng nhanh - 20000₫', label: 1 },
-                                        { value: 'Giao hàng tiết kiệm - 10000₫', label: 2 },
-                                    ]}
-                                />
-                            </div>
-                        </div>
 
-                        <div className={cx('price')}>
-                            <span className={cx('lable')}>Tổng giá</span>
-                            <span className={cx('value')}> {getTotalOrder()} ₫</span>
+                            <div className={cx('select-layout')}>
+                                <span className={cx('lable')}>Thanh toán</span>
+                                <div className={cx('custom-select')}>
+                                    <Select
+                                        formatOptionLabel={(option) => `${option.value}`}
+                                        placeholder="Chọn hình thức thanh toán"
+                                        onChange={handleChangePayment}
+                                        options={[
+                                            { value: 'Thanh toán tiền mặt khi nhận hàng', label: 1 },
+                                            { value: 'Thanh toán bằng ví MoMo', label: 2 },
+                                            { value: 'Thanh toán bằng VNPAY', label: 3 },
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className={cx('price')}>
+                                <span className={cx('lable')}>Tổng giá</span>
+                                <span className={cx('value')}> {getTotalOrder()} ₫</span>
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div className={cx('grid-column-50percent', 'info-layout')}>
+                    ) : (
                         <span className={cx('no-user')}>Vui lòng đăng nhập để tiếp tục</span>
-                    </div>
-                )}
-            </div>
-            <div className={cx('footer')}>
-                <div className={cx('cancel-btn-layout')}>
-                    <Button transparent border onClick={clickBack}>
-                        Hủy
-                    </Button>
+                    )}
                 </div>
+            </div>
+            <div className={cx('row')}>
                 <div className={cx('pay-btn-layout')}>
-                    <Button large primary border type="submit">
+                    <Button
+                        large
+                        primary
+                        border
+                        onClick={() => {
+                            handlePayment();
+                        }}
+                        className={cx('pay-btn')}
+                    >
                         Thanh toán
                     </Button>
                 </div>
             </div>
             <ToastContainer />
-        </form>
+        </div>
     );
 }
 

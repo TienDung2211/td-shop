@@ -81,7 +81,7 @@ function CommentM() {
             <div className={cx('row')}>
                 <span className={cx('heading')}>Quản lí bình luận</span>
                 <table className={cx('table-review')}>
-                    <thead>
+                    <thead className={cx('table-thead')}>
                         <tr className={cx('table-tr')}>
                             <th className={cx('table-th', 'center')}>Người gửi</th>
                             <th className={cx('table-th', 'center')}>Rating</th>

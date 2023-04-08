@@ -18,7 +18,7 @@ const reviewServices = {
 
     getReviewByProductId: async (id) => {
         try {
-            const res = await request.get(`/review/search?product-id=${id}&page=0&size=20&is-valid=false`);
+            const res = await request.get(`/review/search?product-id=${id}&page=0&size=20&is-valid=true`);
 
             return res;
         } catch (error) {
@@ -35,6 +35,15 @@ const reviewServices = {
                     Authorization: `Bearer ${access}`,
                 },
             });
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+
+    getProductAvg: async (id) => {
+        try {
+            const res = await request.get(`/review/product-avg?product-id=${id}`);
             return res;
         } catch (error) {
             console.error(error.response.data);

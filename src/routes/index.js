@@ -7,8 +7,9 @@ import Home from '~/pages/Home';
 import SortProduct from '~/pages/SortProduct';
 import DetailProduct from '~/pages/DetailProduct';
 import Cart from '~/pages/Cart';
-import TestData from '~/pages/TestData/TestData';
 import ResetPassword from '~/pages/ResetPassword';
+import Payment from '~/pages/Payment/Payment';
+import TestData from '~/pages/TestData/TestData';
 
 // Setting
 import Profile from '~/pages/Settings/Profile';
@@ -24,11 +25,13 @@ import ProductM from '~/pages/Manager/ProductM';
 import CommentM from '~/pages/Manager/CommentM';
 import CategoryM from '~/pages/Manager/CategoryM';
 import VariationsM from '~/pages/Manager/VariationsM';
+import Dashboard from '~/pages/Manager/Dashboard/Dashboard';
 
 const publicRoutes = [
     { path: '/', component: Home },
     { path: '/cart', component: Cart },
     { path: '/sort', component: SortProduct },
+    { path: '/payment', component: Payment },
     { path: '/reset-password', component: ResetPassword, layout: null },
     { path: '/detail-product/:brandId/:id', component: DetailProduct },
     { path: '/setting/profile', component: Profile, layout: SettingsLayout },
@@ -42,6 +45,7 @@ const publicRoutes = [
     { path: '/manager/order', component: OrderM, layout: ManagerLayout },
     { path: '/manager/category', component: CategoryM, layout: ManagerLayout },
     { path: '/manager/brand', component: BrandM, layout: ManagerLayout },
+    { path: '/manager/dashboard', component: Dashboard, layout: ManagerLayout },
     { path: '/test', component: TestData, layout: null },
 ];
 

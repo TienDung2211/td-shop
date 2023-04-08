@@ -13,6 +13,7 @@ import {
     faAnglesDown,
     faDiagramProject,
     faFontAwesome,
+    faDashboard,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const MENU_OPTIONS = [
@@ -39,7 +40,7 @@ export const MENU_OPTIONS = [
     {
         icon: <FontAwesomeIcon icon={faUserTie} />,
         title: 'Quản lí',
-        to: '/manager/product',
+        to: '/manager/dashboard',
         role: 'ROLE_EMPLOYEE',
     },
     {
@@ -57,49 +58,55 @@ export const MENU_OPTIONS = [
 export const MANAGER_OPTIONS = [
     {
         id: 0,
+        icon: <FontAwesomeIcon icon={faDashboard} />,
+        name: 'Dashboard',
+        key: 'dashboard',
+    },
+    {
+        id: 1,
         icon: <FontAwesomeIcon icon={faUser} />,
         name: 'Quản lí tài khoản',
         key: 'account',
         role: 'ROLE_ADMIN',
     },
     {
-        id: 1,
+        id: 2,
         icon: <FontAwesomeIcon icon={faLaptop} />,
         name: 'Quản lí sản phẩm',
         key: 'product',
     },
     {
-        id: 2,
+        id: 3,
         icon: <FontAwesomeIcon icon={faFileInvoice} />,
         name: 'Quản lí đơn hàng',
         key: 'order',
     },
     {
-        id: 3,
+        id: 4,
         icon: <FontAwesomeIcon icon={faAnglesDown} />,
         name: 'Quản lí khuyến mãi',
         key: 'sale',
     },
     {
-        id: 4,
+        id: 5,
         icon: <FontAwesomeIcon icon={faDiagramProject} />,
         name: 'Quản lí danh mục',
         key: 'variaton',
     },
     {
-        id: 5,
+        id: 6,
         icon: <FontAwesomeIcon icon={faFontAwesome} />,
         name: 'Quản lí thương hiệu',
         key: 'brand',
     },
     {
-        id: 6,
+        id: 7,
         icon: <FontAwesomeIcon icon={faFolder} />,
         name: 'Quản lí thể loại',
         key: 'category',
     },
     {
-        id: 7,
+        id: 8,
         icon: <FontAwesomeIcon icon={faComment} />,
         name: 'Quản lí bình luận',
         key: 'comment',
