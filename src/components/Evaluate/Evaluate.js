@@ -20,8 +20,6 @@ function Evaluate() {
     const getAllReview = async () => {
         const api = await reviewServices.getReviewByProductId(id);
 
-        console.log(api);
-
         if (api?.data) {
             setEvaluates(api.data.content);
         }

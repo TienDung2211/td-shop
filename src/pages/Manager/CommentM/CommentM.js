@@ -27,8 +27,6 @@ function CommentM() {
     const acceptReview = async () => {
         const api = await reviewServices.acceptReview(selectReview.id);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Phản hồi về sản phẩm đã được kiểm duyệt.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -50,8 +48,6 @@ function CommentM() {
 
     const denyReview = async () => {
         const api = await reviewServices.denyReview(selectReview.id);
-
-        console.log(api);
 
         if (api?.status === 200) {
             toast.success('Phản hồi về sản phẩm đã bị từ chối.', {

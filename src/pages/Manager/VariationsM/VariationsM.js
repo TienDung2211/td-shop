@@ -88,8 +88,6 @@ function VariationM() {
 
         var api = await variationServices.addVariation(data);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Thêm danh mục mới thành công', {
                 position: toast.POSITION.TOP_RIGHT,

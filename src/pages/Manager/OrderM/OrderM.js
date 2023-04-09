@@ -43,8 +43,6 @@ function OrderM() {
 
         const api = await orderServices.changeStatusOrder(data);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Cập nhập trạng thái đơn hàng thành công.', {
                 position: toast.POSITION.TOP_RIGHT,

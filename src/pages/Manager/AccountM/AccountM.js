@@ -112,8 +112,6 @@ function AccountM() {
 
             let api = await userServices.addEmployee(data);
 
-            console.log(api);
-
             if (api?.status === 200) {
                 toast.success('Thêm tài khoản nhân viên mới thành công.', {
                     position: toast.POSITION.TOP_RIGHT,

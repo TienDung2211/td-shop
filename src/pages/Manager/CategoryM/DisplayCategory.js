@@ -79,8 +79,6 @@ function DisplayCategory({ typeDisplay, dataMC, dataPC }) {
 
         var api = await categoryServices.updateMasterCategory(mId, data);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Cập nhập MasterCategory thành công', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -103,8 +101,6 @@ function DisplayCategory({ typeDisplay, dataMC, dataPC }) {
     };
     const handleRemoveMC = async (id) => {
         let api = await categoryServices.removeMasterCategory(mId);
-
-        console.log(api);
 
         if (api?.status === 200) {
             toast.success('Xóa tùy chọn thành công', {
@@ -143,7 +139,6 @@ function DisplayCategory({ typeDisplay, dataMC, dataPC }) {
         };
 
         var api = await categoryServices.addParentCategory(data);
-        console.log(api);
 
         if (api?.status === 200) {
             toast.success('Thêm ParentCategory mới thành công', {
@@ -201,8 +196,6 @@ function DisplayCategory({ typeDisplay, dataMC, dataPC }) {
     const handleRemovePC = async (id) => {
         let api = await categoryServices.removeParentCategory(id);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Xóa ParentCategory thành công', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -240,7 +233,6 @@ function DisplayCategory({ typeDisplay, dataMC, dataPC }) {
         };
 
         var api = await categoryServices.addParentCategory(data);
-        console.log(api);
 
         if (api?.status === 200) {
             toast.success('Thêm ChildCategory mới thành công', {
@@ -297,8 +289,6 @@ function DisplayCategory({ typeDisplay, dataMC, dataPC }) {
     };
     const handleRemoveCC = async (id) => {
         let api = await categoryServices.removeParentCategory(id);
-
-        console.log(api);
 
         if (api?.status === 200) {
             toast.success('Xóa ChildCategory thành công', {

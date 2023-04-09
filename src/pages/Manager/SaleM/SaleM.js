@@ -62,7 +62,7 @@ function SaleM() {
 
     const getAllPromotions = async () => {
         let api = await promotionServices.getAllPromotions();
-        console.log(api);
+
         if (api?.content) {
             setPromotions(api.content);
         } else setPromotions([]);
@@ -84,7 +84,7 @@ function SaleM() {
         };
 
         const api = await promotionServices.addPromotion(data);
-        console.log(api);
+
         if (api?.status === 200) {
             toast.success('Thêm khuyến mãi mới thành công', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -168,7 +168,7 @@ function SaleM() {
         };
 
         const api = await promotionServices.updatePromotion(updatePromotion.id, data);
-        console.log(api);
+
         if (api?.status === 200) {
             toast.success('Cập nhập khuyến mãi thành công', {
                 position: toast.POSITION.TOP_RIGHT,

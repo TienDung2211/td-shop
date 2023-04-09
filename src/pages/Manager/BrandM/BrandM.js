@@ -53,8 +53,6 @@ function BrandM() {
 
         var api = await brandServices.addBrand(formData);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Thêm thương hiệu thành công', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -96,8 +94,6 @@ function BrandM() {
 
         var api = await brandServices.updateBrand(selectBrand?.id, formData);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Cập nhập thương hiệu thành công', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -120,8 +116,6 @@ function BrandM() {
 
     const removeBrand = async () => {
         const api = await brandServices.removeBrand(selectBrand.id);
-
-        console.log(api);
 
         if (api?.status === 200) {
             toast.success('Xóa thương hiệu thành công', {

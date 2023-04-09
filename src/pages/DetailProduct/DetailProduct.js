@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router-dom';
 const cx = classNames.bind(styles);
 
 function DetailProduct() {
-    const { id, brandId } = useParams();
+    const { id } = useParams();
 
     const [slider, setSlider] = useState([]);
     const [product, setProduct] = useState(null);
@@ -45,12 +45,10 @@ function DetailProduct() {
         images.unshift(mainImg);
 
         setSlider(images);
-    };
 
-    const getProductByBrand = async () => {
-        let api = await productServices.getProductByBrand(brandId);
+        let api2 = await productServices.getProductByBrand(api.Brand.id);
         if (api?.content !== []) {
-            setProductByBrand(api.content);
+            setProductByBrand(api2.content);
         } else setProductByBrand([]);
     };
 
@@ -79,7 +77,6 @@ function DetailProduct() {
 
     useEffect(() => {
         getProduct();
-        getProductByBrand();
     }, [id, render]);
 
     return product ? (

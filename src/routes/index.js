@@ -9,6 +9,9 @@ import DetailProduct from '~/pages/DetailProduct';
 import Cart from '~/pages/Cart';
 import ResetPassword from '~/pages/ResetPassword';
 import Payment from '~/pages/Payment/Payment';
+import MomoPayment from '~/pages/Payment/MomoPayment/MomoPayment';
+import PaymentFailure from '~/pages/Payment/Failure';
+import PaymentSucess from '~/pages/Payment/Success';
 import TestData from '~/pages/TestData/TestData';
 
 // Setting
@@ -32,8 +35,11 @@ const publicRoutes = [
     { path: '/cart', component: Cart },
     { path: '/sort', component: SortProduct },
     { path: '/payment', component: Payment },
+    { path: '/payment/momo', component: MomoPayment },
+    { path: '/payment/sucess', component: PaymentSucess },
+    { path: '/payment/failure', component: PaymentFailure },
     { path: '/reset-password', component: ResetPassword, layout: null },
-    { path: '/detail-product/:brandId/:id', component: DetailProduct },
+    { path: '/detail-product/:id', component: DetailProduct },
     { path: '/setting/profile', component: Profile, layout: SettingsLayout },
     { path: '/setting/address', component: Address, layout: SettingsLayout },
     { path: '/setting/order', component: Order, layout: SettingsLayout },

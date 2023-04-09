@@ -234,8 +234,6 @@ function ProductM() {
 
         const api = await productServices.addProduct(data);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Thêm sản phẩm mới thành công', {
                 position: toast.POSITION.TOP_RIGHT,

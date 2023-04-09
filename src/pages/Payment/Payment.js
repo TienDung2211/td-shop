@@ -11,7 +11,7 @@ import addressServices from '~/services/addressServices';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -21,12 +21,14 @@ function Payment(props) {
     const data = state.data;
 
     const [user, setUser] = useState({});
-    const [optionsAddress, setOptionsAddress] = useState([]);
     const [address, setAddress] = useState({});
+    const [optionsAddress, setOptionsAddress] = useState([]);
     const [idAddress, setIdAddress] = useState(0);
     const [idPayment, setIdPayment] = useState(0);
     const [idShip, setIdShip] = useState(0);
     const [errMsg, setErrMsg] = useState('');
+
+    const navigate = useNavigate();
 
     const handleChangeAddress = (selectedOption) => {
         setAddress(selectedOption);
@@ -58,6 +60,11 @@ function Payment(props) {
         data.forEach((item) => {
             total = total + item?.Quantity * item?.Product.Price;
         });
+        if (idShip === 1) {
+            total += 20000;
+        } else if (idShip === 2) {
+            total += 10000;
+        }
         return total;
     };
 
@@ -105,6 +112,7 @@ function Payment(props) {
                 setErrMsg('Vui lòng chọn hình thức vận chuyển');
                 return;
             }
+
             const data = {
                 Products: products,
                 PaymentMethod: idPayment,
@@ -116,13 +124,38 @@ function Payment(props) {
 
             console.log(api);
 
-            if (api.status === 200) {
-            } else {
-                setErrMsg('Lỗi không xác định, vui lòng thử lại.');
-                toast.error('Lỗi không xác định, vui lòng thử lại.', {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: 'toast-message',
-                });
+            if (idPayment === 1) {
+                if (api.status === 200) {
+                    toast.success('Đơn đặt hàng của bạn được xác nhận đã thành công.', {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: 'toast-message',
+                    });
+
+                    var total = getTotalOrder();
+
+                    const dataToSucess = {
+                        amount: total / 100,
+                        orderId: api.data.Id,
+                        idPayment: 1,
+                    };
+                    navigate('/payment/sucess', { state: { data: dataToSucess } });
+                } else {
+                    setErrMsg('Lỗi không xác định, vui lòng thử lại.');
+                    toast.error('Lỗi không xác định, vui lòng thử lại.', {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: 'toast-message',
+                    });
+                }
+            } else if (idPayment === 2) {
+                if (api.status === 200) {
+                    navigate('/payment/momo', { state: { data: api.data } });
+                } else {
+                    setErrMsg('Lỗi không xác định, vui lòng thử lại.');
+                    toast.error('Lỗi không xác định, vui lòng thử lại.', {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: 'toast-message',
+                    });
+                }
             }
         } catch (error) {
             console.log(error);
@@ -258,7 +291,7 @@ function Payment(props) {
                         }}
                         className={cx('pay-btn')}
                     >
-                        Thanh toán
+                        Đặt hàng
                     </Button>
                 </div>
             </div>
@@ -268,12 +301,3 @@ function Payment(props) {
 }
 
 export default Payment;
-
-/* <div className={cx('discount')}>
-    <div className={cx('discount-code')}>
-        Mã giảm giá : <span className={cx('discount-code-primary')}>ABCD</span>
-    </div>
-    <div className={cx('discount-value')}>
-        <span className={cx('discount-value-primary')}>- 10000000 ₫</span>
-    </div>
-</div> */

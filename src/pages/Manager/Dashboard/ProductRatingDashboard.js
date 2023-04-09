@@ -15,8 +15,6 @@ function ProductRatingDashboard({ dataDate }) {
     const getStatisticProduct = async () => {
         const api = await statisticServices.ratingStatistic(dataDate);
 
-        console.log(api);
-
         if (api?.status === 200) {
             setProducts(api.data);
         }

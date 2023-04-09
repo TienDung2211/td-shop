@@ -18,7 +18,7 @@ function Product({ data }) {
     // };
 
     return data ? (
-        <Link to={`/detail-product/${data.Brand.id}/${data.Id}`}>
+        <Link to={`/detail-product/${data.Id}`}>
             <div key={data.Id.toString()} className={cx('item')}>
                 <div
                     className={cx('item-img')}
