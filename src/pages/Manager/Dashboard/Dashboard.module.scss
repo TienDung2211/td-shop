@@ -107,47 +107,6 @@
     }
 }
 
-// Table
-.table-review {
-    width: 100%;
-
-    .table-body,
-    .table-thead {
-        .table-tr {
-            display: grid;
-            grid-template-columns: 6fr 2fr 2fr;
-
-            .table-th,
-            .table-td {
-                padding: 10px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-            }
-
-            .table-th {
-                background-color: #f2f2f2;
-            }
-
-            .table-td.center,
-            .table-th.center {
-                text-align: center;
-                // width: 150px;
-            }
-
-            &:hover {
-                background-color: #f5f5f5;
-            }
-        }
-    }
-
-    .table-body {
-        height: 342px;
-        width: 100%;
-        overflow-y: auto;
-        display: block;
-    }
-}
-
 .total-by-item-layout {
     margin-bottom: 16px;
 

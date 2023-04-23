@@ -4,7 +4,8 @@ import styles from './StatisticM.module.scss';
 
 import { useEffect, useState } from 'react';
 import DateTimePicker from 'react-datetime-picker';
-import Button from '~/components/Button/Button';
+import ProductRatingStatistic from './ProductRatingStatistic';
+import ProductStatistic from './ProductStatistic';
 
 const cx = classNames.bind(styles);
 
@@ -61,6 +62,14 @@ function StatisticM() {
                         />
                     </div>
                 </div>
+            </div>
+            <div className={cx('mt-5')}></div>
+            <div className={cx('row')}>
+                <ProductStatistic dataDate={dataDate} />
+            </div>
+            <div className={cx('mt-5')}></div>
+            <div className={cx('row')}>
+                <ProductRatingStatistic dataDate={dataDate} />
             </div>
         </div>
     );

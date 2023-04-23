@@ -1,13 +1,31 @@
 import classNames from 'classnames/bind';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './Dashboard.module.scss';
+import styles from './StatisticM.module.scss';
 
 import { useState, useEffect } from 'react';
-import { Chart as ChartJs, LineElement, CategoryScale, LinearScale, PointElement, Tooltip } from 'chart.js';
-import { Line } from 'react-chartjs-2';
 import statisticServices from '~/services/statisticServices';
+import DataTable from '~/components/DataTable/DataTable';
 
 const cx = classNames.bind(styles);
+
+const columns = [
+    {
+        title: 'Tên sản phẩm',
+        dataIndex: 'name',
+    },
+    {
+        title: 'Số lượng',
+        dataIndex: 'total',
+        align: 'center',
+        sorter: (a, b) => a.total - b.total,
+    },
+    {
+        title: 'Đánh giá',
+        dataIndex: 'value',
+        align: 'center',
+        sorter: (a, b) => a.value - b.value,
+    },
+];
 
 function ProductRatingStatistic({ dataDate }) {
     const [products, setProducts] = useState([]);
@@ -25,11 +43,11 @@ function ProductRatingStatistic({ dataDate }) {
     }, [dataDate]);
 
     return (
-        <div className={cx('product-db-layout')}>
+        <div className={cx('table-layout')}>
             <div className={cx('heading')}>Đánh giá theo sản phẩm</div>
             <hr className={cx('separation')}></hr>
             <div className={cx('content')}>
-                <table className={cx('table-review')}>
+                {/* <table className={cx('table-review')}>
                     <thead className={cx('table-thead')}>
                         <tr className={cx('table-tr')}>
                             <th className={cx('table-th')}>Tên sản phẩm</th>
@@ -46,7 +64,8 @@ function ProductRatingStatistic({ dataDate }) {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table> */}
+                <DataTable data={products} columns={columns} />
             </div>
         </div>
     );
