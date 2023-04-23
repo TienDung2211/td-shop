@@ -12,17 +12,17 @@ import dashboardServices from '~/services/dashboardServices';
 const cx = classNames.bind(styles);
 
 const tempDataChart = {
-    labels: ['Chờ thanh toán', 'Đang xử lý', 'Đang vận chuyển', 'Đã giao'],
+    labels: ['1 Sao', '2 Sao', '3 Sao', '4 Sao', '5 Sao'],
     datasets: [
         {
             label: 'Số lượng : ',
-            data: [1, 1, 1, 1],
-            backgroundColor: ['blue', 'green', 'yellow', 'red'],
+            data: [1, 1, 1, 1, 1],
+            backgroundColor: ['blue', 'green', 'yellow', 'red', 'orange'],
         },
     ],
 };
 
-function OrderDashboard({ dataDate }) {
+function RatingDashboard({ dataDate }) {
     ChartJs.register(ArcElement, Tooltip, Legend, annotationPlugin);
 
     const [dataChart, setDataChart] = useState(tempDataChart);
@@ -30,14 +30,14 @@ function OrderDashboard({ dataDate }) {
     const [total, setTotal] = useState(0);
 
     const getStatisticOrder = async () => {
-        var api = await dashboardServices.orderDashboard(dataDate);
+        var api = await dashboardServices.ratingDashboard(dataDate);
 
         if (api?.status === 200) {
             var dataValue = [];
             var temp = 0;
             api.data.forEach((element) => {
-                dataValue.push(element?.amount);
-                temp += element?.amount;
+                dataValue.push(element?.total);
+                temp += element?.total;
             });
 
             setTotal(temp);
@@ -46,12 +46,12 @@ function OrderDashboard({ dataDate }) {
                 setDataChart(tempDataChart);
             } else {
                 setDataChart({
-                    labels: ['Chờ thanh toán', 'Đang xử lý', 'Đang vận chuyển', 'Đã giao'],
+                    labels: ['1 Sao', '2 Sao', '3 Sao', '4 Sao', '5 Sao'],
                     datasets: [
                         {
                             label: 'Số lượng ',
                             data: dataValue,
-                            backgroundColor: ['blue', 'green', 'yellow', 'red'],
+                            backgroundColor: ['blue', 'green', 'yellow', 'red', 'orange'],
                         },
                     ],
                 });
@@ -131,7 +131,7 @@ function OrderDashboard({ dataDate }) {
 
     return (
         <div className={cx('chart-db-wrapper')}>
-            <div className={cx('heading')}>Order</div>
+            <div className={cx('heading')}>Rating</div>
             <hr className={cx('separation')}></hr>
             <div className={cx('content')}>
                 <Doughnut data={dataChart} options={options} />
@@ -140,4 +140,4 @@ function OrderDashboard({ dataDate }) {
     );
 }
 
-export default OrderDashboard;
+export default RatingDashboard;

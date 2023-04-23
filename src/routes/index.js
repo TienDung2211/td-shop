@@ -29,6 +29,7 @@ import CommentM from '~/pages/Manager/CommentM';
 import CategoryM from '~/pages/Manager/CategoryM';
 import VariationsM from '~/pages/Manager/VariationsM';
 import Dashboard from '~/pages/Manager/Dashboard/Dashboard';
+import StatisticM from '~/pages/Manager/StatisticM/StatisticM';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -52,6 +53,7 @@ const publicRoutes = [
     { path: '/manager/category', component: CategoryM, layout: ManagerLayout },
     { path: '/manager/brand', component: BrandM, layout: ManagerLayout },
     { path: '/manager/dashboard', component: Dashboard, layout: ManagerLayout },
+    { path: '/manager/statistic', component: StatisticM, layout: ManagerLayout },
     { path: '/test', component: TestData, layout: null },
 ];
 

@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { Chart as ChartJs, LineElement, CategoryScale, LinearScale, PointElement, Tooltip } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import statisticServices from '~/services/statisticServices';
+import dashboardServices from '~/services/dashboardServices';
 
 const cx = classNames.bind(styles);
 
@@ -36,7 +37,7 @@ function RevenueDashboard({ dataDate }) {
             toDate: dataDate.toDate,
             type: selectedOption,
         };
-        var api = await statisticServices.revenueStatistic(dataApi);
+        var api = await dashboardServices.revenueDashboard(dataApi);
 
         if (api?.status === 200) {
             var labelTemp = [];

@@ -32,7 +32,7 @@
 }
 
 // OrderDashboard
-.order-db-wrapper,
+.chart-db-wrapper,
 .product-db-layout {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 6px;
@@ -145,5 +145,64 @@
         width: 100%;
         overflow-y: auto;
         display: block;
+    }
+}
+
+.total-by-item-layout {
+    margin-bottom: 16px;
+
+    .wrapper {
+        width: 100%;
+        display: flex;
+        -webkit-box-align: stretch;
+        align-items: stretch;
+        overflow: hidden;
+        border-radius: 5px;
+        color: var(--white-color);
+
+        .icon-layout {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            width: 80px;
+            flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.1);
+            .icon {
+                font-size: 30px;
+            }
+        }
+        .content-layout {
+            width: 100%;
+            padding: 20px 15px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            .number {
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1.1;
+                margin: 0px 0px 5px;
+            }
+            .text {
+                font-size: 16px;
+                font-weight: 400;
+                margin: 0px;
+                line-height: 1.2;
+            }
+        }
+    }
+
+    .wrapper.item-1 {
+        background-color: rgb(114, 102, 186);
+    }
+    .wrapper.item-2 {
+        background-color: rgb(66, 165, 246);
+    }
+    .wrapper.item-3 {
+        background-color: rgb(126, 211, 32);
+    }
+    .wrapper.item-4 {
+        background-color: rgb(247, 93, 129);
     }
 }

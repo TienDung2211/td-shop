@@ -3,8 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Payment.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Button from '~/components/Button/Button';
 
