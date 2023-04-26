@@ -14,7 +14,7 @@ const optionsStatus = [
     { value: 'Đã hủy', label: 5 },
 ];
 
-function OrderMItem({ data, onChangeStatus }) {
+function OrderMItem({ data, onViewDetail, onChangeStatus }) {
     const [status, setStatus] = useState({});
     const [idStatus, setIdStatus] = useState(1);
 
@@ -43,7 +43,7 @@ function OrderMItem({ data, onChangeStatus }) {
     }, [idStatus, data]);
 
     return (
-        <div className={cx('item')}>
+        <div className={cx('item')} onClick={onViewDetail}>
             <div className={cx('layout-img')}>
                 <img src={data.OrderDetails[0].ImageUrl} alt="" className={cx('img')} />
             </div>
@@ -64,7 +64,7 @@ function OrderMItem({ data, onChangeStatus }) {
                     </div>
                 </div>
             </div>
-            <div className={cx('options-layout')}>
+            <div className={cx('options-layout')} onClick={(e) => e.stopPropagation()}>
                 <Select
                     formatOptionLabel={(option) => `${option.value}`}
                     value={status}

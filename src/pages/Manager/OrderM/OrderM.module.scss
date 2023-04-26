@@ -1,9 +1,6 @@
 .wrapper {
     background-color: var(--white-color);
-    height: 550px;
     width: 100%;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
 }
 
 .control {
@@ -25,6 +22,7 @@
 
 .options-layout {
     font-family: var(--font-family);
+    font-weight: 600;
     border-radius: 2px;
     padding: 12px 24px 12px 0;
     width: 220px;
@@ -51,6 +49,191 @@
 }
 
 .results {
-    height: 500px;
+    height: 600px;
     overflow-y: auto;
+}
+
+// Detail Order
+
+.detail {
+    padding: 0 30px;
+
+    .title {
+        font-size: 2.2rem;
+        font-weight: 600;
+        opacity: 0.9;
+        color: var(--text-color);
+        height: 40px;
+        margin: 12px 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .receiver-info {
+        padding: 0 24px;
+        height: 160px;
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+
+        .phone,
+        .address,
+        .name,
+        .map {
+            flex: 1;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+
+            .text {
+                font-size: 1.7rem;
+                font-weight: 500;
+                color: var(--text-color);
+                line-height: 1.8rem;
+                height: 1.8rem;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+            }
+
+            .icon {
+                width: 24px;
+                font-size: 1.8rem;
+                margin-right: 8px;
+            }
+
+            .icon.name-icon {
+                color: var(--black-color);
+            }
+
+            .icon.address-icon {
+                color: var(--red-color);
+            }
+
+            .icon.phone-icon {
+                color: var(--green-color);
+            }
+
+            .icon.map-icon {
+                color: var(--primary-color);
+            }
+        }
+
+        .order-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            // overflow: hidden;
+        }
+    }
+
+    .product--list {
+        width: 700px;
+        padding: 0 24px;
+        .title {
+            font-size: 1.8rem;
+            font-weight: 500;
+            opacity: 0.9;
+            color: var(--text-color);
+            height: 40px;
+            margin: 12px 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .product--item {
+            display: flex;
+            border: 1px solid var(--primary-color);
+
+            .layout-img {
+                width: 80px;
+                height: 80px;
+                margin: 4px 10px;
+
+                .img {
+                    width: 80px;
+                    height: 80px;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                }
+            }
+
+            .info {
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+
+                .name {
+                    display: flex;
+                    margin-top: 8px;
+                    flex: 3;
+                    color: var(--text-color);
+                    font-size: 1.6rem;
+                    font-weight: 500;
+                    line-height: 2.2rem;
+                    display: -webkit-box;
+                    overflow: hidden;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                }
+
+                .total {
+                    flex: 2;
+                    display: flex;
+                    justify-content: flex-end;
+                    margin-right: 16px;
+
+                    .price {
+                        color: var(--primary-color);
+                    }
+                    .amount {
+                        font-weight: bolder;
+                    }
+                }
+            }
+        }
+    }
+
+    .payment,
+    .ship,
+    .status-detail,
+    .total-order {
+        margin-top: 12px;
+        padding: 0px 24px;
+        font-size: 1.6rem;
+        font-weight: 600;
+        color: var(--text-color);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .value {
+            margin-left: 4px;
+            font-weight: 500;
+            color: var(--red-color);
+        }
+    }
+    .button-layout {
+        width: 700px;
+        padding: 16px 24px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+}
+
+// No order
+.no-order {
+    width: 100%;
+    height: 200px;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--low-separation-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

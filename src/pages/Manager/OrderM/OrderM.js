@@ -10,6 +10,7 @@ import Button from '~/components/Button';
 import DataContext from '~/context/DataContext';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
+import DetailOrder from './DetailOrder';
 
 const cx = classNames.bind(styles);
 
@@ -17,6 +18,9 @@ function OrderM() {
     const [orders, setOrders] = useState([]);
     const [renderPage, setRenderPage] = useState(true);
     const [idStatus, setIdStatus] = useState(0);
+
+    const [detailOrder, setDetailOrder] = useState({});
+    const [viewDetail, setViewDetail] = useState(false);
 
     const { render } = useContext(DataContext);
 
@@ -64,9 +68,18 @@ function OrderM() {
         return false;
     };
 
+    const handleViewDetail = (item) => {
+        setDetailOrder(item);
+        setViewDetail(true);
+    };
+
+    const handleCancleView = () => {
+        setViewDetail(false);
+    };
+
     useEffect(() => {
         getAllOrder();
-    }, [render, renderPage, idStatus]);
+    }, [render, renderPage, idStatus, viewDetail]);
 
     return (
         <div className={cx('wrapper')}>
@@ -99,12 +112,27 @@ function OrderM() {
                     </div>
                 </form>
             </div>
-
-            <div className={cx('results')}>
-                {orders.map((order, index) => {
-                    return <OrderMItem key={index} data={order} onChangeStatus={handleChangeStatusOrder} />;
-                })}
-            </div>
+            {!viewDetail && (
+                <div className={cx('results')}>
+                    {orders.map((order, index) => {
+                        return (
+                            <OrderMItem
+                                key={index}
+                                data={order}
+                                onViewDetail={() => handleViewDetail(order)}
+                                onChangeStatus={handleChangeStatusOrder}
+                            />
+                        );
+                    })}
+                </div>
+            )}
+            {viewDetail && (
+                <DetailOrder
+                    detailOrder={detailOrder}
+                    onCancleViewDetail={handleCancleView}
+                    onChangeStatus={handleChangeStatusOrder}
+                />
+            )}
             <ToastContainer />
         </div>
     );
