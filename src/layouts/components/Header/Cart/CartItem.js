@@ -9,9 +9,7 @@ import cartServices from '~/services/cartServices';
 const cx = classNames.bind(styles);
 
 function CartItem({ data, onRemoveProduct }) {
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
+    useEffect(() => {}, [data]);
     return (
         <Link to={`/detail-product/${data?.Product.Id}`}>
             <li className={cx('cart-item')}>

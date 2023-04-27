@@ -18,6 +18,7 @@ import TestData from '~/pages/TestData/TestData';
 import Profile from '~/pages/Settings/Profile';
 import Address from '~/pages/Settings/Address';
 import Order from '~/pages/Settings/Order';
+import Review from '~/pages/Settings/Review/Review';
 
 // Manager
 import SaleM from '~/pages/Manager/SaleM';
@@ -44,6 +45,7 @@ const publicRoutes = [
     { path: '/setting/profile', component: Profile, layout: SettingsLayout },
     { path: '/setting/address', component: Address, layout: SettingsLayout },
     { path: '/setting/order', component: Order, layout: SettingsLayout },
+    { path: '/setting/review', component: Review, layout: SettingsLayout },
     { path: '/manager/account', component: AccountM, layout: ManagerLayout },
     { path: '/manager/variaton', component: VariationsM, layout: ManagerLayout },
     { path: '/manager/product', component: ProductM, layout: ManagerLayout },

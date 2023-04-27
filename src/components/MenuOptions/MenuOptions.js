@@ -39,6 +39,11 @@ export const MENU_OPTIONS = [
         to: '/setting/order',
     },
     {
+        icon: <FontAwesomeIcon icon={faComment} />,
+        title: 'Đánh giá',
+        to: '/setting/review',
+    },
+    {
         icon: <FontAwesomeIcon icon={faUserTie} />,
         title: 'Quản lí',
         to: '/manager/dashboard',
@@ -90,15 +95,15 @@ export const MANAGER_OPTIONS = [
     },
     {
         id: 5,
-        icon: <FontAwesomeIcon icon={faDiagramProject} />,
-        name: 'Quản lí danh mục',
-        key: 'variaton',
-    },
-    {
-        id: 6,
         icon: <FontAwesomeIcon icon={faFontAwesome} />,
         name: 'Quản lí thương hiệu',
         key: 'brand',
+    },
+    {
+        id: 6,
+        icon: <FontAwesomeIcon icon={faDiagramProject} />,
+        name: 'Quản lí danh mục',
+        key: 'variaton',
     },
     {
         id: 7,
@@ -135,5 +140,10 @@ export const SETTING_OPTIONS = [
         id: 2,
         name: 'Đơn hàng',
         key: 'order',
+    },
+    {
+        id: 3,
+        name: 'Đánh giá',
+        key: 'review',
     },
 ];

@@ -11,8 +11,8 @@ const variationServices = {
     },
     getVariationById: async (id) => {
         try {
-            const res = await request.get(`/variation/get/${id}`);
-            return res.data;
+            const res = await request.get(`/variation/get?master-category-id=${id}`);
+            return res;
         } catch (error) {
             console.error(error.response.data);
         }

@@ -210,33 +210,6 @@
     }
 }
 
-// .item-layout {
-//     display: flex;
-//     height: 60px;
-//     width: 100%;
-//     padding: 12px 24px;
-//     border-top: 1px solid var(--low-separation-color);
-//     margin-top: 1px;
-//     border-radius: 2px;
-
-//     &:hover {
-//         background-color: var(--item-hover-color);
-//     }
-// }
-
-// .info {
-//     display: flex;
-//     align-items: center;
-//     flex: 1;
-//     font-family: var(--font-family);
-// }
-
-// .info-item {
-//     font-size: 1.6rem;
-//     font-weight: 500;
-//     line-height: 1.6rem;
-// }
-
 .button + .button {
     margin-left: 12px;
 }
