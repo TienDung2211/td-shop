@@ -1,58 +1,95 @@
-.variations {
-    flex: 4;
-    padding: 12px 24px 12px 24px;
+.heading-main {
+    font-family: var(--font-family);
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
 
-    .heading {
-        display: block;
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-
-        .label {
-            display: block;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .control {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            background-color: #fff;
-            appearance: none;
-        }
-    }
-
-    .list-title {
-        display: block;
-        font-size: 20px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    .add-layout {
-        display: flex;
-        align-items: center;
-        border-radius: 999px;
-        border: 1px solid var(--low-separation-color);
-        .text {
-            margin-left: 12px;
-            font-size: 1.6rem;
-            font-weight: 500;
-        }
+.add-layout {
+    display: flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--low-separation-color);
+    .text {
+        margin-left: 12px;
+        font-size: 1.6rem;
+        font-weight: 500;
     }
 }
 
-.variation-options {
-    flex: 6;
-    margin-top: 50px;
+.options-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    height: 36px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+
+    .input-title {
+        margin-left: 12px;
+        height: 36px;
+        border-radius: 2px;
+        font-size: 1.6rem;
+        padding: 0 12px;
+    }
+}
+
+.amount {
+    font-size: 1.7rem;
+    font-weight: 500;
+    margin: 16px 0;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    .input-amount {
+        margin-left: 12px;
+        height: 32px;
+        border-radius: 2px;
+        font-size: 1.6rem;
+        padding: 0 12px;
+    }
+}
+
+.option-list {
+    padding: 12px 24px;
+
+    .input-variation-option {
+        width: 100%;
+        height: 30px;
+        outline: 1px solid var(--text-color);
+        border-radius: 2px;
+        font-size: 1.5rem;
+        padding: 0 12px;
+    }
+
+    .input-variation-option + .input-variation-option {
+        margin-top: 12px;
+    }
+
+    .option {
+        height: 40px;
+        width: 100%;
+        margin-top: 1px;
+        border-radius: 2px;
+        padding: 0 24px;
+        border-top: 1px solid var(--low-separation-color);
+        font-size: 1.6rem;
+        font-weight: 400;
+        color: var(--text-color);
+        display: flex;
+        align-items: center;
+    }
+}
+.button-layout {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-around;
+}
+
+// View
+.attribute-options {
+    // margin-top: 50px;
     padding: 12px;
     display: flex;
     flex-direction: column;
@@ -128,7 +165,7 @@
     }
 }
 
-//Item Variation
+//Item Attribute
 .item-layout {
     display: flex;
     justify-content: space-between;

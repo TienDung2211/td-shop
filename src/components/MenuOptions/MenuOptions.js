@@ -15,6 +15,7 @@ import {
     faFontAwesome,
     faDashboard,
     faTable,
+    faSliders,
 } from '@fortawesome/free-solid-svg-icons';
 
 export const MENU_OPTIONS = [
@@ -119,6 +120,12 @@ export const MANAGER_OPTIONS = [
     },
     {
         id: 9,
+        icon: <FontAwesomeIcon icon={faSliders} />,
+        name: 'Quản lí thuộc tính',
+        key: 'attribute',
+    },
+    {
+        id: 10,
         icon: <FontAwesomeIcon icon={faTable} />,
         name: 'Thống kê',
         key: 'statistic',

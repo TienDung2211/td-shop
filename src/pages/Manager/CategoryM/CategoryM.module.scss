@@ -1,28 +1,3 @@
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -10px;
-}
-
-.col-5 {
-    flex: 0 0 41.666667%;
-    max-width: 41.666667%;
-    padding: 0 10px;
-}
-
-.col-7 {
-    flex: 0 0 58.333333%;
-    max-width: 58.333333%;
-    padding: 0 10px;
-}
-
 .wrapper-filter {
     background-color: #fff;
     border: 1px solid #e5e5e5;

@@ -68,6 +68,28 @@ function CommentM() {
         }
     };
 
+    const deleteReview = async () => {
+        const api = await reviewServices.deleteReview(selectReview.id);
+
+        if (api?.status === 200) {
+            toast.success('Phản hồi về sản phẩm đã bị xóa.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            setRenderPage(!renderPage);
+        } else if (api === undefined) {
+            toast.error('Vui lòng đăng nhập để tiếp tục xóa đánh giá.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        } else if (api.status === 400) {
+            toast.info('Lỗi không xác định vui lòng thử lại.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        }
+    };
+
     useEffect(() => {
         getAllReview();
     }, [renderPage]);
@@ -94,7 +116,9 @@ function CommentM() {
                                     setSelectReview(review);
                                 }}
                             >
-                                <td className={cx('table-td', 'center')}>Nguyễn Văn A</td>
+                                <td className={cx('table-td', 'center')}>
+                                    {review.user.LastName} {review?.user.FirstName}
+                                </td>
                                 <td className={cx('table-td', 'center')}>{review.ratingValue}</td>
                                 <td className={cx('table-td')}>{review.comment}</td>
                                 <td className={cx('table-td', 'center')}>
@@ -132,7 +156,16 @@ function CommentM() {
                                 denyReview();
                             }}
                         >
-                            Từ chối
+                            Ẩn
+                        </Button>
+                        <Button
+                            border
+                            className={cx('btn-deny')}
+                            onClick={() => {
+                                deleteReview();
+                            }}
+                        >
+                            Xóa
                         </Button>
                     </div>
                 </div>

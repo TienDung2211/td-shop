@@ -27,11 +27,11 @@
 .nav-heading {
     grid-template-columns: 2fr 1fr;
     grid-template-rows: 1fr;
-    height: 75px;
+    height: 50px;
 }
 
 .nav-heading-NX {
-    height: 75px;
+    height: 50px;
 
     .nav-brand {
         display: none;
@@ -111,7 +111,7 @@
 }
 
 .menu-item {
-    height: 60px;
+    height: 55px;
     display: flex;
     align-items: center;
     color: var(--white-color);

@@ -24,6 +24,7 @@
         "FormData": "^0.10.1",
         "html2canvas": "^1.4.1",
         "jspdf": "^2.5.1",
+        "moment": "^2.29.4",
         "normalize.css": "^8.0.1",
         "papaparse": "^5.4.1",
         "qrcode.react": "^3.1.0",

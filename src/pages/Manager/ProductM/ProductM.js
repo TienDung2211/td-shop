@@ -15,14 +15,13 @@ import categoryServices from '~/services/categoryServices';
 import variationServices from '~/services/variationServices';
 import ImageUploading from 'react-images-uploading';
 import { ToastContainer, toast } from 'react-toastify';
-import OptionsPopperM from './OptionsPopperM';
 
 const cx = classNames.bind(styles);
 
 function ProductM() {
     const maxNumber = 7;
     const [products, setProducts] = useState([]);
-    const [updateProduct, setUpdateProduct] = useState(null);
+    const [idProduct, setIdProduct] = useState(0);
     const [action, setAction] = useState('view');
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -37,7 +36,6 @@ function ProductM() {
 
     const onChangeMainImage = (imageList, addUpdateIndex) => {
         setMainImage(imageList);
-        console.log(imageList, addUpdateIndex);
     };
 
     const onChangeOtherImage = (imageList, addUpdateIndex) => {
@@ -261,12 +259,15 @@ function ProductM() {
         }
     };
 
-    const handleClickUpdate = () => {
+    const handleClickUpdate = (product) => {
         setAction('update');
-        handlePassData();
+        alert(product.Id);
+        console.log(product);
+        setIdProduct(product.Id);
+        setName(product.Name);
+        setDescription(product.Description);
+        setShortDescription(product.ShortDescription);
     };
-
-    const handlePassData = () => {};
 
     const handleRemoveProduct = async () => {};
 
@@ -294,8 +295,6 @@ function ProductM() {
                     }}
                 ></Button>
                 <form className={cx('control-filt')}>
-                    <OptionsPopperM lowBlack manager />
-
                     <div className={cx('input-layout')}>
                         <input className={cx('input')} type="text" placeholder="Nhập tên tìm kiếm"></input>
                     </div>
@@ -313,7 +312,7 @@ function ProductM() {
                             <ProductMItem
                                 key={index}
                                 data={item}
-                                onClickUpdate={handleClickUpdate}
+                                onClickUpdate={() => handleClickUpdate(item)}
                                 onClickRemove={handleRemoveProduct}
                             />
                         );

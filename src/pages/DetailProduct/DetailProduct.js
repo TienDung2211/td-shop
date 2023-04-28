@@ -144,7 +144,7 @@ function DetailProduct() {
                                         </div>
 
                                         <div>
-                                            <div className={cx('quality')}>
+                                            {/* <div className={cx('quality')}>
                                                 <span className={cx('quality-lable')}>Đánh giá : </span>
                                                 <div className={cx('rating')}>
                                                     <FontAwesomeIcon
@@ -172,7 +172,7 @@ function DetailProduct() {
                                                         <span>(</span>99<span>)</span>
                                                     </span>
                                                 </span>
-                                            </div>
+                                            </div> */}
 
                                             <div className={cx('btn-layout')}>
                                                 <div className={cx('grid-column-50percent')}>

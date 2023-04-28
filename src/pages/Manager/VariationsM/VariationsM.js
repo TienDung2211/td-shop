@@ -3,9 +3,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './VariationsM.module.scss';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState, useContext } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Button from '~/components/Button';
 import DataContext from '~/context/DataContext';
@@ -154,9 +154,6 @@ function VariationM() {
             VariationOptions: handleGetValueVariation(),
         };
 
-        console.log('Id : ', idVariation);
-        console.log('Data : ', data);
-
         var api = await variationServices.updateVariation(idVariation, data);
 
         if (api?.status === 200) {
@@ -217,177 +214,179 @@ function VariationM() {
     }, [idVariation, numberOptions, render, action, mId, renderPage]);
 
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('variations')}>
-                <span className={cx('heading')}>Quản lí danh mục</span>
-                <div className={cx('mt-5')}></div>
-                <div className={cx('form-group')}>
-                    <label className={cx('label')}>MasterCategory</label>
-                    <div className={cx('mt-1')}></div>
+        <div className={cx('container')}>
+            <div className={cx('row')}>
+                <div className={cx(' col-5', 'p-5', 'variations')}>
+                    <span className={cx('heading')}>Quản lí danh mục</span>
+                    <div className={cx('mt-5')}></div>
+                    <div className={cx('form-group')}>
+                        <label className={cx('label')}>MasterCategory</label>
+                        <div className={cx('mt-1')}></div>
 
-                    <Select
-                        formatOptionLabel={(option) => `${option.value}`}
-                        placeholder="Chọn MasterCategory..."
-                        onChange={handleChangeMC}
-                        options={masterCategorys}
-                        className={cx('control', 'option--is-selected')}
-                    />
-                </div>
-
-                <div className={cx('mt-5')}></div>
-
-                <span className={cx('list-title')}>List Variation</span>
-
-                <div className={cx('add-layout')}>
-                    <Button
-                        rounded
-                        approach
-                        iconOnly={<FontAwesomeIcon icon={faPlus} />}
-                        onClick={() => {
-                            if (mId !== 0) {
-                                setNameVariation('');
-                                setAction('add');
-                                setNumberOptions(5);
-                            }
-                        }}
-                    ></Button>
-                    <span className={cx('text')}>Thêm danh mục</span>
-                </div>
-
-                {variations.map((variation, index) => (
-                    <VariationsMItem
-                        key={index}
-                        data={variation}
-                        onClickVariation={() => {
-                            setIdVariation(variation.id);
-                            setAction('view');
-                        }}
-                        onClickUpdate={(e) => {
-                            e.stopPropagation();
-                            handlePassVariation(variation);
-                        }}
-                        onClickRemove={(e) => {
-                            e.stopPropagation();
-                            handleRemoveVariation(variation.id);
-                        }}
-                    />
-                ))}
-            </div>
-
-            <div className={cx('variation-options')}>
-                {action === 'view' && (
-                    <div>
-                        {options.length > 0 && (
-                            <div>
-                                <span className={cx('options-title')}>Danh mục {nameVariation}</span>
-                                <div className={cx('option-list')}>
-                                    {options.map((item, index) => (
-                                        <div key={index} className={cx('option')}>
-                                            {item.value}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
+                        <Select
+                            formatOptionLabel={(option) => `${option.value}`}
+                            placeholder="Chọn MasterCategory..."
+                            onChange={handleChangeMC}
+                            options={masterCategorys}
+                            className={cx('control', 'option--is-selected')}
+                        />
                     </div>
-                )}
 
-                {action === 'add' && (
-                    <form onSubmit={handleSubmitAdd}>
-                        <span className={cx('options-title')}>
-                            Danh mục{' '}
-                            <input
-                                required
-                                name="title"
-                                value={nameVariation}
-                                className={cx('input-title')}
-                                placeholder="Nhập tiêu đề"
-                                onChange={(e) => setNameVariation(e.target.value)}
-                            />
-                        </span>
-                        <span className={cx('amount')}>
-                            Số lượng tùy chọn{' '}
-                            <input
-                                value={numberOptions}
-                                className={cx('input-amount')}
-                                placeholder="Nhập số lượng tùy chọn"
-                                onChange={(e) => setNumberOptions(e.target.value)}
-                            />
-                        </span>
+                    <div className={cx('mt-5')}></div>
 
-                        <div
-                            className={cx('option-list')}
-                            dangerouslySetInnerHTML={{ __html: handleRenderInputOptions() }}
-                        ></div>
-                        <div className={cx('button-layout')}>
-                            <Button
-                                outline
-                                border
-                                transparent
-                                onClick={() => {
-                                    setAction('view');
-                                }}
-                            >
-                                Hủy
-                            </Button>
-                            <Button outline border primary type="submit">
-                                Xác nhận
-                            </Button>
+                    <span className={cx('list-title')}>List Variation</span>
+
+                    <div className={cx('add-layout')}>
+                        <Button
+                            rounded
+                            approach
+                            iconOnly={<FontAwesomeIcon icon={faPlus} />}
+                            onClick={() => {
+                                if (mId !== 0) {
+                                    setNameVariation('');
+                                    setAction('add');
+                                    setNumberOptions(5);
+                                }
+                            }}
+                        ></Button>
+                        <span className={cx('text')}>Thêm danh mục</span>
+                    </div>
+
+                    {variations.map((variation, index) => (
+                        <VariationsMItem
+                            key={index}
+                            data={variation}
+                            onClickVariation={() => {
+                                setIdVariation(variation.id);
+                                setAction('view');
+                            }}
+                            onClickUpdate={(e) => {
+                                e.stopPropagation();
+                                handlePassVariation(variation);
+                            }}
+                            onClickRemove={(e) => {
+                                e.stopPropagation();
+                                handleRemoveVariation(variation.id);
+                            }}
+                        />
+                    ))}
+                </div>
+
+                <div className={cx('col-7', 'p-5', 'variation-options')}>
+                    {action === 'view' && (
+                        <div>
+                            {options.length > 0 && (
+                                <div>
+                                    <span className={cx('options-title')}>Danh mục {nameVariation}</span>
+                                    <div className={cx('option-list')}>
+                                        {options.map((item, index) => (
+                                            <div key={index} className={cx('option')}>
+                                                {item.value}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    </form>
-                )}
+                    )}
 
-                {action === 'update' && (
-                    <form onSubmit={handleSubmitUpdate}>
-                        <span className={cx('options-title')}>
-                            Danh mục{' '}
-                            <input
-                                required
-                                name="title"
-                                value={nameVariation}
-                                className={cx('input-title')}
-                                placeholder="Nhập tiêu đề"
-                                onChange={(e) => setNameVariation(e.target.value)}
-                            />
-                        </span>
+                    {action === 'add' && (
+                        <form onSubmit={handleSubmitAdd}>
+                            <span className={cx('options-title')}>
+                                Danh mục{' '}
+                                <input
+                                    required
+                                    name="title"
+                                    value={nameVariation}
+                                    className={cx('input-title')}
+                                    placeholder="Nhập tiêu đề"
+                                    onChange={(e) => setNameVariation(e.target.value)}
+                                />
+                            </span>
+                            <span className={cx('amount')}>
+                                Số lượng tùy chọn{' '}
+                                <input
+                                    value={numberOptions}
+                                    className={cx('input-amount')}
+                                    placeholder="Nhập số lượng tùy chọn"
+                                    onChange={(e) => setNumberOptions(e.target.value)}
+                                />
+                            </span>
 
-                        <div
-                            className={cx('option-list')}
-                            dangerouslySetInnerHTML={{ __html: handleRenderOptions() }}
-                        ></div>
+                            <div
+                                className={cx('option-list')}
+                                dangerouslySetInnerHTML={{ __html: handleRenderInputOptions() }}
+                            ></div>
+                            <div className={cx('button-layout')}>
+                                <Button
+                                    outline
+                                    border
+                                    transparent
+                                    onClick={() => {
+                                        setAction('view');
+                                    }}
+                                >
+                                    Hủy
+                                </Button>
+                                <Button outline border primary type="submit">
+                                    Xác nhận
+                                </Button>
+                            </div>
+                        </form>
+                    )}
 
-                        <span className={cx('amount')}>
-                            Số lượng tùy chọn mới{' '}
-                            <input
-                                value={numberOptions}
-                                className={cx('input-amount')}
-                                placeholder="Nhập số lượng tùy chọn"
-                                onChange={(e) => setNumberOptions(e.target.value)}
-                            />
-                        </span>
+                    {action === 'update' && (
+                        <form onSubmit={handleSubmitUpdate}>
+                            <span className={cx('options-title')}>
+                                Danh mục{' '}
+                                <input
+                                    required
+                                    name="title"
+                                    value={nameVariation}
+                                    className={cx('input-title')}
+                                    placeholder="Nhập tiêu đề"
+                                    onChange={(e) => setNameVariation(e.target.value)}
+                                />
+                            </span>
 
-                        <div
-                            className={cx('option-list')}
-                            dangerouslySetInnerHTML={{ __html: handleRenderInputOptions() }}
-                        ></div>
+                            <div
+                                className={cx('option-list')}
+                                dangerouslySetInnerHTML={{ __html: handleRenderOptions() }}
+                            ></div>
 
-                        <div className={cx('button-layout')}>
-                            <Button
-                                outline
-                                border
-                                transparent
-                                onClick={() => {
-                                    setAction('view');
-                                }}
-                            >
-                                Hủy
-                            </Button>
-                            <Button outline border primary type="submit">
-                                Cập nhập
-                            </Button>
-                        </div>
-                    </form>
-                )}
+                            <span className={cx('amount')}>
+                                Số lượng tùy chọn mới{' '}
+                                <input
+                                    value={numberOptions}
+                                    className={cx('input-amount')}
+                                    placeholder="Nhập số lượng tùy chọn"
+                                    onChange={(e) => setNumberOptions(e.target.value)}
+                                />
+                            </span>
+
+                            <div
+                                className={cx('option-list')}
+                                dangerouslySetInnerHTML={{ __html: handleRenderInputOptions() }}
+                            ></div>
+
+                            <div className={cx('button-layout')}>
+                                <Button
+                                    outline
+                                    border
+                                    transparent
+                                    onClick={() => {
+                                        setAction('view');
+                                    }}
+                                >
+                                    Hủy
+                                </Button>
+                                <Button outline border primary type="submit">
+                                    Cập nhập
+                                </Button>
+                            </div>
+                        </form>
+                    )}
+                </div>
             </div>
             <ToastContainer />
         </div>

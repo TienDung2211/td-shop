@@ -23,14 +23,15 @@ import Review from '~/pages/Settings/Review/Review';
 // Manager
 import SaleM from '~/pages/Manager/SaleM';
 import OrderM from '~/pages/Manager/OrderM';
-import BrandM from '~/pages/Manager/BrandM/BrandM';
 import AccountM from '~/pages/Manager/AccountM';
 import ProductM from '~/pages/Manager/ProductM';
 import CommentM from '~/pages/Manager/CommentM';
 import CategoryM from '~/pages/Manager/CategoryM';
+import BrandM from '~/pages/Manager/BrandM/BrandM';
 import VariationsM from '~/pages/Manager/VariationsM';
 import Dashboard from '~/pages/Manager/Dashboard/Dashboard';
 import StatisticM from '~/pages/Manager/StatisticM/StatisticM';
+import AttributeM from '~/pages/Manager/AttributeM/AttributeM';
 
 const publicRoutes = [
     { path: '/', component: Home },
@@ -56,6 +57,7 @@ const publicRoutes = [
     { path: '/manager/brand', component: BrandM, layout: ManagerLayout },
     { path: '/manager/dashboard', component: Dashboard, layout: ManagerLayout },
     { path: '/manager/statistic', component: StatisticM, layout: ManagerLayout },
+    { path: '/manager/attribute', component: AttributeM, layout: ManagerLayout },
     { path: '/test', component: TestData, layout: null },
 ];
 
