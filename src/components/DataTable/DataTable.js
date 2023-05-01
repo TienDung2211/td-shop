@@ -6,9 +6,22 @@ import * as Papa from 'papaparse';
 import classNames from 'classnames/bind';
 import styles from './Datatable.module.scss';
 
+import DataContext from '~/context/DataContext';
+import { useEffect, useContext } from 'react';
+
 const cx = classNames.bind(styles);
 
-const DataTable = ({ data, columns }) => {
+const DataTable = ({ data, columns, showExport = true, onClickRow }) => {
+    const { render } = useContext(DataContext);
+
+    useEffect(() => {}, [render]);
+
+    const handleRowClick = (record, rowIndex) => {
+        if (onClickRow) {
+            onClickRow(record, rowIndex);
+        }
+    };
+
     const handleExportCsv = () => {
         const exportData = data.map((item) => {
             return {
@@ -51,16 +64,25 @@ const DataTable = ({ data, columns }) => {
 
     return (
         <div>
-            <div className={cx('export')}>
-                <Button type="primary" onClick={handleExportCsv} icon={<DownloadOutlined />}>
-                    Export CSV
-                </Button>
-                <div className={cx('space')}></div>
-                <Button type="primary" onClick={handleExportExcel} icon={<DownloadOutlined />}>
-                    Export Excel
-                </Button>
-            </div>
-            <AntTable dataSource={data} columns={columns} />
+            {showExport && (
+                <div className={cx('export')}>
+                    <Button type="primary" onClick={handleExportCsv} icon={<DownloadOutlined />}>
+                        Export CSV
+                    </Button>
+                    <div className={cx('space')}></div>
+                    <Button type="primary" onClick={handleExportExcel} icon={<DownloadOutlined />}>
+                        Export Excel
+                    </Button>
+                </div>
+            )}
+
+            <AntTable
+                dataSource={data}
+                columns={columns}
+                onRow={(record, rowIndex) => ({
+                    onClick: () => handleRowClick(record, rowIndex),
+                })}
+            />
         </div>
     );
 };

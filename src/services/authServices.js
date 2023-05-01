@@ -9,6 +9,7 @@ const authServices = {
             if (res?.data) {
                 localStorage.setItem('access', JSON.stringify(res?.data?.AccessToken));
                 localStorage.setItem('refresh', JSON.stringify(res?.data?.RefreshToken));
+                localStorage.setItem('userId', JSON.stringify(res?.data?.UserInfo.Id));
             }
             return res;
         } catch (error) {
@@ -26,6 +27,7 @@ const authServices = {
     authLogOut: () => {
         localStorage.removeItem('access');
         localStorage.removeItem('refresh');
+        localStorage.removeItem('userId');
     },
     authSendEmailForgotPassword: async (data) => {
         try {

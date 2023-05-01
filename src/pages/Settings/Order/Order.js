@@ -63,8 +63,6 @@ function Order() {
         if (access) {
             let dataApi = await orderServices.getMyOrder(active);
 
-            console.log(dataApi);
-
             if (dataApi?.content) {
                 setOrders(dataApi.content);
             } else setOrders([]);

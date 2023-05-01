@@ -1,10 +1,21 @@
 import * as request from '~/utils/request';
 
+const access = JSON.parse(localStorage.getItem('access'));
+
 const reviewServices = {
+    getUserReview: async () => {
+        try {
+            const userId = JSON.parse(localStorage.getItem('userId'));
+
+            const res = await request.get(`/review/search?user-id=${userId}&product-id=0&sort=id`);
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+
     getAllReview: async () => {
         try {
-            const access = JSON.parse(localStorage.getItem('access'));
-
             const res = await request.get('/review/get-all', {
                 headers: {
                     Authorization: `Bearer ${access}`,
@@ -28,8 +39,6 @@ const reviewServices = {
 
     checkBuyByProductId: async (id) => {
         try {
-            const access = JSON.parse(localStorage.getItem('access'));
-
             const res = await request.get(`/review/check-buy/?product-id=${id}`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
@@ -52,8 +61,6 @@ const reviewServices = {
 
     addReview: async (data) => {
         try {
-            const access = JSON.parse(localStorage.getItem('access'));
-
             const res = await request.post('/review/add', data, {
                 headers: {
                     Authorization: `Bearer ${access}`,
@@ -67,8 +74,6 @@ const reviewServices = {
 
     acceptReview: async (id) => {
         try {
-            const access = JSON.parse(localStorage.getItem('access'));
-
             const res = await request.post(`/review/accept/${id}`, null, {
                 headers: {
                     Authorization: `Bearer ${access}`,
@@ -82,8 +87,6 @@ const reviewServices = {
 
     denyReview: async (id) => {
         try {
-            const access = JSON.parse(localStorage.getItem('access'));
-
             const res = await request.post(`/review/deny/${id}`, null, {
                 headers: {
                     Authorization: `Bearer ${access}`,
@@ -97,8 +100,6 @@ const reviewServices = {
 
     deleteReview: async (id) => {
         try {
-            const access = JSON.parse(localStorage.getItem('access'));
-
             const res = await request.remove(`/review/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${access}`,

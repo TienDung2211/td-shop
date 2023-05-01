@@ -10,8 +10,6 @@ function OrderItem({ data, onClickViewDetail }) {
     const getTotalPrice = () => {
         let total = 0;
 
-        console.log(data);
-
         data.OrderDetails.forEach((product) => {
             total = total + Number(product?.FinalPrice) * product?.Quantity;
         });

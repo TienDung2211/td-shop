@@ -3,12 +3,55 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from '~/components/Button';
 import styles from './CommentM.module.scss';
 
+import { Badge, Tag } from 'antd';
 import { useState, useEffect } from 'react';
 import reviewServices from '~/services/reviewServices';
 import { ToastContainer, toast } from 'react-toastify';
 import CommentItem from '~/components/Evaluate/CommentItem';
+import DataTable from '~/components/DataTable/DataTable';
 
 const cx = classNames.bind(styles);
+
+const columns = [
+    {
+        title: 'Người gửi',
+        dataIndex: 'user',
+        key: 'user',
+        width: '11.111111111111%',
+        editable: true,
+        // sorter: (a, b) => a.user.localeCompare(b.user),
+        render: (user) => (
+            <p>
+                {user.LastName} {user.FirstName}
+            </p>
+        ),
+    },
+    {
+        title: 'Đánh giá',
+        dataIndex: 'ratingValue',
+        key: 'ratingValue',
+        align: 'center',
+        width: '11.111111111111%',
+        editable: true,
+        sorter: (a, b) => a.ratingValue - b.ratingValue,
+    },
+    {
+        title: 'Nội dung bình luận',
+        dataIndex: 'comment',
+        key: 'comment',
+        sorter: (a, b) => a.comment.localeCompare(b.comment),
+    },
+    {
+        title: 'Trạng thái',
+        dataIndex: 'valid',
+        key: 'valid',
+        align: 'center',
+        width: '11.111111111111%',
+        editable: true,
+        render: (valid) => (valid ? <Tag color={'green'}>Đã hiện</Tag> : <Tag color={'volcano'}>Chưa hiện</Tag>),
+        sorter: (a, b) => (a.valid === b.valid ? 0 : a.valid ? 1 : -1),
+    },
+];
 
 function CommentM() {
     const [reviews, setReviews] = useState([]);
@@ -22,6 +65,10 @@ function CommentM() {
             setReviews(api.data.content);
             setSelectReview(api.data.content[0]);
         }
+    };
+
+    const handleClickReview = (item) => {
+        setSelectReview(item);
     };
 
     const acceptReview = async () => {
@@ -98,7 +145,7 @@ function CommentM() {
         <div className={cx('container')}>
             <div className={cx('row')}>
                 <span className={cx('heading')}>Quản lí bình luận</span>
-                <table className={cx('table-review')}>
+                {/* <table className={cx('table-review')}>
                     <thead className={cx('table-thead')}>
                         <tr className={cx('table-tr')}>
                             <th className={cx('table-th', 'center')}>Người gửi</th>
@@ -127,7 +174,8 @@ function CommentM() {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table> */}
+                <DataTable data={reviews} columns={columns} showExport={false} onClickRow={handleClickReview} />
             </div>
             <div className={cx('mt-5')}></div>
             <div className={cx('row')}>
