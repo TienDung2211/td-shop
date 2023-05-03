@@ -55,21 +55,45 @@ const productServices = {
     },
 
     // Employee
-    getAllProducts: async () => {
+    getAllProducts: async (keyword) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
+            let paramsKeyword = '';
 
-            const res = await request.get(`/product/admin/search?page=0&size=20`, {
-                headers: {
-                    Authorization: `Bearer ${access}`,
+            if (keyword !== '') {
+                paramsKeyword = `keyword=${keyword}&`;
+            }
+
+            const res = await request.get(
+                `/product/admin/search?${paramsKeyword}category-id=0&max-price=0&min-price=0&brand-id=0&page=0&size=200&sort=id`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${access}`,
+                    },
                 },
-            });
+            );
 
             return res.data;
         } catch (error) {
             console.error(error.response.data);
         }
     },
+    adminGetProductById: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.get(`/product/admin/get/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+
     addProduct: async (data) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
