@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './SortProduct.module.scss';
 
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Options from './Options';
 import Product from '~/components/Product';
@@ -13,13 +13,13 @@ import Pagigation from '~/components/Pagination/Pagination';
 const cx = classNames.bind(styles);
 
 function SortProduct() {
+    const { mId, cId } = useParams();
+
     const [page, setPage] = useState(0);
     const [filter, setFilter] = useState('new');
     const [products, setProducts] = useState([]);
     const [variations, setVariations] = useState('');
     const [totalPages, setTotalPages] = useState(1);
-
-    const keyVariation = useLocation().state;
 
     const handleChangeFilter = (data) => {
         setFilter(data);
@@ -35,17 +35,11 @@ function SortProduct() {
         }
 
         setVariations(checked.join());
-        keyVariation.value = '';
     };
 
     useEffect(() => {
         const fetchAPI = async () => {
-            let dataAPI;
-            if (keyVariation && keyVariation.value !== '') {
-                dataAPI = await productServices.getProducts(filter, page, keyVariation.value);
-            } else {
-                dataAPI = await productServices.getProducts(filter, page, variations);
-            }
+            const dataAPI = await productServices.getProducts(filter, page, variations, null, cId);
 
             setProducts(dataAPI.content);
             setTotalPages(dataAPI.totalPages);
@@ -53,13 +47,13 @@ function SortProduct() {
         };
 
         fetchAPI();
-    }, [filter, variations, page, keyVariation?.value]);
+    }, [filter, variations, page, cId]);
 
     return products ? (
         <div className={cx('grid-full-width')}>
             <div className={cx('grid-row')}>
                 <div className={cx('grid-column-2')}>
-                    <SideBar onChangeVariations={onChangeVariations} />
+                    <SideBar mId={mId} onChangeVariations={onChangeVariations} />
                 </div>
                 <div className={cx('grid-column-10')}>
                     <Options handleChangeFilter={handleChangeFilter} />

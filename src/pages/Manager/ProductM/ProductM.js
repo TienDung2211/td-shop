@@ -21,6 +21,7 @@ function ProductM() {
     const [searchValue, setSearchValue] = useState('');
     const [action, setAction] = useState('view');
     const { render } = useContext(DataContext);
+    const [renderPage, setRenderPage] = useState(false);
 
     const getAllProducts = async () => {
         let api = await productServices.getAllProducts(searchValue);
@@ -34,9 +35,34 @@ function ProductM() {
         setAction('view');
     };
 
+    const handleClickDelete = async (id) => {
+        const api = await productServices.deleteProduct(id);
+
+        console.log(api);
+
+        if (api?.status === 200) {
+            toast.success('Sản phẩm đã bị xóa.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+
+            setRenderPage(!renderPage);
+        } else if (api === undefined) {
+            toast.error('Vui lòng đăng nhập để tiếp tục xóa sản phẩm.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        } else {
+            toast.info('Lỗi không xác định vui lòng thử lại.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        }
+    };
+
     useEffect(() => {
         getAllProducts();
-    }, [render, searchValue]);
+    }, [render, searchValue, renderPage]);
 
     return (
         <div className={cx('container')}>
@@ -86,7 +112,9 @@ function ProductM() {
                                             setIdProduct(item.Id);
                                             setAction('update');
                                         }}
-                                        // onClickRemove={handleRemoveProduct}
+                                        onClickRemove={() => {
+                                            handleClickDelete(item.Id);
+                                        }}
                                     />
                                 );
                             })}
@@ -105,6 +133,7 @@ function ProductM() {
                     <UpdateProductM id={idProduct} onClickCancle={handleClickCancle} />
                 </div>
             )}
+            <ToastContainer />
         </div>
     );
 }

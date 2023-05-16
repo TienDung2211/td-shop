@@ -21,25 +21,33 @@ function UpdateProductM({ id, onClickCancle }) {
     const [shortDescription, setShortDescription] = useState('');
     const [total, setTotal] = useState('');
     const [mainImage, setMainImage] = useState('');
+    const [mainImagePreview, setMainImagePreview] = useState('');
     const [otherImages, setOtherImages] = useState([]);
+    const [otherImagesPreiew, setOtherImagesPreiew] = useState([]);
+    const [deleteImages, setDeleteImages] = useState([]);
     const [errMsg, setErrMsg] = useState('');
-    const { render } = useContext(DataContext);
-    const [renderPage, setRenderPage] = useState(true);
+    const { render, setRender } = useContext(DataContext);
 
     const getProductById = async () => {
         const api = await productServices.adminGetProductById(id);
 
         if (api?.status === 200) {
             console.log(api.data);
-
             setName(api.data.Name);
             setTotal(api.data.Total);
             setShortDescription(api.data.ShortDescription);
             setDescription(api.data.Description);
             setPrice(parseInt(api.data.Price));
+
             setMainImage(api.data.ImageUrl);
+            setMainImagePreview(api.data.ImageUrl);
+
             var images = api.data.Images.map((image) => image.url);
             setOtherImages(images);
+            setOtherImagesPreiew(images);
+
+            setDeleteImages(images);
+
             setBrand({ label: api.data.Brand.id, value: api.data.Brand.name });
             setCategorys(
                 api.data.Categories.map((item) => ({
@@ -55,77 +63,66 @@ function UpdateProductM({ id, onClickCancle }) {
                     inputValue: item.value,
                 })),
             );
+            setInputAttributes(
+                api.data.Attributes.map((item) => ({
+                    [item.id]: item.value,
+                })),
+            );
+
+            setStatus({ label: api.data.Status.Id, value: api.data.Status.Name });
         }
     };
 
     const handleMainImageChange = (e) => {
         const file = e.target.files[0];
+        setMainImage(file);
         const reader = new FileReader();
         reader.onload = () => {
-            setMainImage(reader.result);
+            setMainImagePreview(reader.result);
         };
         reader.readAsDataURL(file);
     };
 
     const handleOrderImageChange = (e) => {
         const files = e.target.files;
+        setOtherImages(files);
         const imagesArray = [];
         for (let i = 0; i < files.length; i++) {
             const reader = new FileReader();
             reader.onload = () => {
                 imagesArray.push(reader.result);
                 if (imagesArray.length === files.length) {
-                    setOtherImages(imagesArray);
+                    setOtherImagesPreiew(imagesArray);
                 }
             };
             reader.readAsDataURL(files[i]);
         }
     };
-
+    //Status
+    const [status, setStatus] = useState({});
+    const handleChangeStatus = (selectedOption) => {
+        setStatus(selectedOption);
+    };
     //Brand
     const [optionsBrand, setOptionsBrand] = useState([]);
     const [brand, setBrand] = useState(null);
+    const getAllBrands = async () => {
+        let api = await brandServices.getAllBrands();
+
+        var options = [];
+        api.content.forEach((item) => {
+            options.push({ label: item.id, value: item.name });
+        });
+        setOptionsBrand(options);
+    };
+
+    const handleChangeBrand = (selectedOption) => {
+        setBrand(selectedOption);
+    };
     //Category
     const [optionsCategory, setOptionsCategory] = useState([]);
     const [categorys, setCategorys] = useState([]);
     const [openCategory, setOpenCategory] = useState(false);
-    //Variation
-    const [optionsVariation, setOptionsVariation] = useState([]);
-    const [variations, setVariations] = useState([]);
-    const [openVariation, setOpenVariation] = useState(false);
-    //Attribute
-    const [optionsAttribute, setOptionsAttribute] = useState([]);
-    const [attributes, setAttributes] = useState([]);
-    const [inputAttributes, setInputAttributes] = useState([]);
-    const [openAttribute, setOpenAttribute] = useState(false);
-
-    const getAllVariations = async () => {
-        let api = await variationServices.getAllVariations();
-
-        var options = [];
-        api.content.forEach((list) => {
-            options.push({ label: list.id, value: '+' + list.name, disabled: true });
-            list?.setOfVariationOptions.forEach((item) => {
-                options.push({ label: item.id, value: item.value });
-            });
-        });
-        setOptionsVariation(options);
-    };
-
-    const handleChangeVariations = (selectedOption) => {
-        setVariations(selectedOption);
-    };
-
-    const getValueVariations = () => {
-        let array = [];
-
-        variations.forEach((item) => {
-            array.push(item.label);
-        });
-
-        return array;
-    };
-
     const getAllCategorys = async () => {
         let api = await categoryServices.getAllParentCategory(1);
 
@@ -152,21 +149,41 @@ function UpdateProductM({ id, onClickCancle }) {
 
         return array;
     };
-
-    const getAllBrands = async () => {
-        let api = await brandServices.getAllBrands();
+    //Variation
+    const [optionsVariation, setOptionsVariation] = useState([]);
+    const [variations, setVariations] = useState([]);
+    const [openVariation, setOpenVariation] = useState(false);
+    const getAllVariations = async () => {
+        let api = await variationServices.getAllVariations();
 
         var options = [];
-        api.content.forEach((item) => {
-            options.push({ label: item.id, value: item.name });
+        api.content.forEach((list) => {
+            options.push({ label: list.id, value: '+' + list.name, disabled: true });
+            list?.setOfVariationOptions.forEach((item) => {
+                options.push({ label: item.id, value: item.value });
+            });
         });
-        setOptionsBrand(options);
+        setOptionsVariation(options);
     };
 
-    const handleChangeBrand = (selectedOption) => {
-        setBrand(selectedOption);
+    const handleChangeVariations = (selectedOption) => {
+        setVariations(selectedOption);
     };
 
+    const getValueVariations = () => {
+        let array = [];
+
+        variations.forEach((item) => {
+            array.push(item.label);
+        });
+
+        return array;
+    };
+    //Attribute
+    const [optionsAttribute, setOptionsAttribute] = useState([]);
+    const [attributes, setAttributes] = useState([]);
+    const [inputAttributes, setInputAttributes] = useState([]);
+    const [openAttribute, setOpenAttribute] = useState(false);
     const getAllAttributes = async () => {
         let api = await productServices.getAllAttributes();
 
@@ -213,6 +230,8 @@ function UpdateProductM({ id, onClickCancle }) {
             CategoryIds: getValueCategorys(),
             Attributes: inputAttributes,
             Variations: getValueVariations(),
+            Status: status.label,
+            DeletedImages: deleteImages,
         };
 
         const json = JSON.stringify(cap);
@@ -223,73 +242,65 @@ function UpdateProductM({ id, onClickCancle }) {
 
         formData.append('ProductInfo', blob);
 
-        for (let i = 0; i < mainImage.length; i++) {
-            const image = mainImage[i];
-            if (typeof image === 'string' && image.startsWith('http')) {
-                // Nếu ảnh đã có URL, chuyển đổi URL thành base64
-                fetch(image)
-                    .then((response) => response.blob())
-                    .then((blob) => {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            formData.append('Images', reader.result);
-                        };
-                        reader.readAsDataURL(blob);
-                    });
-            } else {
-                // Nếu ảnh có định dạng base64, thêm trực tiếp vào FormData
-                formData.append('Images', image);
-            }
+        if (mainImage instanceof File) {
+            // Đối với đối tượng File, không cần chuyển đổi
+            formData.append('MainImage', mainImage);
         }
+
+        // else if (typeof mainImage === 'string' && mainImage.startsWith('http')) {
+        //     // Nếu mainImage là một URL, chuyển đổi URL thành Blob
+        //     await fetch(mainImage)
+        //         .then((response) => response.blob())
+        //         .then((blob) => {
+        //             const file = new File([blob], 'mainImage');
+        //             formData.append('MainImage', file);
+        //         });
+        // }
 
         for (let i = 0; i < otherImages.length; i++) {
             const image = otherImages[i];
-            if (typeof image === 'string' && image.startsWith('http')) {
-                // Nếu ảnh đã có URL, chuyển đổi URL thành base64
-                fetch(image)
+
+            if (image instanceof File) {
+                // Đối với đối tượng File, không cần chuyển đổi
+                formData.append('OtherImage', image);
+            } else if (typeof image === 'string' && image.startsWith('http')) {
+                // Nếu OtherImage là một URL, chuyển đổi URL thành Blob
+                await fetch(image)
                     .then((response) => response.blob())
                     .then((blob) => {
-                        const reader = new FileReader();
-                        reader.onload = () => {
-                            formData.append('Images', reader.result);
-                        };
-                        reader.readAsDataURL(blob);
+                        const file = new File([blob], `otherImage${i}.jpg`, { type: 'image/jpeg' });
+                        formData.append('OtherImage', file);
                     });
-            } else {
-                // Nếu ảnh có định dạng base64, thêm trực tiếp vào FormData
-                formData.append('Images', image);
             }
         }
 
-        console.log(otherImages);
+        const api = await productServices.updateProduct(id, formData);
 
-        // const api = await productServices.addProduct(formData);
-
-        // if (api?.status === 200) {
-        //     toast.success('Thêm sản phẩm mới thành công', {
-        //         position: toast.POSITION.TOP_RIGHT,
-        //         className: 'toast-message',
-        //     });
-        //     // setAction('view');
-        //     // setRenderPage(!renderPage);
-        // } else {
-        //     if (api?.status === 403) {
-        //         toast.info('Vui lòng đăng nhập để tiếp tục thêm sản phẩm.', {
-        //             position: toast.POSITION.TOP_RIGHT,
-        //             className: 'toast-message',
-        //         });
-        //     } else if (api.message === 'Product name existed') {
-        //         toast.info('Thêm sản phẩm đã tồn tại.', {
-        //             position: toast.POSITION.TOP_RIGHT,
-        //             className: 'toast-message',
-        //         });
-        //     } else {
-        //         toast.error('Lỗi không xác định, vui lòng thử lại sau.', {
-        //             position: toast.POSITION.TOP_RIGHT,
-        //             className: 'toast-message',
-        //         });
-        //     }
-        // }
+        if (api?.status === 200) {
+            toast.success('Cập nhập sản phẩm mới thành công', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            onClickCancle();
+            setRender(render);
+        } else {
+            if (api?.status === 403) {
+                toast.info('Vui lòng đăng nhập để tiếp tục cập nhập sản phẩm.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else if (api.message === 'Product name existed') {
+                toast.info('Tên sản phẩm đã tồn tại.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            } else {
+                toast.error('Lỗi không xác định, vui lòng thử lại sau.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+            }
+        }
     };
 
     useEffect(() => {
@@ -301,7 +312,7 @@ function UpdateProductM({ id, onClickCancle }) {
         getAllCategorys();
         getAllVariations();
         getAllAttributes();
-    }, [errMsg, render, renderPage]);
+    }, [errMsg, render]);
 
     return (
         <div className={cx('col')}>
@@ -428,7 +439,7 @@ function UpdateProductM({ id, onClickCancle }) {
                         <input
                             type="text"
                             className={cx('input-attribute-value')}
-                            value={option.inputValue}
+                            value={option.inputValue || ''}
                             onChange={(event) => {
                                 const newSelectedOptions = [...attributes];
                                 newSelectedOptions[index] = {
@@ -439,7 +450,7 @@ function UpdateProductM({ id, onClickCancle }) {
 
                                 const newValues = Object.assign(
                                     {},
-                                    ...newSelectedOptions.map((option) => ({ [option.value]: option.inputValue })),
+                                    ...newSelectedOptions.map((option) => ({ [option.label]: option.inputValue })),
                                 );
 
                                 setInputAttributes(newValues);
@@ -454,9 +465,9 @@ function UpdateProductM({ id, onClickCancle }) {
                 <div className={cx('label-item')}>Ảnh chính : </div>
                 <input type="file" accept="image/*" onChange={handleMainImageChange} />
             </div>
-            {mainImage && (
+            {mainImagePreview && (
                 <div className={cx('image-layout')}>
-                    <img src={mainImage} className={cx('main-image')} alt="selected" />
+                    <img id="mainImage" src={mainImagePreview} className={cx('main-image')} alt="selected" />
                 </div>
             )}
             <div className={cx('group-item')}>
@@ -464,9 +475,25 @@ function UpdateProductM({ id, onClickCancle }) {
                 <input type="file" accept="image/*" multiple onChange={handleOrderImageChange} />
             </div>
             <div className={cx('image-layout')}>
-                {otherImages.map((image, index) => (
+                {otherImagesPreiew.map((image, index) => (
                     <img key={index} src={image} className={cx('image')} alt="selected" />
                 ))}
+            </div>
+            <div className={cx('group-item')}>
+                <div className={cx('label-item')}>Trạng thái : </div>
+                <div className={cx('input-item-select')}>
+                    <Select
+                        formatOptionLabel={(option) => `${option.value}`}
+                        placeholder="Chọn trạng thái sản phẩm..."
+                        onChange={handleChangeStatus}
+                        value={status}
+                        options={[
+                            { value: 'Đã ẩn', label: 1 },
+                            { value: 'Đang bán', label: 2 },
+                            { value: 'Ngừng bán', label: 3 },
+                        ]}
+                    />
+                </div>
             </div>
 
             <div className={cx('button-layout')}>
@@ -483,6 +510,7 @@ function UpdateProductM({ id, onClickCancle }) {
                     Hủy
                 </Button>
             </div>
+            <ToastContainer />
         </div>
     );
 }

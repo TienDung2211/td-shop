@@ -6,23 +6,17 @@ import { Link } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
-function Options({ data }) {
+function Options({ data, mId }) {
     useEffect(() => {}, []);
 
     return data ? (
         <div className={cx('wrapper')}>
-            <div className={cx('title')}>{data.name}</div>
+            <div className={cx('title')}>{data.Name}</div>
             <ul className={cx('list')}>
-                {data.setOfVariationOptions.map((variationOption, index) => {
+                {data.ChildCategories.map((CategoryOption, index) => {
                     return (
-                        <Link
-                            key={index}
-                            to={'/sort'}
-                            state={{
-                                value: `${variationOption.id}`,
-                            }}
-                        >
-                            <div className={cx('item')}>{variationOption.value}</div>
+                        <Link key={index} to={`/sort/${mId}/${CategoryOption.Id}`}>
+                            <div className={cx('item')}>{CategoryOption.Name}</div>
                         </Link>
                     );
                 })}

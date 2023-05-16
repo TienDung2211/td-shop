@@ -21,21 +21,24 @@ function AddProductM({ onClickCancle }) {
     const [shortDescription, setShortDescription] = useState('');
     const [total, setTotal] = useState('');
     const [mainImage, setMainImage] = useState('');
+    const [mainImagePreview, setMainImagePreview] = useState('');
     const [otherImages, setOtherImages] = useState([]);
+    const [otherImagesPreiew, setOtherImagesPreiew] = useState([]);
     const [errMsg, setErrMsg] = useState('');
-    const { render } = useContext(DataContext);
-    const [renderPage, setRenderPage] = useState(true);
+    const { render, setRender } = useContext(DataContext);
 
     const handleMainImageChange = (e) => {
+        setMainImage(e.target.files[0]);
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = () => {
-            setMainImage(reader.result);
+            setMainImagePreview(reader.result);
         };
         reader.readAsDataURL(file);
     };
 
     const handleOrderImageChange = (e) => {
+        setOtherImages(e.target.files);
         const files = e.target.files;
         const imagesArray = [];
         for (let i = 0; i < files.length; i++) {
@@ -43,7 +46,7 @@ function AddProductM({ onClickCancle }) {
             reader.onload = () => {
                 imagesArray.push(reader.result);
                 if (imagesArray.length === files.length) {
-                    setOtherImages(imagesArray);
+                    setOtherImagesPreiew(imagesArray);
                 }
             };
             reader.readAsDataURL(files[i]);
@@ -191,25 +194,21 @@ function AddProductM({ onClickCancle }) {
 
         formData.append('ProductInfo', blob);
 
-        for (let i = 0; i < mainImage.length; i++) {
-            formData.append('MainImage', mainImage[i]);
-        }
+        formData.append('MainImage', mainImage);
 
         for (let i = 0; i < otherImages.length; i++) {
             formData.append('OtherImage', otherImages[i]);
         }
 
-        console.log(cap);
-
         const api = await productServices.addProduct(formData);
 
-        if (api?.status === 200) {
+        if (api.status === 200) {
             toast.success('Thêm sản phẩm mới thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
-            // setAction('view');
-            // setRenderPage(!renderPage);
+            onClickCancle();
+            setRender(!render);
         } else {
             if (api?.status === 403) {
                 toast.info('Vui lòng đăng nhập để tiếp tục thêm sản phẩm.', {
@@ -235,7 +234,9 @@ function AddProductM({ onClickCancle }) {
         getAllCategorys();
         getAllVariations();
         getAllAttributes();
-    }, [errMsg, render, renderPage]);
+    }, []);
+
+    useEffect(() => {}, [errMsg]);
 
     return (
         <div className={cx('col')}>
@@ -380,19 +381,32 @@ function AddProductM({ onClickCancle }) {
             </div>
             <div className={cx('group-item')}>
                 <div className={cx('label-item')}>Ảnh chính : </div>
-                <input type="file" accept="image/*" onChange={handleMainImageChange} />
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                        handleMainImageChange(e);
+                    }}
+                />
             </div>
-            {mainImage && (
+            {mainImagePreview && (
                 <div className={cx('image-layout')}>
-                    <img src={mainImage} className={cx('main-image')} alt="selected" />
+                    <img src={mainImagePreview} className={cx('main-image')} alt="selected" />
                 </div>
             )}
             <div className={cx('group-item')}>
                 <div className={cx('label-item')}>Ảnh khác : </div>
-                <input type="file" accept="image/*" multiple onChange={handleOrderImageChange} />
+                <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={(e) => {
+                        handleOrderImageChange(e);
+                    }}
+                />
             </div>
             <div className={cx('image-layout')}>
-                {otherImages.map((image, index) => (
+                {otherImagesPreiew.map((image, index) => (
                     <img key={index} src={image} className={cx('image')} alt="selected" />
                 ))}
             </div>
@@ -411,6 +425,7 @@ function AddProductM({ onClickCancle }) {
                     Hủy
                 </Button>
             </div>
+            <ToastContainer />
         </div>
     );
 }

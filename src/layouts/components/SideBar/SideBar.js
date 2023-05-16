@@ -11,15 +11,15 @@ import DataContext from '~/context/DataContext';
 
 const cx = classNames.bind(styles);
 
-function SideBar({ onChangeVariations }) {
+function SideBar({ mId, onChangeVariations }) {
     const [varitons, setVaritons] = useState([]);
 
     const { render } = useContext(DataContext);
 
     useEffect(() => {
         const fetchAPI = async () => {
-            let api = await variationServices.getAllVariations();
-            setVaritons(api.content);
+            let api = await variationServices.getVariationById(mId);
+            setVaritons(api.data);
         };
 
         fetchAPI();

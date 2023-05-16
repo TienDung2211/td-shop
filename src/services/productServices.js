@@ -2,7 +2,7 @@ import * as request from '~/utils/request';
 
 const productServices = {
     // Guest
-    getProducts: async (filter = null, page = 0, variations = null, keyword = null) => {
+    getProducts: async (filter = null, page = 0, variations = null, keyword = null, categoryId = 0) => {
         try {
             let paramsFilter = '';
             if (filter) {
@@ -29,7 +29,12 @@ const productServices = {
                 paramsKeyword = `&keyword=${keyword}`;
             }
 
-            let endpoint = `?page=${page}${paramsVariations}${paramsFilter}${paramsKeyword}`;
+            let paramsCategory = '';
+            if (categoryId !== '' && categoryId) {
+                paramsCategory = `&category-id=${categoryId}`;
+            }
+
+            let endpoint = `?page=${page}${paramsVariations}${paramsFilter}${paramsKeyword}${paramsCategory}`;
 
             const res = await request.get(`/product/search${endpoint}`);
             return res.data;
@@ -99,6 +104,36 @@ const productServices = {
             const access = JSON.parse(localStorage.getItem('access'));
 
             const res = await request.post(`/product/add`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    updateProduct: async (id, data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.put(`/product/update/${id}`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    deleteProduct: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.remove(`/product/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },

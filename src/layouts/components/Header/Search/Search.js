@@ -118,14 +118,14 @@ function Search() {
                             />
                         )}
                     </button>
-                    <div
+                    {/* <div
                         className={cx('search-btn')}
                         onClick={() => {
                             setShowResults(true);
                         }}
                     >
                         <FontAwesomeIcon icon={faMagnifyingGlass} className={cx('icon')} />
-                    </div>
+                    </div> */}
                 </div>
             </HeadlessTippy>
         </div>

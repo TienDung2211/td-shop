@@ -3,20 +3,10 @@ import styles from './Header.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useState, useEffect, useContext } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
-import {
-    faCircleQuestion,
-    faUser,
-    faArrowRightFromBracket,
-    faLocationDot,
-    faFileInvoice,
-    faGear,
-    faUserTie,
-    faCartShopping,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 import Cart from './Cart';
 import QrCode from './QrCode';
@@ -163,9 +153,9 @@ function Header() {
                         )}
                     </nav>
                     <div className={cx('area-search')}>
-                        <div className={cx('options-layout')}>
+                        {/* <div className={cx('options-layout')}>
                             <OptionsPopper />
-                        </div>
+                        </div> */}
                         <div className={cx('search-layout')}>
                             <Search />
                         </div>

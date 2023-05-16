@@ -1,6 +1,7 @@
 // Layout
 import SettingsLayout from '~/layouts/SettingLayout';
 import ManagerLayout from '~/layouts/ManagerLayout';
+import SliderFullWidthLayout from '~/layouts/SliderFullWidthLayout';
 
 // Pages
 import Home from '~/pages/Home';
@@ -34,9 +35,9 @@ import StatisticM from '~/pages/Manager/StatisticM/StatisticM';
 import AttributeM from '~/pages/Manager/AttributeM/AttributeM';
 
 const publicRoutes = [
-    { path: '/', component: Home },
+    { path: '/', component: Home, layout: SliderFullWidthLayout },
     { path: '/cart', component: Cart },
-    { path: '/sort', component: SortProduct },
+    { path: '/sort/:mId/:cId', component: SortProduct },
     { path: '/payment', component: Payment },
     { path: '/payment/momo', component: MomoPayment },
     { path: '/payment/sucess', component: PaymentSucess },
