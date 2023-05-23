@@ -32,7 +32,6 @@ function UpdateProductM({ id, onClickCancle }) {
         const api = await productServices.adminGetProductById(id);
 
         if (api?.status === 200) {
-            console.log(api.data);
             setName(api.data.Name);
             setTotal(api.data.Total);
             setShortDescription(api.data.ShortDescription);
@@ -58,16 +57,20 @@ function UpdateProductM({ id, onClickCancle }) {
             setVariations(api.data.Variations.map((item) => ({ label: item.id, value: item.value })));
             setAttributes(
                 api.data.Attributes.map((item) => ({
-                    label: item.id,
+                    label: item.attributeId,
                     value: item.name,
                     inputValue: item.value,
                 })),
             );
             setInputAttributes(
-                api.data.Attributes.map((item) => ({
-                    [item.id]: item.value,
-                })),
+                convertArrayToObject(
+                    api.data.Attributes.map((item) => ({
+                        [item.attributeId]: item.value,
+                    })),
+                ),
             );
+
+            console.log(api.data.Attributes);
 
             setStatus({ label: api.data.Status.Id, value: api.data.Status.Name });
         }
@@ -234,6 +237,8 @@ function UpdateProductM({ id, onClickCancle }) {
             DeletedImages: deleteImages,
         };
 
+        console.log(cap);
+
         const json = JSON.stringify(cap);
 
         const blob = new Blob([json], {
@@ -245,17 +250,15 @@ function UpdateProductM({ id, onClickCancle }) {
         if (mainImage instanceof File) {
             // Đối với đối tượng File, không cần chuyển đổi
             formData.append('MainImage', mainImage);
+        } else if (typeof mainImage === 'string' && mainImage.startsWith('http')) {
+            // Nếu mainImage là một URL, chuyển đổi URL thành Blob
+            await fetch(mainImage)
+                .then((response) => response.blob())
+                .then((blob) => {
+                    const file = new File([blob], 'mainImage.jpg', { type: 'image/jpeg' });
+                    formData.append('MainImage', file);
+                });
         }
-
-        // else if (typeof mainImage === 'string' && mainImage.startsWith('http')) {
-        //     // Nếu mainImage là một URL, chuyển đổi URL thành Blob
-        //     await fetch(mainImage)
-        //         .then((response) => response.blob())
-        //         .then((blob) => {
-        //             const file = new File([blob], 'mainImage');
-        //             formData.append('MainImage', file);
-        //         });
-        // }
 
         for (let i = 0; i < otherImages.length; i++) {
             const image = otherImages[i];
@@ -277,12 +280,12 @@ function UpdateProductM({ id, onClickCancle }) {
         const api = await productServices.updateProduct(id, formData);
 
         if (api?.status === 200) {
-            toast.success('Cập nhập sản phẩm mới thành công', {
+            toast.success('Cập nhập sản phẩm thành công', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             onClickCancle();
-            setRender(render);
+            setRender(!render);
         } else {
             if (api?.status === 403) {
                 toast.info('Vui lòng đăng nhập để tiếp tục cập nhập sản phẩm.', {
@@ -302,6 +305,14 @@ function UpdateProductM({ id, onClickCancle }) {
             }
         }
     };
+
+    function convertArrayToObject(arr) {
+        const obj = {};
+        for (let i = 0; i < arr.length; i++) {
+            obj[Object.keys(arr[i])[0]] = arr[i][Object.keys(arr[i])[0]];
+        }
+        return obj;
+    }
 
     useEffect(() => {
         getProductById();
@@ -425,7 +436,14 @@ function UpdateProductM({ id, onClickCancle }) {
                         onChange={handleChangeAttributes}
                         options={optionsAttribute}
                         onFocus={() => setOpenAttribute(true)}
-                        onBlur={() => setOpenAttribute(false)}
+                        onBlur={() => {
+                            setOpenAttribute(false);
+                            const newValues = Object.assign(
+                                {},
+                                ...attributes.map((option) => ({ [option.label]: option.inputValue })),
+                            );
+                            setInputAttributes(newValues);
+                        }}
                         menuIsOpen={openAttribute}
                     />
                 </div>
@@ -454,8 +472,6 @@ function UpdateProductM({ id, onClickCancle }) {
                                 );
 
                                 setInputAttributes(newValues);
-
-                                console.log(inputAttributes);
                             }}
                         />
                     </div>
@@ -488,9 +504,8 @@ function UpdateProductM({ id, onClickCancle }) {
                         onChange={handleChangeStatus}
                         value={status}
                         options={[
-                            { value: 'Đã ẩn', label: 1 },
-                            { value: 'Đang bán', label: 2 },
-                            { value: 'Ngừng bán', label: 3 },
+                            { value: 'Ẩn sản phẩm', label: 1 },
+                            { value: 'Mở bán sản phẩm', label: 2 },
                         ]}
                     />
                 </div>

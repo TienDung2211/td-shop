@@ -1,93 +1,30 @@
-.wrapper {
-    background-color: var(--white-color);
-    width: 100%;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
 .control {
-    background-color: rgba(0, 0, 0, 0.05);
     width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    flex-shrink: 0;
-}
-
-// Select Options
-
-.control-filt {
-    flex: 1;
-    display: flex;
-    align-items: center;
-}
-
-.options-layout {
-    font-family: var(--font-family);
-    border-radius: 2px;
-    padding: 12px 24px;
-}
-
-.label {
-    font-family: var(--font-family);
-    background-color: var(--white-color);
-    width: 200px;
-    height: 36px;
-    padding: 0 16px;
-    font-size: 1.4rem;
-    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 1;
-}
+    padding: 0 10px;
+    flex-shrink: 0;
 
-.options {
-    width: 200px;
-    margin-top: -8px;
-}
-
-.options-item {
-    width: 100%;
-    padding: 12px 16px;
-
-    a {
-        font-size: 1.4rem;
-        font-weight: 400;
-        color: var(--text-color);
+    .add-layout {
+        width: 200px;
+        display: flex;
+        align-items: center;
+        border-radius: 999px;
+        border: 1px solid var(--low-separation-color);
+        .text {
+            margin-left: 12px;
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
     }
-}
-.options-item.selection-item {
-    a {
-        color: var(--red-color);
+
+    .options-layout {
+        font-family: var(--font-family);
+        border-radius: 2px;
+        padding: 0;
+        width: 300px;
     }
-}
-
-// Input
-
-.input-layout {
-    flex: 1;
-}
-
-.input {
-    font-family: var(--font-family);
-    height: 36px;
-    width: 100%;
-    outline: 1px solid var(--low-separation-color);
-    border-radius: 2px;
-    padding: 0 12px;
-    font-size: 1.4rem;
-}
-
-// Button
-.button-apply {
-    margin-left: 24px;
-}
-
-.results {
-    height: 500px;
-    overflow-y: auto;
 }
 
 // Form
@@ -130,7 +67,21 @@
     outline: 1px solid var(--low-separation-color);
 }
 
+.male-label {
+    margin-right: 30px;
+}
+.female-value {
+    margin-left: 30px;
+}
+
+.male-label,
+.female-label {
+    margin-left: 12px;
+}
+
 .date-input {
+    width: 300px;
+    height: 40px;
     font-size: 1.7rem;
     background-color: transparent;
     color: var(--text-color);
@@ -153,6 +104,11 @@
 .button-layout {
     margin-top: 40px;
     margin-left: 160px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.icon-button-layout {
     display: flex;
     justify-content: space-around;
 }

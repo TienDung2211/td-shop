@@ -2,7 +2,14 @@ import * as request from '~/utils/request';
 
 const productServices = {
     // Guest
-    getProducts: async (filter = null, page = 0, variations = null, keyword = null, categoryId = 0) => {
+    getProducts: async (
+        filter = null,
+        page = 0,
+        variations = null,
+        keyword = null,
+        categoryId = 0,
+        masterCategoryId = 0,
+    ) => {
         try {
             let paramsFilter = '';
             if (filter) {
@@ -29,12 +36,10 @@ const productServices = {
                 paramsKeyword = `&keyword=${keyword}`;
             }
 
-            let paramsCategory = '';
-            if (categoryId !== '' && categoryId) {
-                paramsCategory = `&category-id=${categoryId}`;
-            }
+            const paramsCategory = `&category-id=${categoryId}`;
+            const paramsMasterCategory = `&master-category-id=${masterCategoryId}`;
 
-            let endpoint = `?page=${page}${paramsVariations}${paramsFilter}${paramsKeyword}${paramsCategory}`;
+            let endpoint = `?page=${page}${paramsVariations}${paramsFilter}${paramsKeyword}${paramsCategory}${paramsMasterCategory}`;
 
             const res = await request.get(`/product/search${endpoint}`);
             return res.data;

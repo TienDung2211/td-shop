@@ -18,8 +18,14 @@ function SideBar({ mId, onChangeVariations }) {
 
     useEffect(() => {
         const fetchAPI = async () => {
-            let api = await variationServices.getVariationById(mId);
-            setVaritons(api.data);
+            let api;
+            if (mId == 0) {
+                api = await variationServices.getAllVariations();
+                setVaritons(api.content);
+            } else {
+                api = await variationServices.getVariationById(mId);
+                setVaritons(api.data);
+            }
         };
 
         fetchAPI();

@@ -33,11 +33,11 @@ const userServices = {
         }
     },
     //Admin
-    getAllAccounts: async () => {
+    getAllAccounts: async (roleId = 0, id = 0) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
-            const res = await request.get('user/admin/get?sort=Id,ASC', {
+            const res = await request.get(`user/admin/get?sort=Id,ASC&role-id=${roleId}&id=${id}&size=200`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -48,11 +48,41 @@ const userServices = {
             console.error(error.response.data);
         }
     },
-    banAccount: async (data) => {
+    banAccount: async (id) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
-            const res = await request.post(`user/admin/ban/${data}`, data, {
+            const res = await request.post(`user/admin/ban/${id}`, id, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    unBanAccount: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post(`user/admin/unban/${id}`, id, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    getEmployeeById: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.get(`/employee/get/${id}`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -68,6 +98,21 @@ const userServices = {
             const access = JSON.parse(localStorage.getItem('access'));
 
             const res = await request.post('/employee/add', data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    updateEmployee: async (id, data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.put(`/employee/update/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },

@@ -43,8 +43,6 @@ function Profile() {
                 return;
             }
 
-            console.log(birthDate);
-
             const data = {
                 FirstName: fname,
                 LastName: lname,

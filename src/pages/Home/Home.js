@@ -71,7 +71,7 @@ function Home() {
                     </div>
                 </div>
                 <div className={cx('grid-column-2', 'view-all-layout')}>
-                    <Button to="/sort" large transparent className={cx('view-all-btn')}>
+                    <Button to="/sort/0/0" large transparent className={cx('view-all-btn')}>
                         Xem tất cả {'>>'}
                     </Button>
                 </div>

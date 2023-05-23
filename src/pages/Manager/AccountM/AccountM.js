@@ -1,39 +1,112 @@
 import classNames from 'classnames/bind';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './AccountM.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useState, useEffect, useContext } from 'react';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faLockOpen, faPlus, faUserLock, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Select from 'react-select';
+import { Tag } from 'antd';
 import Button from '~/components/Button';
-import AccountMItem from './AccountMItem';
 import DataContext from '~/context/DataContext';
 import userServices from '~/services/userServices';
 import { ToastContainer, toast } from 'react-toastify';
+import DataTable from '~/components/DataTable/DataTable';
+import AddAccountM from './AddAccountM';
+import UpdateAccountM from './UpdateAccountM';
 
 const cx = classNames.bind(styles);
 
 function AccountM() {
     const [accounts, setAccounts] = useState([]);
-    const [renderPage, setRenderPage] = useState(true);
+    const [roleId, setRoleId] = useState(0);
+    const [accountId, setAccountId] = useState(0);
     const [action, setAction] = useState('view');
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [repeatPassword, setRepeatPassword] = useState('');
-    const [salary, setSalary] = useState(0);
-    const [errMsg, setErrMsg] = useState('');
-
     const { render } = useContext(DataContext);
+    const [renderPage, setRenderPage] = useState(true);
+
+    const columns = [
+        {
+            title: 'Họ tên',
+            dataIndex: '',
+            key: 'user',
+            editable: true,
+            render: (user) => (
+                <p>
+                    {user.LastName} {user.FirstName}
+                </p>
+            ),
+        },
+        {
+            title: 'Email',
+            dataIndex: 'Email',
+            key: 'email',
+            editable: true,
+            sorter: (a, b) => a.Email.localeCompare(b.Email),
+        },
+        {
+            title: 'SĐT',
+            dataIndex: 'Phone',
+            key: 'phone',
+        },
+        {
+            title: 'Tài khoản',
+            dataIndex: 'role',
+            key: 'role',
+            align: 'center',
+            editable: true,
+            render: (role) => (
+                <p>
+                    {role.id === 1 && <Tag color={'volcano'}>Admin</Tag>}
+                    {role.id === 2 && <Tag color={'green'}>Employee</Tag>}
+                    {role.id === 3 && <Tag color={'blue'}>User</Tag>}
+                </p>
+            ),
+        },
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'action',
+            align: 'center',
+            editable: true,
+            render: (user) => (
+                <div className={cx('icon-button-layout')}>
+                    {user.role.id === 2 && (
+                        <Button
+                            className={cx('button')}
+                            transparent
+                            rounded
+                            iconOnly={<FontAwesomeIcon icon={faPen} />}
+                            onClick={() => handleClickUpdate(user.id)}
+                        ></Button>
+                    )}
+                    {user.isActive ? (
+                        <Button
+                            className={cx('button')}
+                            transparent
+                            rounded
+                            iconOnly={<FontAwesomeIcon icon={faUserLock} />}
+                            onClick={() => handleBanAccount(user.id)}
+                        ></Button>
+                    ) : (
+                        <Button
+                            className={cx('button')}
+                            transparent
+                            rounded
+                            iconOnly={<FontAwesomeIcon icon={faLockOpen} />}
+                            onClick={() => handleUnBanAccount(user.id)}
+                        ></Button>
+                    )}
+                </div>
+            ),
+        },
+    ];
 
     const getAllAccounts = async () => {
-        let api = await userServices.getAllAccounts();
+        const api = await userServices.getAllAccounts(roleId);
 
         if (api?.status === 200) {
             setAccounts(api.data.content);
@@ -46,6 +119,19 @@ function AccountM() {
         }
     };
 
+    const handleChangeRoleId = (selectedOption) => {
+        setRoleId(selectedOption.label);
+    };
+
+    const handleCancle = () => {
+        setAction('view');
+    };
+
+    const handleClickUpdate = (id) => {
+        setAccountId(id);
+        setAction('update');
+    };
+
     const handleBanAccount = async (id) => {
         let api = await userServices.banAccount(id);
 
@@ -56,262 +142,76 @@ function AccountM() {
             });
             setRenderPage(!renderPage);
         } else if (api === undefined) {
-            toast.error('Vui lòng đăng nhập để tiếp tục xóa tùy chọn.', {
+            toast.error('Vui lòng đăng nhập để tiếp tục hành động.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleUnBanAccount = async (id) => {
+        let api = await userServices.unBanAccount(id);
 
-        try {
-            // eslint-disable-next-line
-            var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-            // eslint-disable-next-line
-            var emailno = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if (phone.length < 10) {
-                setErrMsg('Số điện thoại phải có 10 chữ số');
-                return;
-            }
-            if (!phone.match(phoneno)) {
-                setErrMsg('Vui lòng nhập số điện thoại đúng định dạng');
-                return;
-            }
-            if (!email.match(emailno)) {
-                setErrMsg('Vui lòng nhập email đúng định dạng');
-                return;
-            }
-            if (username.length < 6) {
-                setErrMsg('Tài khoản phải có tối thiểu 6 kí tự');
-                return;
-            }
-            if (password.length < 8 || repeatPassword < 8) {
-                setErrMsg('Mật khẩu phải có tối thiểu 8 kí tự');
-                return;
-            }
-            if (password !== repeatPassword) {
-                setErrMsg('Mật khẩu xác nhận không khớp');
-                return;
-            }
-            if (salary === 0) {
-                setErrMsg('Lương phải lớn hơn 0');
-                return;
-            }
-
-            const data = {
-                FirstName: firstName,
-                LastName: lastName,
-                Email: email,
-                Phone: phone,
-                Username: username,
-                Password: password,
-                Salary: salary,
-            };
-
-            let api = await userServices.addEmployee(data);
-
-            if (api?.status === 200) {
-                toast.success('Thêm tài khoản nhân viên mới thành công.', {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: 'toast-message',
-                });
-                setRenderPage(!renderPage);
-            } else {
-                if (api?.status === 400) {
-                    if (api.message === 'Email existed') {
-                        setErrMsg('Email này đã được đăng ký tài khoản.');
-                        toast.info('Email này đã được đăng ký tài khoản.', {
-                            position: toast.POSITION.TOP_RIGHT,
-                            className: 'toast-message',
-                        });
-                    } else if (api.message === 'Username existed') {
-                        setErrMsg('Tên tài khoản đã tồn tại');
-                        toast.info('Tên tài khoản đã tồn tại.', {
-                            position: toast.POSITION.TOP_RIGHT,
-                            className: 'toast-message',
-                        });
-                    } else {
-                        setErrMsg('Lỗi không xác định, vui lòng thử lại sau');
-                    }
-                } else {
-                    setErrMsg('Đăng ký thất bại');
-                }
-            }
-        } catch (error) {
-            console.log(error);
+        if (api?.status === 200) {
+            toast.success('Tài khoản kích hoạt thành công', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            setRenderPage(!renderPage);
+        } else if (api === undefined) {
+            toast.error('Vui lòng đăng nhập để tiếp tục hành động.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
         }
     };
 
     useEffect(() => {
         getAllAccounts();
-    }, [renderPage, render, action]);
+    }, [render, action, renderPage, roleId]);
 
-    return accounts.length > 0 ? (
-        <div className={cx('wrapper')}>
-            <div className={cx('control')}>
-                <Button
-                    rounded
-                    approach
-                    iconOnly={<FontAwesomeIcon icon={faPlus} />}
-                    onClick={() => {
-                        setAction('add');
-                        console.log('Add Employee');
-                        console.log(action);
-                    }}
-                ></Button>
-                <form className={cx('control-filt')}>
-                    <div className={cx('options-layout')}>
-                        <Select
-                            formatOptionLabel={(option) => `${option.value}`}
-                            placeholder="Chọn loại tài khoản"
-                            // onChange={handleChangePayment}
-                            options={[
-                                { value: 'Tất cả', label: 0 },
-                                { value: 'Nhân viên', label: 1 },
-                                { value: 'Người dùng', label: 2 },
-                                { value: 'Admin', label: 3 },
-                            ]}
-                        />
-                    </div>
-
-                    <div className={cx('input-layout')}>
-                        <input className={cx('input')} type="text" placeholder="Nhập tên tìm kiếm"></input>
-                    </div>
-
-                    <div className={cx('button-apply')}>
-                        <Button primary border>
-                            Áp dụng
-                        </Button>
-                    </div>
-                </form>
-            </div>
+    return (
+        <div className={cx('container')}>
             {action === 'view' && (
-                <div className={cx('results')}>
-                    {accounts.map((account, index) => {
-                        return (
-                            <AccountMItem
-                                key={index}
-                                data={account}
-                                onBanAccount={() => {
-                                    handleBanAccount(account.id);
+                <div className={cx('row')}>
+                    <div className={cx('control')}>
+                        <div className={cx('add-layout')}>
+                            <Button
+                                rounded
+                                approach
+                                iconOnly={<FontAwesomeIcon icon={faPlus} />}
+                                onClick={() => {
+                                    setAction('add');
                                 }}
+                            ></Button>
+                            <span className={cx('text')}>Thêm nhân viên</span>
+                        </div>
+                        <div className={cx('options-layout')}>
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                placeholder="Chọn loại tài khoản"
+                                onChange={handleChangeRoleId}
+                                options={[
+                                    { value: 'Tất cả', label: 0 },
+                                    { value: 'Admin', label: 1 },
+                                    { value: 'Employee', label: 2 },
+                                    { value: 'User', label: 3 },
+                                ]}
                             />
-                        );
-                    })}
+                        </div>
+                    </div>
                 </div>
             )}
+            <div className={cx('row')}>
+                {action === 'view' && <DataTable data={accounts} columns={columns} showExport={false} />}
 
-            {action === 'add' && (
-                <form className={cx('add-employee-layout')} onSubmit={handleSubmit}>
-                    <div className={cx('title')}>Thêm nhân viên</div>
-                    <div className={cx('group')}>
-                        <span className={cx('error-msg')}>{errMsg}</span>{' '}
-                    </div>
+                {action === 'add' && <AddAccountM onClickCancle={handleCancle} />}
 
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Họ</div>
-                        <input
-                            type="text"
-                            className={cx('input-item')}
-                            placeholder="Nhập họ"
-                            required
-                            value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Tên</div>
-                        <input
-                            type="text"
-                            className={cx('input-item')}
-                            placeholder="Nhập tên"
-                            required
-                            value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Email</div>
-                        <input
-                            type="text"
-                            className={cx('input-item')}
-                            placeholder="Nhập email"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Phone</div>
-                        <input
-                            type="text"
-                            className={cx('input-item')}
-                            placeholder="Nhập số điện thoại"
-                            required
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Tài khoản</div>
-                        <input
-                            type="text"
-                            className={cx('input-item')}
-                            placeholder="Nhập tên tài khoản"
-                            required
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Mật khẩu</div>
-                        <input
-                            type="password"
-                            className={cx('input-item')}
-                            placeholder="Nhập mật khẩu"
-                            required
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Mật khẩu xác nhận</div>
-                        <input
-                            type="password"
-                            className={cx('input-item')}
-                            placeholder="Nhập mật khẩu xác nhận"
-                            required
-                            value={repeatPassword}
-                            onChange={(e) => setRepeatPassword(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Lương</div>
-                        <input
-                            type="number"
-                            className={cx('input-item')}
-                            placeholder="Nhập lương nhân viên"
-                            required
-                            value={salary}
-                            onChange={(e) => setSalary(e.target.value)}
-                        />
-                    </div>
-
-                    <div className={cx('button-layout')}>
-                        <Button border transparent onClick={() => setAction('view')}>
-                            Trở lại
-                        </Button>
-                        <Button primary border type="submit">
-                            Đăng ký
-                        </Button>
-                    </div>
-                </form>
-            )}
+                {action === 'update' && <UpdateAccountM id={accountId} onClickCancle={handleCancle} />}
+            </div>
             <ToastContainer />
         </div>
-    ) : null;
+    );
 }
 
 export default AccountM;
