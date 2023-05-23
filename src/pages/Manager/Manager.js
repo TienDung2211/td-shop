@@ -60,30 +60,16 @@ function Manager({ isExpanded, onToggleClass }) {
                 </div>
                 <div className={cx('nav-menu')}>
                     {MANAGER_OPTIONS.map((item) => {
-                        if (item?.role) {
-                            if (item.role === user?.Role.name) {
-                                return (
-                                    <Link
-                                        to={'/manager/' + item.key}
-                                        className={isExpanded ? cx('menu-item') : cx('menu-item', 'menu-item-NX')}
-                                        key={item.id}
-                                    >
-                                        <div className={cx('icon')}>{item.icon}</div>
-                                        {isExpanded && <p className={cx('text')}>{item.name}</p>}
-                                    </Link>
-                                );
-                            } else return null;
-                        } else
-                            return (
-                                <Link
-                                    to={'/manager/' + item.key}
-                                    className={isExpanded ? cx('menu-item') : cx('menu-item', 'menu-item-NX')}
-                                    key={item.id}
-                                >
-                                    <div className={cx('icon')}>{item.icon}</div>
-                                    {isExpanded && <p className={cx('text')}>{item.name}</p>}
-                                </Link>
-                            );
+                        return (
+                            <Link
+                                to={'/manager/' + item.key}
+                                className={isExpanded ? cx('menu-item') : cx('menu-item', 'menu-item-NX')}
+                                key={item.id}
+                            >
+                                <div className={cx('icon')}>{item.icon}</div>
+                                {isExpanded && <p className={cx('text')}>{item.name}</p>}
+                            </Link>
+                        );
                     })}
                 </div>
             </div>
