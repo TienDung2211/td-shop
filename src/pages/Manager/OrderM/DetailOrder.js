@@ -3,10 +3,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './OrderM.module.scss';
 
 import Select from 'react-select';
-import { useEffect, useState } from 'react';
 import Button from '~/components/Button';
+import DataContext from '~/context/DataContext';
+import { useEffect, useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faImagePortrait, faPhoneSquare, faMapLocation } from '@fortawesome/free-solid-svg-icons';
+import orderServices from '~/services/orderService';
 
 const cx = classNames.bind(styles);
 
@@ -14,21 +16,35 @@ const optionsStatus = [
     { value: 'Chờ thanh toán', label: 1 },
     { value: 'Đang xử lý', label: 2 },
     { value: 'Đang vận chuyển', label: 3 },
-    { value: 'Đã nhận hàng', label: 4 },
+    { value: 'Đã giao', label: 4 },
     { value: 'Đã hủy', label: 5 },
 ];
 
-function DetailOrder({ detailOrder, onCancleViewDetail, onChangeStatus }) {
+function DetailOrder({ idOrder, onCancleViewDetail, onChangeStatus }) {
     const [status, setStatus] = useState({});
     const [idStatus, setIdStatus] = useState(1);
+    const [detailOrder, setDetailOrder] = useState(null);
 
-    const getStatus = () => {
-        optionsStatus.forEach((item) => {
-            if (detailOrder.OrderStatus.id === item.label) {
-                setIdStatus(item.label);
-                setStatus(item);
-            }
-        });
+    const { render } = useContext(DataContext);
+
+    const getOrderById = async () => {
+        const api = await orderServices.getOrderById(idOrder);
+
+        if (api?.status === 200) {
+            setDetailOrder(api.data.content[0]);
+
+            optionsStatus.forEach((item) => {
+                if (api.data.content[0].OrderStatus.id === item.label) {
+                    setIdStatus(item.label);
+                    setStatus(item);
+                }
+            });
+        }
+    };
+
+    const handleChangeStatus = (selectOption) => {
+        setIdStatus(selectOption.label);
+        setStatus(selectOption);
     };
 
     const getTotalPrice = () => {
@@ -42,11 +58,15 @@ function DetailOrder({ detailOrder, onCancleViewDetail, onChangeStatus }) {
         return total;
     };
 
-    useEffect(() => {
-        getStatus();
-    }, [idStatus, detailOrder]);
+    const handleClickConfirm = () => {
+        onChangeStatus(detailOrder.Id, idStatus);
+    };
 
-    return (
+    useEffect(() => {
+        getOrderById();
+    }, [idOrder, render]);
+
+    return detailOrder ? (
         <div className={cx('detail')}>
             <span className={cx('title')}>Chi tiết đơn hàng</span>
             <div className={cx('receiver-info')}>
@@ -107,32 +127,27 @@ function DetailOrder({ detailOrder, onCancleViewDetail, onChangeStatus }) {
                 </span>
             </div>
             <div className={cx('status-detail')}>
-                Tình trạng đơn hàng : <span className={cx('value')}>{detailOrder?.OrderStatus.name}</span>
+                Tình trạng đơn hàng :{' '}
+                <div className={cx('value-select')}>
+                    <Select
+                        formatOptionLabel={(option) => `${option.value}`}
+                        value={status}
+                        placeholder="Chọn tình trạng đơn hàng"
+                        onChange={handleChangeStatus}
+                        options={optionsStatus}
+                    />
+                </div>
             </div>
             <div className={cx('button-layout')}>
                 <Button outline border transparent onClick={() => onCancleViewDetail()}>
                     Quay lại
                 </Button>
-                <div className={cx('options-layout')}>
-                    <Select
-                        formatOptionLabel={(option) => `${option.value}`}
-                        value={status}
-                        placeholder="Chọn tình trạng đơn hàng"
-                        onChange={(option) => {
-                            if (option.label !== idStatus) {
-                                const result = onChangeStatus(detailOrder.Id, option.label);
-                                if (result) {
-                                    setIdStatus(option.label);
-                                    setStatus(option);
-                                }
-                            }
-                        }}
-                        options={optionsStatus}
-                    />
-                </div>
+                <Button primary border onClick={() => handleClickConfirm()}>
+                    Xác nhận
+                </Button>
             </div>
         </div>
-    );
+    ) : null;
 }
 
 export default DetailOrder;

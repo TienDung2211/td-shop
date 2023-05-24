@@ -71,23 +71,44 @@ const orderServices = {
         }
     },
     //Employee
-    getAllOrder: async (id = 0) => {
+    getAllOrder: async (sId = 0) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
             let paramsStatus = '';
 
-            if (id !== 0) {
-                paramsStatus = `&status-id=${id}`;
+            if (sId !== 0) {
+                paramsStatus = `&status-id=${sId}`;
             }
 
-            const res = await request.get(`/order/get-all?&sort=Id,ASC${paramsStatus}`, {
+            const res = await request.get(`/order/search?page=0&size=200&sort=id${paramsStatus}`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
             });
 
-            return res.data;
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    getOrderById: async (id = 0) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            let paramsOrder = '';
+
+            if (id !== 0) {
+                paramsOrder = `&order-id=${id}`;
+            }
+
+            const res = await request.get(`/order/search?page=0&size=1&sort=id${paramsOrder}`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
         } catch (error) {
             console.error(error.response.data);
         }

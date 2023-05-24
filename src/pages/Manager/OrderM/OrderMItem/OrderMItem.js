@@ -10,7 +10,7 @@ const optionsStatus = [
     { value: 'Chờ thanh toán', label: 1 },
     { value: 'Đang xử lý', label: 2 },
     { value: 'Đang vận chuyển', label: 3 },
-    { value: 'Đã nhận hàng', label: 4 },
+    { value: 'Đã giao', label: 4 },
     { value: 'Đã hủy', label: 5 },
 ];
 
