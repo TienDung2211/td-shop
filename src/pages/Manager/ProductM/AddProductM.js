@@ -11,6 +11,7 @@ import productServices from '~/services/productServices';
 import categoryServices from '~/services/categoryServices';
 import variationServices from '~/services/variationServices';
 import { ToastContainer, toast } from 'react-toastify';
+import attributeServices from '~/services/attributeServices';
 
 const cx = classNames.bind(styles);
 
@@ -52,60 +53,54 @@ function AddProductM({ onClickCancle }) {
             reader.readAsDataURL(files[i]);
         }
     };
+    //MasterCategory
+    const [idMaster, setIdMaster] = useState(0);
+    const [optionsMaster, setOptionsMaster] = useState([]);
+    const getAllMasterCategory = async () => {
+        const api = await categoryServices.getAllMasterCategory();
+        if (api?.status === 200) {
+            var options = [];
+            api.data.content.forEach((item) => {
+                options.push({ label: item.id, value: item.name });
+            });
+            setOptionsMaster(options);
+        }
+    };
+    const handleChangeMasterCategory = (selectedOption) => {
+        setIdMaster(selectedOption.label);
+    };
 
     //Brand
     const [optionsBrand, setOptionsBrand] = useState([]);
     const [brand, setBrand] = useState(null);
+    const getAllBrands = async () => {
+        let api = await brandServices.getAllBrands();
+
+        var options = [];
+        api.content.forEach((item) => {
+            options.push({ label: item.id, value: item.name });
+        });
+        setOptionsBrand(options);
+    };
+    const handleChangeBrand = (selectedOption) => {
+        setBrand(selectedOption);
+    };
+
     //Category
     const [optionsCategory, setOptionsCategory] = useState([]);
     const [categorys, setCategorys] = useState([]);
     const [openCategory, setOpenCategory] = useState(false);
-    //Variation
-    const [optionsVariation, setOptionsVariation] = useState([]);
-    const [variations, setVariations] = useState([]);
-    const [openVariation, setOpenVariation] = useState(false);
-    //Attribute
-    const [optionsAttribute, setOptionsAttribute] = useState([]);
-    const [attributes, setAttributes] = useState([]);
-    const [inputAttributes, setInputAttributes] = useState([]);
-    const [openAttribute, setOpenAttribute] = useState(false);
-
-    const getAllVariations = async () => {
-        let api = await variationServices.getAllVariations();
-
-        var options = [];
-        api.content.forEach((list) => {
-            options.push({ label: list.id, value: '+' + list.name, disabled: true });
-            list?.setOfVariationOptions.forEach((item) => {
-                options.push({ label: item.id, value: item.value });
-            });
-        });
-        setOptionsVariation(options);
-    };
-
-    const handleChangeVariations = (selectedOption) => {
-        setVariations(selectedOption);
-    };
-
-    const getValueVariations = () => {
-        let array = [];
-
-        variations.forEach((item) => {
-            array.push(item.label);
-        });
-
-        return array;
-    };
-
     const getAllCategorys = async () => {
-        let api = await categoryServices.getAllParentCategory(1);
+        let api = await categoryServices.getAllParentCategory(idMaster);
 
         var options = [];
         api.data.forEach((list) => {
-            options.push({ label: list.Id, value: '+' + list.Name, disabled: true });
+            var optionsChild = [];
             list?.ChildCategories.forEach((item) => {
-                options.push({ label: item.Id, value: item.Name });
+                optionsChild.push({ label: item.Id, value: item.Name });
             });
+
+            options.push({ label: list.Name, options: optionsChild });
         });
         setOptionsCategory(options);
     };
@@ -124,27 +119,49 @@ function AddProductM({ onClickCancle }) {
         return array;
     };
 
-    const getAllBrands = async () => {
-        let api = await brandServices.getAllBrands();
+    //Variation
+    const [optionsVariation, setOptionsVariation] = useState([]);
+    const [variations, setVariations] = useState([]);
+    const [openVariation, setOpenVariation] = useState(false);
+    const getAllVariations = async () => {
+        let api = await variationServices.getVariationById(idMaster);
 
         var options = [];
-        api.content.forEach((item) => {
-            options.push({ label: item.id, value: item.name });
+        api.data.forEach((list) => {
+            var optionsChild = [];
+            list?.setOfVariationOptions.forEach((item) => {
+                optionsChild.push({ label: item.id, value: item.value });
+            });
+
+            options.push({ label: list.name, options: optionsChild });
         });
-        setOptionsBrand(options);
+        setOptionsVariation(options);
     };
 
-    const handleChangeBrand = (selectedOption) => {
-        setBrand(selectedOption);
+    const handleChangeVariations = (selectedOption) => {
+        setVariations(selectedOption);
     };
 
+    const getValueVariations = () => {
+        let array = [];
+
+        variations.forEach((item) => {
+            array.push(item.label);
+        });
+
+        return array;
+    };
+
+    //Attribute
+    const [optionsAttribute, setOptionsAttribute] = useState([]);
+    const [attributes, setAttributes] = useState([]);
+    const [inputAttributes, setInputAttributes] = useState([]);
+    const [openAttribute, setOpenAttribute] = useState(false);
     const getAllAttributes = async () => {
-        let api = await productServices.getAllAttributes();
-
-        const attributes = api.content[0]?.setOfAttributes;
+        let api = await attributeServices.getAttributeById(idMaster);
 
         var options = [];
-        attributes.forEach((item) => {
+        api?.data?.setOfAttributes.forEach((item) => {
             options.push({ label: item.id, value: item.name });
         });
         setOptionsAttribute(options);
@@ -154,6 +171,7 @@ function AddProductM({ onClickCancle }) {
         setAttributes(selectedOption);
     };
 
+    // Submit Form
     const handleAddProduct = async () => {
         if (brand === null) {
             setErrMsg('Bạn chưa chọn Thương hiệu');
@@ -230,11 +248,15 @@ function AddProductM({ onClickCancle }) {
     };
 
     useEffect(() => {
+        getAllMasterCategory();
         getAllBrands();
+    }, []);
+
+    useEffect(() => {
         getAllCategorys();
         getAllVariations();
         getAllAttributes();
-    }, []);
+    }, [idMaster]);
 
     useEffect(() => {}, [errMsg]);
 
@@ -304,6 +326,17 @@ function AddProductM({ onClickCancle }) {
                 </div>
             </div>
             <div className={cx('group-item')}>
+                <div className={cx('label-item')}>MasterCategory : </div>
+                <div className={cx('input-item-select')}>
+                    <Select
+                        formatOptionLabel={(option) => `${option.value}`}
+                        placeholder="Chọn MasterCategory..."
+                        onChange={handleChangeMasterCategory}
+                        options={optionsMaster}
+                    />
+                </div>
+            </div>
+            <div className={cx('group-item')}>
                 <div className={cx('label-item')}>Thể loại : </div>
                 <div className={cx('input-item-select')}>
                     <Select
@@ -325,7 +358,7 @@ function AddProductM({ onClickCancle }) {
                     <Select
                         formatOptionLabel={(option) => `${option.value}`}
                         isOptionDisabled={(option) => option.disabled}
-                        isMulti
+                        isMulti={true}
                         placeholder="Chọn danh mục..."
                         onChange={handleChangeVariations}
                         options={optionsVariation}

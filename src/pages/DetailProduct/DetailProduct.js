@@ -36,6 +36,8 @@ function DetailProduct() {
     const getProduct = async () => {
         let api = await productServices.getProductById(id);
 
+        console.log(api);
+
         setProduct(api);
 
         let mainImg = { id: 0, url: api.ImageUrl, label: null };
@@ -187,7 +189,7 @@ function DetailProduct() {
                                                     </Button>
                                                 </div>
                                                 <div className={cx('grid-column-50percent')}>
-                                                    {product.Status.Id === 2 ? (
+                                                    {product.Total > 0 ? (
                                                         <Button
                                                             primary
                                                             border

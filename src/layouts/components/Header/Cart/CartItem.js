@@ -13,22 +13,22 @@ function CartItem({ data, onRemoveProduct }) {
     return (
         <Link to={`/detail-product/${data?.Product.Id}`}>
             <li className={cx('cart-item')}>
-                <div className={cx('cart-item-layout-img')}>
-                    <img src={data?.Product?.ImageUrl} alt="" className={cx('cart-item-img')} />
+                <div className={cx('layout-img')}>
+                    <img src={data?.Product?.ImageUrl} alt="" className={cx('img')} />
                 </div>
-                <div className={cx('cart-item-info')}>
-                    <h5 className={cx('cart-item-name')}>{data?.Product?.Name}</h5>
-                    <div className={cx('cart-item-order')}>
-                        <div className={cx('cart-item-total')}>
-                            <span className={cx('cart-item-price')}>
+                <div className={cx('info')}>
+                    <h5 className={cx('name')}>{data?.Product?.Name}</h5>
+                    <div className={cx('other')}>
+                        <div className={cx('total')}>
+                            <span className={cx('price')}>
                                 {data?.Product?.Price}
                                 <span>₫</span>
                             </span>
-                            <span className={cx('cart-item-multiply')}>x</span>
-                            <span className={cx('cart-item-amount')}>{data?.Quantity}</span>
+                            <span className={cx('multiply')}>x</span>
+                            <span className={cx('amount')}>{data?.Quantity}</span>
                         </div>
                         <div
-                            className={cx('cart-item-clear')}
+                            className={cx('clear')}
                             onClick={(e) => {
                                 e.preventDefault();
                                 e.stopPropagation();

@@ -1,11 +1,26 @@
 import * as request from '~/utils/request';
 
-const access = JSON.parse(localStorage.getItem('access'));
-
 const attributeServices = {
     getAllAttributes: async () => {
         try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
             const res = await request.get(`/attribute-set/get-all?sort=id`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    getAttributeById: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.get(`/attribute-set/get/${id}`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
@@ -18,6 +33,8 @@ const attributeServices = {
     },
     addAttribute: async (data) => {
         try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
             const res = await request.post('/attribute-set/add', data, {
                 headers: {
                     Authorization: `Bearer ${access}`,
@@ -31,6 +48,8 @@ const attributeServices = {
     },
     updateAttribute: async (id, data) => {
         try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
             const res = await request.put(`/attribute-set/update/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${access}`,
@@ -44,6 +63,8 @@ const attributeServices = {
     },
     removeAttribute: async (id) => {
         try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
             const res = await request.remove(`/attribute-set/delete/${id}`, {
                 headers: {
                     Authorization: `Bearer ${access}`,
