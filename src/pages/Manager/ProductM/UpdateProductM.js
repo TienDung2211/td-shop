@@ -32,8 +32,6 @@ function UpdateProductM({ id, onClickCancle }) {
     const getProductById = async () => {
         const api = await productServices.adminGetProductById(id);
 
-        console.log(api);
-
         if (api?.status === 200) {
             setName(api.data.Name);
             setTotal(api.data.Total);
@@ -74,6 +72,9 @@ function UpdateProductM({ id, onClickCancle }) {
             );
 
             setStatus({ label: api.data.Status.Id, value: api.data.Status.Name });
+
+            getAllMasterCategory(api.data.MCategoryId);
+            setIdMaster(api.data.MCategoryId);
         }
     };
 
@@ -104,20 +105,32 @@ function UpdateProductM({ id, onClickCancle }) {
     };
     //MasterCategory
     const [idMaster, setIdMaster] = useState(0);
+    const [masterCategory, setMasterCategory] = useState();
     const [optionsMaster, setOptionsMaster] = useState([]);
-    const getAllMasterCategory = async () => {
+    const getAllMasterCategory = async (id) => {
         const api = await categoryServices.getAllMasterCategory();
         if (api?.status === 200) {
             var options = [];
             api.data.content.forEach((item) => {
                 options.push({ label: item.id, value: item.name });
+                if (item.id === id) {
+                    setMasterCategory({ label: item.id, value: item.name });
+                }
             });
             setOptionsMaster(options);
         }
     };
     const handleChangeMasterCategory = (selectedOption) => {
         setIdMaster(selectedOption.label);
+        setMasterCategory(selectedOption);
+        resetDataByMCategoryId();
     };
+    const resetDataByMCategoryId = () => {
+        setAttributes([]);
+        setVariations([]);
+        setCategorys([]);
+    };
+
     //Status
     const [status, setStatus] = useState({});
     const handleChangeStatus = (selectedOption) => {
@@ -145,8 +158,6 @@ function UpdateProductM({ id, onClickCancle }) {
     const [openCategory, setOpenCategory] = useState(false);
     const getAllCategorys = async () => {
         let api = await categoryServices.getAllParentCategory(idMaster);
-
-        // console.log(api);
 
         var options = [];
         api.data.forEach((list) => {
@@ -337,7 +348,7 @@ function UpdateProductM({ id, onClickCancle }) {
     }, [id]);
 
     useEffect(() => {
-        getAllMasterCategory();
+        // getAllMasterCategory();
         getAllBrands();
     }, []);
 
@@ -420,6 +431,7 @@ function UpdateProductM({ id, onClickCancle }) {
                 <div className={cx('input-item-select')}>
                     <Select
                         formatOptionLabel={(option) => `${option.value}`}
+                        value={masterCategory}
                         placeholder="Chọn MasterCategory..."
                         onChange={handleChangeMasterCategory}
                         options={optionsMaster}

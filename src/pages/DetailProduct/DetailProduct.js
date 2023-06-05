@@ -36,8 +36,6 @@ function DetailProduct() {
     const getProduct = async () => {
         let api = await productServices.getProductById(id);
 
-        console.log(api);
-
         setProduct(api);
 
         let mainImg = { id: 0, url: api.ImageUrl, label: null };
