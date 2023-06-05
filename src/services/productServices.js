@@ -63,6 +63,56 @@ const productServices = {
             console.error(error.response.data);
         }
     },
+    checkFollowProduct: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.get(`/product/check-follow/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    followProduct: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post(
+                `/product/follow/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${access}`,
+                    },
+                },
+            );
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    unFollowProduct: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post(
+                `/product/un-follow/${id}`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${access}`,
+                    },
+                },
+            );
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
 
     // Employee
     getAllProducts: async (keyword) => {
