@@ -122,8 +122,6 @@ function Payment(props) {
 
             let api = await orderServices.addOrder(data);
 
-            console.log(api);
-
             if (idPayment === 1) {
                 if (api.status === 200) {
                     toast.success('Đơn đặt hàng của bạn được xác nhận đã thành công.', {

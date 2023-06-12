@@ -73,6 +73,7 @@
     width: 100%;
     padding: 0px;
     list-style: none;
+    min-height: 200px;
 
     .notify-item {
         padding: 4px 12px;
@@ -125,6 +126,7 @@
     height: 50px;
     display: flex;
     align-items: center;
+    justify-content: center;
     color: var(--text-color);
     font-size: 2rem;
 

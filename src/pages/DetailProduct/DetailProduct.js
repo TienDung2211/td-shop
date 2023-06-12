@@ -80,8 +80,6 @@ function DetailProduct() {
     const handleCheckFollow = async () => {
         const api = await productServices.checkFollowProduct(id);
 
-        console.log(api);
-
         if (api?.status === 200) {
             setIsFollow(api.data);
         } else {
