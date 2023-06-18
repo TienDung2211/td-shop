@@ -8,7 +8,7 @@ import { faLockOpen, faPlus, faUserLock, faPen } from '@fortawesome/free-solid-s
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import Select from 'react-select';
-import { Tag } from 'antd';
+import { Tag, Tooltip } from 'antd';
 import Button from '~/components/Button';
 import DataContext from '~/context/DataContext';
 import userServices from '~/services/userServices';
@@ -84,21 +84,25 @@ function AccountM() {
                         ></Button>
                     )}
                     {user.isActive ? (
-                        <Button
-                            className={cx('button')}
-                            transparent
-                            rounded
-                            iconOnly={<FontAwesomeIcon icon={faUserLock} />}
-                            onClick={() => handleBanAccount(user.id)}
-                        ></Button>
+                        <Tooltip title="Vô hiệu hóa người dùng">
+                            <Button
+                                className={cx('button')}
+                                transparent
+                                rounded
+                                iconOnly={<FontAwesomeIcon icon={faUserLock} />}
+                                onClick={() => handleBanAccount(user.id)}
+                            ></Button>
+                        </Tooltip>
                     ) : (
-                        <Button
-                            className={cx('button')}
-                            transparent
-                            rounded
-                            iconOnly={<FontAwesomeIcon icon={faLockOpen} />}
-                            onClick={() => handleUnBanAccount(user.id)}
-                        ></Button>
+                        <Tooltip title="Mở khóa tài khoản">
+                            <Button
+                                className={cx('button')}
+                                transparent
+                                rounded
+                                iconOnly={<FontAwesomeIcon icon={faLockOpen} />}
+                                onClick={() => handleUnBanAccount(user.id)}
+                            ></Button>
+                        </Tooltip>
                     )}
                 </div>
             ),
