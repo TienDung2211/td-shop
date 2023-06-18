@@ -1,26 +1,20 @@
 import classNames from 'classnames/bind';
-import Settings from '~/pages/Settings';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './SettingsLayout.module.scss';
+
+import Settings from '~/pages/Settings';
 import Header from '../components/Header';
 
 const cx = classNames.bind(styles);
 
 function SettingsLayout({ children }) {
     return (
-        <div className={cx('wrapper')}>
+        <div className={cx('wrapper', 'container-fluid')}>
             <Header />
-            <div className={cx('container')}>
-                <div className={cx('grid')}>
-                    <div className={cx('grid-full-width')}>
-                        <div className={cx('grid-row', 'content')}>
-                            <div className={cx('grid-column-3')}>
-                                <Settings />
-                            </div>
-                            <div className={cx('grid-column-9')}>
-                                <div className={cx('page')}>{children}</div>
-                            </div>
-                        </div>
-                    </div>
+            <div className={cx('content', 'row')}>
+                <div className={cx('flex-row', 'd-flex')}>
+                    <Settings />
+                    <div className={cx('page')}>{children}</div>
                 </div>
             </div>
         </div>

@@ -10,6 +10,7 @@ import Button from '~/components/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import addressServices from '~/services/addressServices';
 import DataContext from '~/context/DataContext';
+import AddAddress from './AddAddress';
 
 const cx = classNames.bind(styles);
 
@@ -57,6 +58,10 @@ function Address() {
                 className: 'toast-message',
             });
         }
+    };
+    const onClickCancle = () => {
+        setView(true);
+        setAddressUpdate(null);
     };
     const handleSubmitAdd = async (e) => {
         e.preventDefault();
@@ -268,115 +273,116 @@ function Address() {
                 </div>
             )}
             {!view && !addressUpdate && (
-                <form onSubmit={handleSubmitAdd}>
-                    <div className={cx('group')}>
-                        <span className={cx('error-msg')}>{errMsg}</span>
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Họ tên người nhận : </div>
-                        <input
-                            className={cx('input-item')}
-                            type="text"
-                            required
-                            value={fullName}
-                            onChange={(e) => setFullName(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Email người nhận : </div>
-                        <input
-                            className={cx('input-item')}
-                            type="text"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Số điện thoại người nhận : </div>
-                        <input
-                            className={cx('input-item')}
-                            type="text"
-                            required
-                            value={phone}
-                            onChange={(e) => setPhone(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>*Tỉnh/Thành phố</div>
-                        <select className={cx('custom-select')} onChange={onChangeProvince}>
-                            <option value="0">Tỉnh/Thành phố</option>
-                            {provinces.map((province) => (
-                                <option key={province.id} value={province.id}>
-                                    {province.Name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>*Quận/Huyện</div>
-                        <select className={cx('custom-select')} onChange={onChangeDistrict}>
-                            <option value="0">Quận/Huyện</option>
-                            {district.map((district) => (
-                                <option key={district.id} value={district.id}>
-                                    {district.Name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>*Phường/Xã</div>
-                        <select className={cx('custom-select')} onChange={onChangeWard}>
-                            <option value="0">Phường/Xã</option>
-                            {wards.map((ward) => (
-                                <option key={ward.id} value={ward.id}>
-                                    {ward.Name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Địa chỉ cụ thể</div>
-                        <input
-                            className={cx('input-item')}
-                            type="text"
-                            required
-                            value={detailAddress}
-                            onChange={(e) => setDetailAddress(e.target.value)}
-                        />
-                    </div>
-                    <div className={cx('group-item')}>
-                        <div className={cx('label-item')}></div>
-                        <input
-                            className={cx('input-item', 'confirm')}
-                            type="checkbox"
-                            id="confirm"
-                            value="confirm"
-                            defaultChecked={isDefault}
-                            onChange={(e) => {
-                                setIsDefault(e.target.checked);
-                            }}
-                        />
-                        <label htmlFor="confirm" className={cx('confirm--label')}>
-                            Đặt làm địa chỉ mặc định.
-                        </label>
-                    </div>
-                    <div className={cx('button-layout-update')}>
-                        <Button outline border primary type="submit">
-                            Xác nhận
-                        </Button>
-                        <Button
-                            outline
-                            border
-                            onClick={() => {
-                                setView(!view);
-                                setAddressUpdate(null);
-                            }}
-                        >
-                            Hủy
-                        </Button>
-                    </div>
-                </form>
+                // <form onSubmit={handleSubmitAdd}>
+                //     <div className={cx('group')}>
+                //         <span className={cx('error-msg')}>{errMsg}</span>
+                //     </div>
+                //     <div className={cx('group-item')}>
+                //         <div className={cx('label-item')}>Họ tên người nhận </div>
+                //         <input
+                //             className={cx('input-item')}
+                //             type="text"
+                //             required
+                //             value={fullName}
+                //             onChange={(e) => setFullName(e.target.value)}
+                //         />
+                //     </div>
+                //     <div className={cx('group-item')}>
+                //         <div className={cx('label-item')}>Email người nhận </div>
+                //         <input
+                //             className={cx('input-item')}
+                //             type="text"
+                //             required
+                //             value={email}
+                //             onChange={(e) => setEmail(e.target.value)}
+                //         />
+                //     </div>
+                //     <div className={cx('group-item')}>
+                //         <div className={cx('label-item')}>Số điện thoại người nhận </div>
+                //         <input
+                //             className={cx('input-item')}
+                //             type="text"
+                //             required
+                //             value={phone}
+                //             onChange={(e) => setPhone(e.target.value)}
+                //         />
+                //     </div>
+                //     <div className={cx('group-item')}>
+                //         <div className={cx('label-item')}>*Tỉnh/Thành phố</div>
+                //         <select className={cx('custom-select')} onChange={onChangeProvince}>
+                //             <option value="0">Tỉnh/Thành phố</option>
+                //             {provinces.map((province) => (
+                //                 <option key={province.id} value={province.id}>
+                //                     {province.Name}
+                //                 </option>
+                //             ))}
+                //         </select>
+                //     </div>
+                //     <div className={cx('group-item')}>
+                //         <div className={cx('label-item')}>*Quận/Huyện</div>
+                //         <select className={cx('custom-select')} onChange={onChangeDistrict}>
+                //             <option value="0">Quận/Huyện</option>
+                //             {district.map((district) => (
+                //                 <option key={district.id} value={district.id}>
+                //                     {district.Name}
+                //                 </option>
+                //             ))}
+                //         </select>
+                //     </div>
+                //     <div className={cx('group-item')}>
+                //         <div className={cx('label-item')}>*Phường/Xã</div>
+                //         <select className={cx('custom-select')} onChange={onChangeWard}>
+                //             <option value="0">Phường/Xã</option>
+                //             {wards.map((ward) => (
+                //                 <option key={ward.id} value={ward.id}>
+                //                     {ward.Name}
+                //                 </option>
+                //             ))}
+                //         </select>
+                //     </div>
+                //     <div className={cx('group-item')}>
+                //         <div className={cx('label-item')}>Địa chỉ cụ thể</div>
+                //         <input
+                //             className={cx('input-item')}
+                //             type="text"
+                //             required
+                //             value={detailAddress}
+                //             onChange={(e) => setDetailAddress(e.target.value)}
+                //         />
+                //     </div>
+                //     <div className={cx('group-item')}>
+                //         <div className={cx('label-item')}></div>
+                //         <input
+                //             className={cx('input-item', 'confirm')}
+                //             type="checkbox"
+                //             id="confirm"
+                //             value="confirm"
+                //             defaultChecked={isDefault}
+                //             onChange={(e) => {
+                //                 setIsDefault(e.target.checked);
+                //             }}
+                //         />
+                //         <label htmlFor="confirm" className={cx('confirm--label')}>
+                //             Đặt làm địa chỉ mặc định.
+                //         </label>
+                //     </div>
+                //     <div className={cx('button-layout-update')}>
+                //         <Button outline border primary type="submit">
+                //             Xác nhận
+                //         </Button>
+                //         <Button
+                //             outline
+                //             border
+                //             onClick={() => {
+                //                 setView(!view);
+                //                 setAddressUpdate(null);
+                //             }}
+                //         >
+                //             Hủy
+                //         </Button>
+                //     </div>
+                // </form>
+                <AddAddress onClickCancle={onClickCancle} />
             )}
             {!view && addressUpdate && (
                 <form onSubmit={handleSubmitUpdate}>
@@ -384,7 +390,7 @@ function Address() {
                         <span className={cx('error-msg')}>{errMsg}</span>
                     </div>
                     <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Họ tên người nhận : </div>
+                        <div className={cx('label-item')}>Họ tên người nhận </div>
                         <input
                             className={cx('input-item')}
                             type="text"
@@ -394,7 +400,7 @@ function Address() {
                         />
                     </div>
                     <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Email người nhận : </div>
+                        <div className={cx('label-item')}>Email người nhận </div>
                         <input
                             className={cx('input-item')}
                             type="text"
@@ -404,7 +410,7 @@ function Address() {
                         />
                     </div>
                     <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Số điện thoại người nhận : </div>
+                        <div className={cx('label-item')}>Số điện thoại người nhận </div>
                         <input
                             className={cx('input-item')}
                             type="text"

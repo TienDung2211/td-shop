@@ -7,21 +7,16 @@
     background-image: url('../../assets/images/background.jpg');
 }
 
-.container {
-    width: var(--width-app);
-    display: flex;
-    flex-direction: column;
-    margin-top: var(--header-height);
-}
-
 .content {
-    display: flex;
-    margin-top: 50px;
-    margin-right: 12px;
+    padding-top: calc(var(--header-height) + 50px);
+    width: var(--width-app);
 }
 
 .page {
+    flex: 1;
     background-color: rgba(255, 255, 255, 0.9);
-    margin-left: 12px;
+    margin-left: 24px;
     border-radius: 6px;
+    max-height: 540px;
+    overflow-y: auto;
 }

@@ -19,45 +19,52 @@
 
 .group-item {
     display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .label-item {
+        color: var(--black-color);
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    .input-item {
+        width: 100%;
+        color: var(--text-color);
+        font-size: 1.6rem;
+        padding: 0px 1.6rem;
+        font-weight: 400;
+        height: 40px;
+        outline: 1px solid var(--low-separation-color);
+    }
+    .custom-select {
+        width: 100%;
+        color: var(--text-color);
+        font-size: 1.6rem;
+        padding: 0 16px;
+        font-weight: 400;
+        height: 40px;
+        outline: 1px solid var(--low-separation-color);
+        border: none;
+    }
+}
+
+.confirm-layout {
+    display: flex;
     align-items: center;
-    height: 60px;
-}
-
-.label-item {
-    width: 180px;
-    color: var(--black-color);
-    font-size: 1.4rem;
-    font-weight: 600;
-}
-
-.value-item,
-.input-item {
-    flex: 1;
-    max-width: 400px;
-    color: var(--text-color);
-    font-size: 1.6rem;
-    padding-left: 1.6rem;
-    font-weight: 400;
-}
-
-.input-item {
-    height: 40px;
-    outline: 1px solid var(--low-separation-color);
-}
-
-.input-item.confirm {
-    max-width: 20px;
-    width: 20px;
-    height: 20px;
-    outline: none;
-    padding: 0;
-    margin: 0;
-}
-
-.confirm--label {
-    margin-left: 12px;
-    font-size: 1.6rem;
-    font-weight: 400;
+    .confirm-checkbox {
+        max-width: 20px;
+        width: 20px;
+        height: 20px;
+        outline: none;
+        padding: 0;
+        margin: 0;
+    }
+    .confirm--label {
+        margin-left: 12px;
+        font-size: 1.6rem;
+        font-weight: 400;
+    }
 }
 
 .date-input {
@@ -69,37 +76,12 @@
 .group {
     margin-left: 180px;
     display: flex;
-}
-
-.error-msg {
-    width: 100%;
-    color: var(--red-color);
-    font-size: 1.3rem;
-    font-weight: 500;
-}
-
-.custom-select {
-    flex: 1;
-    max-width: 400px;
-    color: var(--text-color);
-    font-size: 1.6rem;
-    padding: 0 16px;
-    font-weight: 400;
-    height: 40px;
-    outline: 1px solid var(--low-separation-color);
-    border: none;
-}
-
-.button-layout-view,
-.button-layout-update {
-    margin-top: 40px;
-    margin-left: 180px;
-    max-width: 400px;
-}
-
-.button-layout-update {
-    display: flex;
-    justify-content: space-between;
+    .error-msg {
+        width: 100%;
+        color: var(--red-color);
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
 }
 
 // Address Item
