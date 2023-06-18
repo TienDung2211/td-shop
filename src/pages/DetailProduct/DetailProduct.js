@@ -110,8 +110,6 @@ function DetailProduct() {
     const handleUnFollowProduct = async () => {
         const api = await productServices.unFollowProduct(id);
 
-        console.log(api);
-
         if (api?.status) {
             toast.success('Hủy theo dõi sản phẩm thành công.', {
                 position: toast.POSITION.TOP_RIGHT,

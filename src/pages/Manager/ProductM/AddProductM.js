@@ -17,10 +17,14 @@ const cx = classNames.bind(styles);
 
 function AddProductM({ onClickCancle }) {
     const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
+    const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
     const [shortDescription, setShortDescription] = useState('');
-    const [total, setTotal] = useState('');
+    const [total, setTotal] = useState(0);
+    const [length, setLength] = useState(0);
+    const [width, setWidth] = useState(0);
+    const [height, setHeight] = useState(0);
+    const [weight, setWeight] = useState(0);
     const [mainImage, setMainImage] = useState('');
     const [mainImagePreview, setMainImagePreview] = useState('');
     const [otherImages, setOtherImages] = useState([]);
@@ -199,10 +203,16 @@ function AddProductM({ onClickCancle }) {
             ShortDescription: shortDescription,
             Total: total,
             BrandId: brand.label,
+            Width: width,
+            Height: height,
+            Weight: weight,
+            Length: length,
             CategoryIds: getValueCategorys(),
             Attributes: inputAttributes,
             Variations: getValueVariations(),
         };
+
+        console.log(cap);
 
         const json = JSON.stringify(cap);
 
@@ -312,6 +322,46 @@ function AddProductM({ onClickCancle }) {
                     required
                     value={total}
                     onChange={(e) => setTotal(e.target.value)}
+                />
+            </div>
+            <div className={cx('group-item')}>
+                <div className={cx('label-item')}>Chiều dài(cm) : </div>
+                <input
+                    className={cx('input-item')}
+                    type="number"
+                    required
+                    value={length}
+                    onChange={(e) => setLength(e.target.value)}
+                />
+            </div>
+            <div className={cx('group-item')}>
+                <div className={cx('label-item')}>Chiều rộng(cm) : </div>
+                <input
+                    className={cx('input-item')}
+                    type="number"
+                    required
+                    value={width}
+                    onChange={(e) => setWidth(e.target.value)}
+                />
+            </div>
+            <div className={cx('group-item')}>
+                <div className={cx('label-item')}>Chiều cao(cm) : </div>
+                <input
+                    className={cx('input-item')}
+                    type="number"
+                    required
+                    value={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                />
+            </div>
+            <div className={cx('group-item')}>
+                <div className={cx('label-item')}>Cân nặng(kg) : </div>
+                <input
+                    className={cx('input-item')}
+                    type="number"
+                    required
+                    value={weight}
+                    onChange={(e) => setWeight(e.target.value)}
                 />
             </div>
             <div className={cx('group-item')}>
