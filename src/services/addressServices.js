@@ -82,6 +82,34 @@ const addressServices = {
             console.error(error.response.data);
         }
     },
+    getCoordinatesByDetailAddress: async (data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post('/location/address-to-coordinates', data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    checkCoordinatesIsValid: async (data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post('/location/check-coordinates-valid', data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
 };
 
 export default addressServices;

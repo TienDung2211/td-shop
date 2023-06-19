@@ -47,6 +47,12 @@
         outline: 1px solid var(--low-separation-color);
         border: none;
     }
+    .error-msg {
+        width: 100%;
+        color: var(--red-color);
+        font-size: 1.3rem;
+        font-weight: 500;
+    }
 }
 
 .confirm-layout {
@@ -67,21 +73,22 @@
     }
 }
 
-.date-input {
-    font-size: 1.7rem;
-    background-color: transparent;
-    color: var(--text-color);
+.marker-location {
+    width: 40px;
+    height: 30px;
+    color: var(--red-color);
+}
+.valid,
+.not-valid {
+    font-size: 1.4rem;
+    font-weight: 500;
 }
 
-.group {
-    margin-left: 180px;
-    display: flex;
-    .error-msg {
-        width: 100%;
-        color: var(--red-color);
-        font-size: 1.3rem;
-        font-weight: 500;
-    }
+.valid {
+    color: var(--green-color);
+}
+.not-valid {
+    color: var(--red-color);
 }
 
 // Address Item

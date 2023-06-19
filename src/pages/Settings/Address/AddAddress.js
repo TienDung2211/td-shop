@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import Button from '~/components/Button';
+import useDebounce from '~/hooks/useDebounce';
 import DataContext from '~/context/DataContext';
 import { ToastContainer, toast } from 'react-toastify';
 import addressServices from '~/services/addressServices';
@@ -30,15 +31,22 @@ function AddAddress({ onClickCancle }) {
     const [isDefault, setIsDefault] = useState(false);
     const [errMsg, setErrMsg] = useState('');
 
-    const { render, setRender } = useContext(DataContext);
+    const [isValid, setIsValid] = useState(false);
+    const [addresNow, setAddressNow] = useState('Vui lòng chọn địa chỉ');
+
+    const keyword = useDebounce(detailAddress, 2000);
+
+    const [marker, setMarker] = useState(null);
 
     const [viewport, setViewport] = useState({
         width: '100%',
-        height: 300,
-        latitude: 37.7577,
-        longitude: -122.4376,
-        zoom: 1,
+        height: 400,
+        latitude: 10.823098,
+        longitude: 106.629663,
+        zoom: 18,
     });
+
+    const { render, setRender } = useContext(DataContext);
 
     const onChangeProvince = (e) => {
         setIdProvince(e.target.value);
@@ -48,6 +56,57 @@ function AddAddress({ onClickCancle }) {
     };
     const onChangeWard = (e) => {
         setIdWard(e.target.value);
+    };
+    const onMarkerDragEnd = (event) => {
+        const newLatitude = event.lngLat[1];
+        const newLongitude = event.lngLat[0];
+
+        setMarker({
+            latitude: newLatitude,
+            longitude: newLongitude,
+        });
+
+        setViewport({
+            ...viewport,
+            latitude: newLatitude,
+            longitude: newLongitude,
+        });
+    };
+    const getCoordinates = async () => {
+        const data = {
+            wardsId: idWard,
+            addressDetail: keyword,
+        };
+        const api = await addressServices.getCoordinatesByDetailAddress(data);
+
+        if (api?.status === 200) {
+            setMarker({
+                latitude: parseFloat(api?.data?.lat),
+                longitude: parseFloat(api?.data?.lon),
+            });
+            setViewport({
+                ...viewport,
+                latitude: parseFloat(api?.data?.lat),
+                longitude: parseFloat(api?.data?.lon),
+            });
+            setIsValid(true);
+        }
+    };
+    const checkCoordinates = async () => {
+        const data = {
+            wardsId: idWard,
+            lat: viewport.latitude.toString(),
+            lng: viewport.longitude.toString(),
+        };
+        const api = await addressServices.checkCoordinatesIsValid(data);
+        if (api?.status === 200) {
+            if (api.data.result) {
+                setIsValid(true);
+            } else {
+                setIsValid(false);
+                setAddressNow(`Vị trí hiện tại ở ${api.data.chosenLocation}`);
+            }
+        }
     };
 
     const handleAddAddress = async () => {
@@ -73,27 +132,35 @@ function AddAddress({ onClickCancle }) {
                 return;
             }
 
-            const data = {
-                Name: fullName,
-                Email: email,
-                Phone: phone,
-                AddressDetail: detailAddress,
-                IsDefault: isDefault,
-                WardsId: Number(idWard),
-            };
+            if (isValid) {
+                const data = {
+                    Name: fullName,
+                    Email: email,
+                    Phone: phone,
+                    AddressDetail: detailAddress,
+                    IsDefault: isDefault,
+                    WardsId: parseInt(idWard),
+                    Lat: parseFloat(marker.latitude),
+                    Lng: parseFloat(marker.longitude),
+                };
 
-            let dataAPI = await addressServices.addAddress(data);
+                console.log(data);
 
-            if (dataAPI?.status === 200) {
-                toast.success('Thêm địa chỉ mới thành công', {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: 'toast-message',
-                });
-                setRender(!render);
-                setErrMsg('');
-                onClickCancle();
+                let dataAPI = await addressServices.addAddress(data);
+
+                if (dataAPI?.status === 200) {
+                    toast.success('Thêm địa chỉ mới thành công', {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: 'toast-message',
+                    });
+                    setRender(!render);
+                    setErrMsg('');
+                    onClickCancle();
+                } else {
+                    setErrMsg('Thêm địa chỉ không thành công, vui lòng thử lại');
+                }
             } else {
-                setErrMsg('Thêm địa chỉ không thành công, vui lòng thử lại');
+                setErrMsg('Vui lòng nhập thông tin và chọn địa chỉ hợp lệ');
             }
         } catch (error) {
             console.log(error);
@@ -109,6 +176,17 @@ function AddAddress({ onClickCancle }) {
     }, []);
 
     useEffect(() => {
+        if (!keyword.trim()) {
+            return;
+        }
+        getCoordinates();
+    }, [keyword]);
+
+    useEffect(() => {
+        checkCoordinates();
+    }, [marker]);
+
+    useEffect(() => {
         const apiGetDistricts = async () => {
             const api = await addressServices.getDisTrictByIdProvince(idProvince);
             setDistrict(api.data);
@@ -120,11 +198,11 @@ function AddAddress({ onClickCancle }) {
 
         apiGetDistricts();
         apiGetWards();
-    }, [idProvince, idDistrict, errMsg, render]);
+    }, [idProvince, idDistrict, errMsg]);
 
     return (
         <div className={cx('container')}>
-            <div className={cx('group')}>
+            <div className={cx('group-item')}>
                 <span className={cx('error-msg')}>{errMsg}</span>
             </div>
             <div className={cx('row')}>
@@ -206,14 +284,26 @@ function AddAddress({ onClickCancle }) {
             </div>
             <div className={cx('row', 'mt-5')}>
                 <div className={cx('col')}>
+                    {isValid ? (
+                        <span className={cx('valid')}>Địa chỉ đã được xác nhận</span>
+                    ) : (
+                        <span className={cx('not-valid')}>{addresNow}</span>
+                    )}
                     <ReactMapGL
                         {...viewport}
                         onViewportChange={(nextViewport) => setViewport(nextViewport)}
                         goongApiAccessToken={process.env.REACT_APP_GOONG_MAPTILES_KEY}
                     >
-                        {/* <Marker latitude={viewport.latitude} longitude={viewport.longitude}>
-                            <FontAwesomeIcon icon={faLocationDot} />
-                        </Marker> */}
+                        {marker && (
+                            <Marker
+                                latitude={marker.latitude}
+                                longitude={marker.longitude}
+                                draggable
+                                onDragEnd={onMarkerDragEnd}
+                            >
+                                <FontAwesomeIcon className={cx('marker-location')} icon={faLocationDot} />
+                            </Marker>
+                        )}
                     </ReactMapGL>
                 </div>
             </div>

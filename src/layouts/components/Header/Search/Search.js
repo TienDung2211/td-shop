@@ -1,10 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 
-import { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faSpinner, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faSpinner, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 
 import SearchItem from './SearchItem';
 import useDebounce from '~/hooks/useDebounce';
