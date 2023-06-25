@@ -119,7 +119,7 @@ function MomoPayment() {
                                 className={cx('qr-code')}
                             />
                             <div className={cx('price-layout')}>
-                                Tổng tiền : <span className={cx('price')}>{data.amount * 100} ₫</span>
+                                Tổng tiền : <span className={cx('price')}>{data.amount * 1000} ₫</span>
                             </div>
                         </div>
                         <div className={cx('intruction-layout')}>
@@ -148,7 +148,7 @@ function MomoPayment() {
                             </div>
                             <div className={cx('time')}>
                                 <span className={cx('title')}>Giao dịch kết thúc sau</span>
-                                <Countdown date={Date.now() + 10000} renderer={renderer} />
+                                <Countdown date={Date.now() + 300000} renderer={renderer} />
                             </div>
                         </div>
                     </div>

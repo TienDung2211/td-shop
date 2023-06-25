@@ -16,6 +16,19 @@
     overflow-y: auto;
 }
 
+.layout-img {
+    width: 80px;
+    height: 80px;
+    margin: 4px 6px 4px 6px;
+}
+
+.img {
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 // Detail Order
 
 .detail {
@@ -24,6 +37,18 @@
     .title {
         font-size: 2.2rem;
         font-weight: 600;
+        opacity: 0.9;
+        color: var(--text-color);
+        height: 40px;
+        margin: 12px 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .title2 {
+        font-size: 1.8rem;
+        font-weight: 500;
         opacity: 0.9;
         color: var(--text-color);
         height: 40px;
@@ -94,19 +119,9 @@
     }
 
     .product--list {
-        width: 700px;
+        width: 100%;
+        max-width: 700px;
         padding: 0 24px;
-        .title {
-            font-size: 1.8rem;
-            font-weight: 500;
-            opacity: 0.9;
-            color: var(--text-color);
-            height: 40px;
-            margin: 12px 0;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
 
         .product--item {
             display: flex;
@@ -161,10 +176,41 @@
         }
     }
 
-    .payment,
-    .ship,
-    .status-detail,
-    .total-order {
+    .ship-order {
+        width: 100%;
+        max-width: 700px;
+        // padding: 12px 0px;
+        // border: 1px solid var(--low-separation-color);
+        .label {
+            margin: 0px 24px;
+            width: 600px;
+            height: 32px;
+            padding: 0px 24px;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-color);
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            .value {
+                margin-left: 12px;
+                font-weight: 500;
+                color: var(--red-color);
+            }
+
+            .value-select {
+                margin-left: 12px;
+                width: 300px;
+                font-size: 1.4rem;
+            }
+        }
+        .label + .label {
+            margin-top: 12px;
+        }
+    }
+
+    .status-detail {
         width: 600px;
         height: 32px;
         margin-top: 12px;
@@ -194,6 +240,36 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
+    }
+}
+
+.separation {
+    height: 1px;
+    width: 100%;
+    margin: 20px 0px;
+    padding: 0 20px;
+    border-top: 3px dashed var(--primary-color);
+}
+
+.group-item {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+
+    .label-item {
+        color: var(--black-color);
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+    .input-item {
+        width: 100%;
+        color: var(--text-color);
+        font-size: 1.6rem;
+        padding: 0px 1.6rem;
+        font-weight: 400;
+        height: 40px;
+        outline: 1px solid var(--low-separation-color);
     }
 }
 

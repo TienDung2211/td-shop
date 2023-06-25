@@ -6,11 +6,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import Select from 'react-select';
 import { useState, useContext, useEffect } from 'react';
 
-import OrderMItem from './OrderMItem';
 import DataContext from '~/context/DataContext';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
 import DetailOrder from './DetailOrder';
+import DataTable from '~/components/DataTable/DataTable';
 
 const cx = classNames.bind(styles);
 
@@ -23,15 +23,92 @@ function OrderM() {
     const [idOrder, setIdOrder] = useState(0);
     const [viewDetail, setViewDetail] = useState(false);
 
+    const columns = [
+        {
+            title: 'Đơn hàng',
+            dataIndex: '',
+            align: 'center',
+            key: 'imgProduct',
+            width: '10%',
+            editable: true,
+            render: (order) => (
+                <div className={cx('layout-img')}>
+                    <img src={order.OrderDetails[0].ImageUrl} alt="" className={cx('img')} />
+                </div>
+            ),
+        },
+        {
+            title: 'Người dùng',
+            dataIndex: '',
+            key: 'user',
+            align: 'center',
+            width: '10%',
+            editable: true,
+            // sorter: (a, b) => a.user.localeCompare(b.user),
+            render: (user) => <p>{user.Address.name}</p>,
+        },
+        {
+            title: 'SDT',
+            dataIndex: '',
+            key: 'phone',
+            align: 'center',
+            width: '10%',
+            editable: true,
+            // sorter: (a, b) => a.phone - b.phone,
+            render: (user) => <p>{user.Address.phone}</p>,
+        },
+        {
+            title: 'Địa chỉ',
+            dataIndex: '',
+            key: 'addressDetail',
+            sorter: (a, b) => a.Address.addressDetail.localeCompare(b.Address.addressDetail),
+            render: (user) => <p>{user.Address.addressDetail}</p>,
+        },
+        {
+            title: 'Số lượng sản phẩm',
+            key: 'amount',
+            align: 'center',
+            width: '12%',
+            render: (order) => <p>{order.OrderDetails.length}</p>,
+        },
+        {
+            title: 'Giá trị đơn hàng',
+            dataIndex: '',
+            key: 'price',
+            align: 'center',
+            width: '12%',
+            render: (order) => <p>{getTotalPrice(order)}</p>,
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: '',
+            key: 'status',
+            align: 'center',
+            width: '10%',
+            editable: true,
+            render: (order) => <p>{order.OrderStatus.name}</p>,
+        },
+    ];
+
     const { render, setRender } = useContext(DataContext);
 
     const getAllOrder = async () => {
         const api = await orderServices.getAllOrder(idStatus);
 
-        console.log(api);
         if (api?.status === 200) {
             setOrders(api.data.content);
         }
+    };
+
+    const getTotalPrice = (data) => {
+        let total = 0;
+        data.OrderDetails.forEach((product) => {
+            total = total + Number(product?.FinalPrice);
+        });
+
+        total = total + data?.Ship?.price;
+
+        return total;
     };
 
     const handleChangeStatus = (select) => {
@@ -110,25 +187,8 @@ function OrderM() {
                 </div>
             )}
             <div className={cx('row')}>
-                {orders.length > 0 ? (
-                    <>
-                        {!viewDetail && (
-                            <div className={cx('results')}>
-                                {orders.map((order, index) => {
-                                    return (
-                                        <OrderMItem
-                                            key={index}
-                                            data={order}
-                                            onViewDetail={() => handleViewDetail(order)}
-                                            onChangeStatus={handleChangeStatusOrder}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </>
-                ) : (
-                    <span className={cx('no-order')}>Không có đơn hàng nào theo lựa chọn.</span>
+                {!viewDetail && (
+                    <DataTable columns={columns} data={orders} showExport={false} onClickRow={handleViewDetail} />
                 )}
                 {viewDetail && (
                     <DetailOrder

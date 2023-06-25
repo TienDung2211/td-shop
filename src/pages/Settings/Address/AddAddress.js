@@ -50,9 +50,12 @@ function AddAddress({ onClickCancle }) {
 
     const onChangeProvince = (e) => {
         setIdProvince(e.target.value);
+        setIdDistrict(0);
+        setIdWard(0);
     };
     const onChangeDistrict = (e) => {
         setIdDistrict(e.target.value);
+        setIdWard(0);
     };
     const onChangeWard = (e) => {
         setIdWard(e.target.value);

@@ -52,6 +52,48 @@ const orderServices = {
             console.error(error.response.data);
         }
     },
+    getShipFee: async (idShip, data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            let paramsShip = 'lalamove';
+
+            if (idShip === 1) {
+                paramsShip = 'ghn';
+            }
+
+            const res = await request.post(`/${paramsShip}/calculate-fee`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    getShipDeliveryTime: async (idShip, data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            let paramsShip = 'lalamove';
+
+            if (idShip === 1) {
+                paramsShip = 'ghn';
+            }
+
+            const res = await request.post(`/${paramsShip}/calculate-delivery-time`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
     getPaymentMethod: async () => {
         try {
             const res = await request.get('/payment-method/get-all');
@@ -64,6 +106,21 @@ const orderServices = {
     getShip: async () => {
         try {
             const res = await request.get('/ship/get-all');
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    rePayment: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post(`/order/re-payment/${id}`, null, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
 
             return res;
         } catch (error) {
@@ -118,6 +175,48 @@ const orderServices = {
             const access = JSON.parse(localStorage.getItem('access'));
 
             const res = await request.post('/order/admin/change-status', data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    createShipOrder: async (idShip, data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            let paramsShip = 'lalamove';
+
+            if (idShip === 1) {
+                paramsShip = 'ghn';
+            }
+
+            const res = await request.post(`/${paramsShip}/create-order`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    cancleShipOrder: async (idShip, data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            let paramsShip = 'lalamove';
+
+            if (idShip === 1) {
+                paramsShip = 'ghn';
+            }
+
+            const res = await request.post(`/${paramsShip}/cancle-order`, data, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },

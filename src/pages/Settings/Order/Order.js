@@ -11,6 +11,7 @@ import Button from '~/components/Button';
 import DataContext from '~/context/DataContext';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
@@ -31,6 +32,20 @@ function Order() {
 
     const { render } = useContext(DataContext);
     const [renderPage, setRenderPage] = useState(true);
+
+    const navigate = useNavigate();
+
+    const getMyOrder = async () => {
+        const access = JSON.parse(localStorage.getItem('access'));
+
+        if (access) {
+            let dataApi = await orderServices.getMyOrder(active);
+
+            if (dataApi?.content) {
+                setOrders(dataApi.content);
+            } else setOrders([]);
+        }
+    };
 
     const handleCancelOrder = async (id) => {
         let api = await orderServices.cancelOrder(id);
@@ -57,15 +72,16 @@ function Order() {
         }
     };
 
-    const getMyOrder = async () => {
-        const access = JSON.parse(localStorage.getItem('access'));
-
-        if (access) {
-            let dataApi = await orderServices.getMyOrder(active);
-
-            if (dataApi?.content) {
-                setOrders(dataApi.content);
-            } else setOrders([]);
+    const handleRePayment = async (id) => {
+        const api = await orderServices.rePayment(id);
+        console.log(api);
+        if (api?.status === 200) {
+            navigate('/payment/momo', { state: { data: api.data } });
+        } else {
+            toast.warning('Đơn hàng của bạn đã bị hủy do quá thời gian quy định.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
         }
     };
 
@@ -89,29 +105,31 @@ function Order() {
             <div className={cx('title')}>
                 <p>Đơn hàng của bạn</p>
             </div>
-            <div className={cx('options')}>
-                {options.map((option, index) => {
-                    if (active === index) {
-                        return (
-                            <div key={option.id} className={cx('option', 'active')}>
-                                {option.value}
-                            </div>
-                        );
-                    } else {
-                        return (
-                            <div
-                                key={option.id}
-                                className={cx('option')}
-                                onClick={() => {
-                                    setActive(option.id);
-                                }}
-                            >
-                                {option.value}
-                            </div>
-                        );
-                    }
-                })}
-            </div>
+            {!viewDetail && (
+                <div className={cx('options')}>
+                    {options.map((option, index) => {
+                        if (active === index) {
+                            return (
+                                <div key={option.id} className={cx('option', 'active')}>
+                                    {option.value}
+                                </div>
+                            );
+                        } else {
+                            return (
+                                <div
+                                    key={option.id}
+                                    className={cx('option')}
+                                    onClick={() => {
+                                        setActive(option.id);
+                                    }}
+                                >
+                                    {option.value}
+                                </div>
+                            );
+                        }
+                    })}
+                </div>
+            )}
             {viewDetail ? (
                 <>
                     {detailOrder && (
@@ -190,7 +208,19 @@ function Order() {
                                 >
                                     Quay lại
                                 </Button>
-                                {detailOrder.OrderStatus.id === 1 || detailOrder.OrderStatus.id === 2 ? (
+                                {detailOrder.OrderStatus.id === 1 && (
+                                    <Button
+                                        outline
+                                        border
+                                        primary
+                                        onClick={() => {
+                                            handleRePayment(detailOrder.Id);
+                                        }}
+                                    >
+                                        Thanh toán
+                                    </Button>
+                                )}
+                                {(detailOrder.OrderStatus.id === 1 || detailOrder.OrderStatus.id === 2) && (
                                     <Button
                                         outline
                                         border
@@ -199,10 +229,6 @@ function Order() {
                                             handleCancelOrder(detailOrder.Id);
                                         }}
                                     >
-                                        Hủy đơn hàng
-                                    </Button>
-                                ) : (
-                                    <Button outline border approach disable>
                                         Hủy đơn hàng
                                     </Button>
                                 )}

@@ -47,7 +47,6 @@ function Address() {
         const apiGetAddress = async () => {
             const api = await addressServices.getMyAddress();
             setAddress(api.data);
-            console.log(api.data);
         };
 
         apiGetAddress();

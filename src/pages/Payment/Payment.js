@@ -23,22 +23,51 @@ function Payment(props) {
     const [user, setUser] = useState({});
     const [address, setAddress] = useState({});
     const [optionsAddress, setOptionsAddress] = useState([]);
-    const [idAddress, setIdAddress] = useState(0);
-    const [idPayment, setIdPayment] = useState(0);
-    const [idShip, setIdShip] = useState(0);
+    const [ship, setShip] = useState({ value: 'Chọn đơn vị vận chuyển', label: 0 });
+    const [optionsShip, setOptionsShip] = useState([
+        { value: 'Giao hàng nhanh', label: 1 },
+        { value: 'Lalamove', label: 3 },
+    ]);
+    const [payment, setPayment] = useState({ value: 'Chọn phương thức thanh toán', label: 0 });
+    const [optionPayment, setOptionPayment] = useState([
+        { value: 'Thanh toán tiền mặt khi nhận hàng', label: 1 },
+        { value: 'Thanh toán bằng ví MoMo', label: 2 },
+    ]);
+
     const [errMsg, setErrMsg] = useState('');
+
+    const [shipFee, setShipFee] = useState('0');
+    const [shipDeliveryTime, setShipDeliveryTime] = useState('0');
 
     const navigate = useNavigate();
 
     const handleChangeAddress = (selectedOption) => {
         setAddress(selectedOption);
-        setIdAddress(selectedOption.label?.Id);
+        setShip({ value: 'Chọn đơn vị vận chuyển', label: 0 });
+        setPayment({ value: 'Chọn phương thức thanh toán', label: 0 });
+        if ([1, 31, 79].includes(selectedOption.label?.ProvinceId)) {
+            setOptionsShip([
+                { value: 'Giao hàng nhanh', label: 1 },
+                { value: 'Lalamove', label: 3 },
+            ]);
+        } else {
+            setOptionsShip([{ value: 'Giao hàng nhanh', label: 1 }]);
+        }
     };
     const handleChangeShip = (selectedOption) => {
-        setIdShip(selectedOption.label);
+        setShip(selectedOption);
+        setPayment({ value: 'Chọn phương thức thanh toán', label: 0 });
+        if (selectedOption.label === 1 && getTotalOrder() <= 10000000) {
+            setOptionPayment([
+                { value: 'Thanh toán tiền mặt khi nhận hàng', label: 1 },
+                { value: 'Thanh toán bằng ví MoMo', label: 2 },
+            ]);
+        } else {
+            setOptionPayment([{ value: 'Thanh toán bằng ví MoMo', label: 2 }]);
+        }
     };
     const handleChangePayment = (selectedOption) => {
-        setIdPayment(selectedOption.label);
+        setPayment(selectedOption);
     };
 
     const getUserInfo = async () => {
@@ -60,11 +89,7 @@ function Payment(props) {
         data.forEach((item) => {
             total = total + item?.Quantity * item?.Product.Price;
         });
-        if (idShip === 1) {
-            total += 20000;
-        } else if (idShip === 2) {
-            total += 10000;
-        }
+        total = total + shipFee;
         return total;
     };
 
@@ -77,7 +102,6 @@ function Payment(props) {
                 options.push({ label: item, value: item.AddressDetail });
                 if (item.IsDefault === true) {
                     setAddress({ label: item, value: item.AddressDetail });
-                    setIdAddress(item.Id);
                 }
             });
             setOptionsAddress(options);
@@ -93,6 +117,38 @@ function Payment(props) {
         return products;
     };
 
+    const getShipFee = async () => {
+        const data = {
+            Products: getProducts(),
+            Ship: ship.label,
+            Address: address.label.Id,
+        };
+        const api = await orderServices.getShipFee(ship.label, data);
+
+        if (api?.status === 200) {
+            setShipFee(api.data.total);
+        }
+    };
+
+    const getShipDeliveryTime = async () => {
+        const data = {
+            Address: address.label.Id,
+        };
+        const api = await orderServices.getShipDeliveryTime(ship.label, data);
+
+        if (api?.status === 200) {
+            const dateString = api.data.deliveryTime;
+            const date = new Date(dateString);
+
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+
+            const formattedDate = `${day}/${month}/${year}`;
+            setShipDeliveryTime(formattedDate);
+        }
+    };
+
     const handlePayment = async () => {
         try {
             const products = getProducts();
@@ -100,29 +156,30 @@ function Payment(props) {
                 setErrMsg('Vui lòng chọn sản phẩm');
                 return;
             }
-            if (idAddress === 0) {
+            if (address.label.Id === 0) {
                 setErrMsg('Vui lòng chọn địa chỉ');
                 return;
             }
-            if (idPayment === 0) {
+            if (payment.label === 0) {
                 setErrMsg('Vui lòng chọn hình thức thanh toán');
                 return;
             }
-            if (idShip === 0) {
+            if (ship.label === 0) {
                 setErrMsg('Vui lòng chọn hình thức vận chuyển');
                 return;
             }
 
             const data = {
                 Products: products,
-                PaymentMethod: idPayment,
-                Ship: idShip,
-                Address: idAddress,
+                PaymentMethod: payment.label,
+                Ship: ship.label,
+                Address: address.label.Id,
+                ShipPrice: shipFee,
             };
 
             let api = await orderServices.addOrder(data);
 
-            if (idPayment === 1) {
+            if (payment.label === 1) {
                 if (api.status === 200) {
                     toast.success('Đơn đặt hàng của bạn được xác nhận đã thành công.', {
                         position: toast.POSITION.TOP_RIGHT,
@@ -144,7 +201,7 @@ function Payment(props) {
                         className: 'toast-message',
                     });
                 }
-            } else if (idPayment === 2) {
+            } else if (payment.label === 2) {
                 if (api.status === 200) {
                     navigate('/payment/momo', { state: { data: api.data } });
                 } else {
@@ -163,7 +220,14 @@ function Payment(props) {
     useEffect(() => {
         getUserInfo();
         getAddress();
-    }, [errMsg]);
+    }, []);
+
+    useEffect(() => {
+        if (ship.label !== 0) {
+            getShipFee();
+            getShipDeliveryTime();
+        }
+    }, [ship.label]);
 
     return (
         <div className={cx('container')}>
@@ -182,15 +246,13 @@ function Payment(props) {
                                         <img src={item.Product.ImageUrl} alt="" className={cx('item-img')} />
                                     </div>
                                     <div className={cx('item-info')}>
-                                        <div className={cx('item-info')}>
-                                            <h5 className={cx('item-name')}>{item.Product.Name}</h5>
-                                            <div className={cx('item-total')}>
-                                                <span className={cx('item-price')}>
-                                                    {item.Product.Price}
-                                                    <span>$</span>
-                                                </span>
-                                                <span className={cx('item-amount')}>x {item.Quantity}</span>
-                                            </div>
+                                        <h5 className={cx('item-name')}>{item.Product.Name}</h5>
+                                        <div className={cx('item-total')}>
+                                            <span className={cx('item-price')}>
+                                                {item.Product.Price}
+                                                <span>₫</span>
+                                            </span>
+                                            <span className={cx('item-amount')}>x {item.Quantity}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -204,7 +266,7 @@ function Payment(props) {
                             <div className={cx('group')}>
                                 <span className={cx('error-msg')}>{errMsg}</span>{' '}
                             </div>
-                            <div>
+                            {/* <div className={cx('contact-info')}>
                                 <div className={cx('full-name')}>
                                     <span className={cx('lable')}>Họ tên</span>
                                     <span className={cx('value')}>
@@ -215,7 +277,7 @@ function Payment(props) {
                                     <span className={cx('lable')}>SĐT</span>
                                     <span className={cx('value')}>{user.Phone}</span>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className={cx('select-layout')}>
                                 <span className={cx('lable')}>Địa chỉ</span>
                                 {optionsAddress.length > 0 ? (
@@ -242,15 +304,27 @@ function Payment(props) {
                                 <div className={cx('custom-select')}>
                                     <Select
                                         formatOptionLabel={(option) => `${option.value}`}
-                                        placeholder="Chọn hình thức vận chuyển"
+                                        placeholder="Chọn đơn vị vận chuyển"
+                                        value={ship}
                                         onChange={handleChangeShip}
-                                        options={[
-                                            { value: 'Giao hàng nhanh - 20000₫', label: 1 },
-                                            { value: 'Giao hàng tiết kiệm - 10000₫', label: 2 },
-                                        ]}
+                                        options={optionsShip}
                                     />
                                 </div>
                             </div>
+                            {ship.label !== 0 && (
+                                <div className={cx('ship-info')}>
+                                    <div className={cx('space')}></div>
+                                    <div className={cx('content')}>
+                                        <div className={cx('ship-fee')}>
+                                            Phí ship : <div className={cx('value')}>{shipFee}₫</div>
+                                        </div>
+                                        <div className={cx('ship-delivery-time')}>
+                                            Thời gian giao hàng dự kiến :
+                                            <div className={cx('value')}>{shipDeliveryTime}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
 
                             <div className={cx('select-layout')}>
                                 <span className={cx('lable')}>Thanh toán</span>
@@ -258,12 +332,9 @@ function Payment(props) {
                                     <Select
                                         formatOptionLabel={(option) => `${option.value}`}
                                         placeholder="Chọn hình thức thanh toán"
+                                        value={payment}
                                         onChange={handleChangePayment}
-                                        options={[
-                                            { value: 'Thanh toán tiền mặt khi nhận hàng', label: 1 },
-                                            { value: 'Thanh toán bằng ví MoMo', label: 2 },
-                                            { value: 'Thanh toán bằng VNPAY', label: 3 },
-                                        ]}
+                                        options={optionPayment}
                                     />
                                 </div>
                             </div>
