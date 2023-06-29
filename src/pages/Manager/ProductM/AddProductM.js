@@ -74,6 +74,24 @@ function AddProductM({ onClickCancle }) {
         setIdMaster(selectedOption.label);
     };
 
+    //MasterAttributes
+    const [idMasterAttribute, setIdMasterAttribute] = useState(0);
+    const [optionsMasterAttribute, setOptionsMasterAttribute] = useState([]);
+    const getAllMasterAttribute = async () => {
+        const api = await attributeServices.getAllAttributes();
+        console.log(api);
+        if (api?.status === 200) {
+            var options = [];
+            api.data.content.forEach((item) => {
+                options.push({ label: item.id, value: item.name });
+            });
+            setOptionsMasterAttribute(options);
+        }
+    };
+    const handleChangeMasterAttribute = (selectedOption) => {
+        setIdMasterAttribute(selectedOption.label);
+    };
+
     //Brand
     const [optionsBrand, setOptionsBrand] = useState([]);
     const [brand, setBrand] = useState(null);
@@ -162,7 +180,7 @@ function AddProductM({ onClickCancle }) {
     const [inputAttributes, setInputAttributes] = useState([]);
     const [openAttribute, setOpenAttribute] = useState(false);
     const getAllAttributes = async () => {
-        let api = await attributeServices.getAttributeById(idMaster);
+        let api = await attributeServices.getAttributeById(idMasterAttribute);
 
         var options = [];
         api?.data?.setOfAttributes.forEach((item) => {
@@ -212,8 +230,6 @@ function AddProductM({ onClickCancle }) {
             Variations: getValueVariations(),
         };
 
-        console.log(cap);
-
         const json = JSON.stringify(cap);
 
         const blob = new Blob([json], {
@@ -260,6 +276,7 @@ function AddProductM({ onClickCancle }) {
     useEffect(() => {
         getAllMasterCategory();
         getAllBrands();
+        getAllMasterAttribute();
     }, []);
 
     useEffect(() => {
@@ -267,6 +284,10 @@ function AddProductM({ onClickCancle }) {
         getAllVariations();
         getAllAttributes();
     }, [idMaster]);
+
+    useEffect(() => {
+        getAllAttributes();
+    }, [idMasterAttribute]);
 
     useEffect(() => {}, [errMsg]);
 
@@ -415,6 +436,17 @@ function AddProductM({ onClickCancle }) {
                         onFocus={() => setOpenVariation(true)}
                         onBlur={() => setOpenVariation(false)}
                         menuIsOpen={openVariation}
+                    />
+                </div>
+            </div>
+            <div className={cx('group-item')}>
+                <div className={cx('label-item')}>MasterAttribute : </div>
+                <div className={cx('input-item-select')}>
+                    <Select
+                        formatOptionLabel={(option) => `${option.value}`}
+                        placeholder="Chọn MasterAttribute..."
+                        onChange={handleChangeMasterAttribute}
+                        options={optionsMasterAttribute}
                     />
                 </div>
             </div>

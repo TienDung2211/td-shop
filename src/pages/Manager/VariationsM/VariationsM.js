@@ -80,7 +80,7 @@ function VariationM() {
 
         for (let i = 0; i < options.length; i++) {
             array.push(
-                `<input type=text name="option" value="${options[i].value}" class=input-variation-option placeholder="Nhập tùy chọn"/>`,
+                `<input type=text name="option" id="${options[i].id}" value="${options[i].value}" class=input-variation-option placeholder="Nhập tùy chọn"/>`,
             );
         }
         return array.join(' ');
@@ -94,6 +94,25 @@ function VariationM() {
         optionsInput.forEach((item) => {
             if (item?.value !== '') {
                 options.push(item.value);
+            }
+        });
+
+        return options;
+    };
+
+    const handleGetValueUpdateVariation = () => {
+        const optionsInput = document.querySelectorAll('input[name=option]');
+
+        let options = [];
+
+        optionsInput.forEach((item) => {
+            if (item?.value !== '') {
+                if (item?.id) {
+                    options.push({ Id: item.id, Value: item.value });
+                } else {
+                    options.push({ Id: 0, Value: item.value });
+                }
+                // options.push(item.value);
             }
         });
 
@@ -151,8 +170,10 @@ function VariationM() {
 
         const data = {
             Name: nameVariation,
-            VariationOptions: handleGetValueVariation(),
+            VariationOptions: handleGetValueUpdateVariation(),
         };
+
+        console.log(data);
 
         var api = await variationServices.updateVariation(idVariation, data);
 

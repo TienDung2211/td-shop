@@ -20,7 +20,7 @@ function BrandMItem({ data, onClick }) {
                     backgroundImage: `url('${data.logoUrl}')`,
                 }}
             ></div>
-            <span className={cx('text')}>{data.name}</span>
+            <span className={cx('text')}>{data.name.toUpperCase()}</span>
         </div>
     );
 }

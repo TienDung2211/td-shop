@@ -66,7 +66,7 @@ function UpdateProductM({ id, onClickCancle }) {
             );
             setVariations(api.data.Variations.map((item) => ({ label: item.id, value: item.value })));
             setAttributes(
-                api.data.Attributes.map((item) => ({
+                api.data.Attributes.filter((item) => item.value !== '').map((item) => ({
                     label: item.attributeId,
                     value: item.name,
                     inputValue: item.value,
@@ -74,7 +74,7 @@ function UpdateProductM({ id, onClickCancle }) {
             );
             setInputAttributes(
                 convertArrayToObject(
-                    api.data.Attributes.map((item) => ({
+                    api.data.Attributes.filter((item) => item.value !== '').map((item) => ({
                         [item.attributeId]: item.value,
                     })),
                 ),
@@ -84,6 +84,9 @@ function UpdateProductM({ id, onClickCancle }) {
 
             getAllMasterCategory(api.data.MCategoryId);
             setIdMaster(api.data.MCategoryId);
+
+            setIdMasterAttribute(api.data.AttributeSetId);
+            setMasterAttribute({ label: api.data.AttributeSetId, value: api.data.AttributeSetName });
         }
     };
 
@@ -138,6 +141,26 @@ function UpdateProductM({ id, onClickCancle }) {
         setAttributes([]);
         setVariations([]);
         setCategorys([]);
+    };
+
+    //MasterAttributes
+    const [idMasterAttribute, setIdMasterAttribute] = useState(0);
+    const [masterAttribute, setMasterAttribute] = useState();
+    const [optionsMasterAttribute, setOptionsMasterAttribute] = useState([]);
+    const getAllMasterAttribute = async () => {
+        const api = await attributeServices.getAllAttributes();
+        if (api?.status === 200) {
+            var options = [];
+            api.data.content.forEach((item) => {
+                options.push({ label: item.id, value: item.name });
+            });
+            setOptionsMasterAttribute(options);
+        }
+    };
+    const handleChangeMasterAttribute = (selectedOption) => {
+        setIdMasterAttribute(selectedOption.label);
+        setMasterAttribute(selectedOption);
+        setAttributes([]);
     };
 
     //Status
@@ -229,7 +252,7 @@ function UpdateProductM({ id, onClickCancle }) {
     const [inputAttributes, setInputAttributes] = useState([]);
     const [openAttribute, setOpenAttribute] = useState(false);
     const getAllAttributes = async () => {
-        let api = await attributeServices.getAttributeById(idMaster);
+        let api = await attributeServices.getAttributeById(idMasterAttribute);
 
         var options = [];
         api?.data?.setOfAttributes.forEach((item) => {
@@ -361,15 +384,18 @@ function UpdateProductM({ id, onClickCancle }) {
     }, [id]);
 
     useEffect(() => {
-        // getAllMasterCategory();
+        getAllMasterAttribute();
         getAllBrands();
     }, []);
 
     useEffect(() => {
         getAllCategorys();
         getAllVariations();
-        getAllAttributes();
     }, [idMaster]);
+
+    useEffect(() => {
+        getAllAttributes();
+    }, [idMasterAttribute]);
 
     useEffect(() => {}, [errMsg]);
 
@@ -484,8 +510,8 @@ function UpdateProductM({ id, onClickCancle }) {
                 <div className={cx('input-item-select')}>
                     <Select
                         formatOptionLabel={(option) => `${option.value}`}
-                        value={masterCategory}
                         placeholder="Chọn MasterCategory..."
+                        value={masterCategory}
                         onChange={handleChangeMasterCategory}
                         options={optionsMaster}
                     />
@@ -522,6 +548,18 @@ function UpdateProductM({ id, onClickCancle }) {
                         onFocus={() => setOpenVariation(true)}
                         onBlur={() => setOpenVariation(false)}
                         menuIsOpen={openVariation}
+                    />
+                </div>
+            </div>
+            <div className={cx('group-item')}>
+                <div className={cx('label-item')}>MasterAttribute : </div>
+                <div className={cx('input-item-select')}>
+                    <Select
+                        formatOptionLabel={(option) => `${option.value}`}
+                        placeholder="Chọn MasterAttribute..."
+                        value={masterAttribute}
+                        onChange={handleChangeMasterAttribute}
+                        options={optionsMasterAttribute}
                     />
                 </div>
             </div>

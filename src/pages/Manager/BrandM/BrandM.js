@@ -36,7 +36,7 @@ function BrandM() {
         let formData = new FormData();
 
         const cap = {
-            Name: brandName,
+            Name: brandName.toUpperCase(),
         };
 
         const json = JSON.stringify(cap);
@@ -77,7 +77,7 @@ function BrandM() {
         let formData = new FormData();
 
         const cap = {
-            Name: brandName,
+            Name: brandName.toUpperCase(),
         };
 
         const json = JSON.stringify(cap);

@@ -294,6 +294,7 @@ function AddAddress({ onClickCancle }) {
                     )}
                     <ReactMapGL
                         {...viewport}
+                        mapStyle="https://tiles.goong.io/assets/goong_map_web.json"
                         onViewportChange={(nextViewport) => setViewport(nextViewport)}
                         goongApiAccessToken={process.env.REACT_APP_GOONG_MAPTILES_KEY}
                     >

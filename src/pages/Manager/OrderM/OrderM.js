@@ -151,7 +151,7 @@ function OrderM() {
         setViewDetail(true);
     };
 
-    const handleCancleView = () => {
+    const handleCancelView = () => {
         setViewDetail(false);
     };
 
@@ -193,7 +193,7 @@ function OrderM() {
                 {viewDetail && (
                     <DetailOrder
                         idOrder={idOrder}
-                        onCancleViewDetail={handleCancleView}
+                        onCancelViewDetail={handleCancelView}
                         onChangeStatus={handleChangeStatusOrder}
                     />
                 )}

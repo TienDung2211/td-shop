@@ -21,7 +21,7 @@ const optionsStatus = [
     { value: 'Đã hủy', label: 5 },
 ];
 
-function DetailOrder({ idOrder, onCancleViewDetail, onChangeStatus }) {
+function DetailOrder({ idOrder, onCancelViewDetail, onChangeStatus }) {
     const [status, setStatus] = useState({});
     const [idStatus, setIdStatus] = useState(1);
     const [detailOrder, setDetailOrder] = useState(null);
@@ -37,9 +37,9 @@ function DetailOrder({ idOrder, onCancleViewDetail, onChangeStatus }) {
 
     const getOrderById = async () => {
         const api = await orderServices.getOrderById(idOrder);
-        console.log(api);
 
         if (api?.status === 200) {
+            // console.log(api.data.content[0]);
             setDetailOrder(api.data.content[0]);
 
             optionsStatus.forEach((item) => {
@@ -96,12 +96,12 @@ function DetailOrder({ idOrder, onCancleViewDetail, onChangeStatus }) {
         }
     };
 
-    const handleCancleShipOrder = async () => {
+    const handleCancelShipOrder = async () => {
         const data = {
             orderId: detailOrder.Id,
         };
-        const api = await orderServices.cancleShipOrder(detailOrder.Ship.id, data);
-        console.log(api);
+        console.log(data);
+        const api = await orderServices.cancelShipOrder(detailOrder.Ship.id, data);
         if (api?.status === 200) {
             toast.success('Hủy đơn giao hàng thành công.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -116,8 +116,22 @@ function DetailOrder({ idOrder, onCancleViewDetail, onChangeStatus }) {
         }
     };
 
-    const handleCancleOrder = async () => {
-        const api = await orderServices.cancelOrder(detailOrder.Id);
+    const handleCancelOrder = async () => {
+        const api = await orderServices.adminCancelOrder(detailOrder.Id);
+        console.log(api);
+        if (api?.status === 200) {
+            toast.success('Hủy đơn hàng thành công.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+            setRender(!render);
+            setHandle('view');
+        } else {
+            toast.warning('Có lỗi xảy ra, vui lòng thử lại sau.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        }
     };
 
     const renderButton = () => {
@@ -130,13 +144,19 @@ function DetailOrder({ idOrder, onCancleViewDetail, onChangeStatus }) {
             ) {
                 return (
                     <div className={cx('button-layout')}>
-                        <Button outline border transparent onClick={() => onCancleViewDetail()}>
+                        <Button outline border transparent onClick={() => onCancelViewDetail()}>
                             Quay lại
                         </Button>
                         <Button primary border onClick={() => setHandle('create-order')}>
                             Tạo đơn giao
                         </Button>
-                        <Button primary border onClick={() => {}}>
+                        <Button
+                            primary
+                            border
+                            onClick={() => {
+                                handleCancelOrder();
+                            }}
+                        >
                             Hủy đơn hàng
                         </Button>
                         {/* <Button primary border onClick={() => setHandle('change-status')}>
@@ -150,21 +170,23 @@ function DetailOrder({ idOrder, onCancleViewDetail, onChangeStatus }) {
                     (detailOrder.Ship.id === 3 && ['ASSIGNING_DRIVER'].includes(detailOrder.ShipStatusCode))) &&
                 detailOrder.OrderStatus.id === 3
             ) {
-                <div className={cx('button-layout')}>
-                    <Button outline border transparent onClick={() => onCancleViewDetail()}>
-                        Quay lại
-                    </Button>
-                    <Button primary border onClick={() => handleCancleShipOrder()}>
-                        Hủy đơn giao
-                    </Button>
-                    {/* <Button primary border onClick={() => setHandle('change-status')}>
+                return (
+                    <div className={cx('button-layout')}>
+                        <Button outline border transparent onClick={() => onCancelViewDetail()}>
+                            Quay lại
+                        </Button>
+                        <Button primary border onClick={() => handleCancelShipOrder()}>
+                            Hủy đơn giao
+                        </Button>
+                        {/* <Button primary border onClick={() => setHandle('change-status')}>
                         Cập nhập
                     </Button> */}
-                </div>;
+                    </div>
+                );
             } else {
                 return (
                     <div className={cx('button-layout')}>
-                        <Button outline border transparent onClick={() => onCancleViewDetail()}>
+                        <Button outline border transparent onClick={() => onCancelViewDetail()}>
                             Quay lại
                         </Button>
                         {/* <Button primary border onClick={() => setHandle('change-status')}>
@@ -292,7 +314,7 @@ function DetailOrder({ idOrder, onCancleViewDetail, onChangeStatus }) {
                 </div>
             )}
             {handle === 'create-order' && (
-                <div className={cx('row')}>
+                <div className={cx('row', 'create-order')}>
                     <div className={cx('separation')}></div>
                     <div className={cx('group-item', 'col-xl-6', 'col-md-6', 'col-sm-12', 'mt-2')}>
                         <div className={cx('label-item')}>Chiều cao(cm) </div>

@@ -30,6 +30,8 @@ function AttributeM() {
 
         if (api?.status === 200) {
             setAttributes(api.data.content);
+
+            console.log(api.data);
         }
     };
 
@@ -62,7 +64,7 @@ function AttributeM() {
 
     const handleOptionCurrentChange = (e, index) => {
         const newOptions = [...optionsCurrent];
-        newOptions[index] = { Name: e.target.value, Priority: 0 };
+        newOptions[index] = { id: optionsCurrent[index].id, name: e.target.value, priority: 0 };
         setOptionsCurrent(newOptions);
     };
 
@@ -102,12 +104,21 @@ function AttributeM() {
     };
 
     const handleUpdateAttribute = async () => {
-        const modifiedOptions = optionsCurrent.map(({ id, name, priority, ...rest }) => ({
+        const modifiedOptions = optionsCurrent
+            .map(({ id, name, priority, ...rest }) => ({
+                Id: id,
+                Name: name,
+                Priority: priority,
+                ...rest,
+            }))
+            .filter(({ Name }) => Name !== '');
+        const modifiedOptionsNew = optionsNew.map(({ name, priority, ...rest }) => ({
+            Id: 0,
             Name: name,
             Priority: priority,
             ...rest,
         }));
-        const mergedOptions = [...modifiedOptions, ...optionsNew];
+        const mergedOptions = [...modifiedOptions, ...modifiedOptionsNew];
 
         const data = {
             Name: nameAttribute,
