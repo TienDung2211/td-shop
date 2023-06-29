@@ -20,7 +20,6 @@ import userServices from '~/services/userServices';
 import authServices from '~/services/authServices';
 import AuthForm from '~/components/AuthForm/AuthForm';
 import { ToastContainer, toast } from 'react-toastify';
-import OptionsPopper from '~/components/OptionsPopper';
 import { MENU_OPTIONS } from '~/components/MenuOptions/MenuOptions';
 
 const cx = classNames.bind(styles);
@@ -60,6 +59,8 @@ function Header() {
 
                 if (api?.data) {
                     setUser(api.data);
+
+                    localStorage.setItem('userId', JSON.stringify(api.data.Id));
                 }
             } else {
                 setUser(null);
