@@ -1,12 +1,13 @@
 import classNames from 'classnames/bind';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Home.module.scss';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
-import productServices from '~/services/productServices';
-import Product from '~/components/Product';
-import Pagigation from '~/components/Pagination/Pagination';
 import Button from '~/components/Button';
+import Product from '~/components/Product';
+import DataContext from '~/context/DataContext';
+import productServices from '~/services/productServices';
+import Pagigation from '~/components/Pagination/Pagination';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -29,13 +30,18 @@ function Home() {
 
     const [searchParams, setSearchParams] = useSearchParams();
 
+    const { render, setRender } = useContext(DataContext);
+
     const handleCheckLoginWithGoogle = () => {
         if (searchParams.get('token')) {
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
             localStorage.removeItem('userId');
             localStorage.setItem('access', JSON.stringify(searchParams.get('token')));
-            navigate('/');
+            setRender(!render);
+            setTimeout(() => {
+                navigate('/');
+            }, 2000);
         } else if (searchParams.get('error') === '10002') {
             toast.warning('Tài khoản đã tồn tại ', {
                 position: toast.POSITION.TOP_RIGHT,
