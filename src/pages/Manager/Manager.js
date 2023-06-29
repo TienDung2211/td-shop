@@ -42,37 +42,37 @@ function Manager({ isExpanded, onToggleClass }) {
 
     return (
         <div className={isExpanded ? cx('side-nav-container') : cx('side-nav-container', 'side-nav-container-NX')}>
-            <div className={cx('nav-upper')}>
-                <div className={isExpanded ? cx('nav-heading') : cx('nav-heading', 'nav-heading-NX')}>
-                    {isExpanded && (
-                        <div className={cx('nav-brand')}>
-                            <soan className={cx('web-name')}>TD-Shop</soan>
-                        </div>
-                    )}
-                    <div
-                        className={isExpanded ? cx('hamburger', 'hamburger-in') : cx('hamburger', 'hamburger-out')}
-                        onClick={() => handleToogleClass()}
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
+            {/* <div className={cx('nav-upper')}> */}
+            <div className={isExpanded ? cx('nav-heading') : cx('nav-heading', 'nav-heading-NX')}>
+                {isExpanded && (
+                    <div className={cx('nav-brand')}>
+                        <soan className={cx('web-name')}>TD-Shop</soan>
                     </div>
-                </div>
-                <div className={cx('nav-menu')}>
-                    {MANAGER_OPTIONS.map((item) => {
-                        return (
-                            <Link
-                                to={'/manager/' + item.key}
-                                className={isExpanded ? cx('menu-item') : cx('menu-item', 'menu-item-NX')}
-                                key={item.id}
-                            >
-                                <div className={cx('icon')}>{item.icon}</div>
-                                {isExpanded && <p className={cx('text')}>{item.name}</p>}
-                            </Link>
-                        );
-                    })}
+                )}
+                <div
+                    className={isExpanded ? cx('hamburger', 'hamburger-in') : cx('hamburger', 'hamburger-out')}
+                    onClick={() => handleToogleClass()}
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
             </div>
+            <div className={cx('nav-menu')}>
+                {MANAGER_OPTIONS.map((item) => {
+                    return (
+                        <Link
+                            to={'/manager/' + item.key}
+                            className={isExpanded ? cx('menu-item') : cx('menu-item', 'menu-item-NX')}
+                            key={item.id}
+                        >
+                            <div className={cx('icon')}>{item.icon}</div>
+                            {isExpanded && <p className={cx('text')}>{item.name}</p>}
+                        </Link>
+                    );
+                })}
+            </div>
+            {/* </div> */}
             <div className={cx('nav-footer')}>
                 {isExpanded ? (
                     <Link to="/" className={cx('nav-return')}>

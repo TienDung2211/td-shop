@@ -102,8 +102,10 @@
     justify-content: space-between;
     position: relative;
     .group {
-        height: 20px;
+        height: 30px;
         position: absolute;
+        display: flex;
+        align-items: center;
         top: 10px;
         left: 25%;
 

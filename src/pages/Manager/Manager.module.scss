@@ -1,22 +1,23 @@
 /* NX = not expanded */
-
 .side-nav-container {
     background-color: var(--primary-color);
     width: 240px;
     height: 100vh;
-    position: relative;
     color: var(--white-color);
     padding: 0;
-    padding-left: 7.5px;
     position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
     z-index: 10;
     transition: 0.4s;
+    display: flex;
+    flex-direction: column;
 }
 .side-nav-container-NX {
     width: 65px;
 }
 
-.nav-upper,
 .nav-heading,
 .nav-menu,
 .menu-item,
@@ -97,7 +98,6 @@
 }
 .hamburger-out:hover span:nth-child(2) {
     width: 34px;
-    // margin-left: 4px;
 }
 .hamburger-out:hover span:nth-child(3) {
     width: 25px;
@@ -105,9 +105,11 @@
 }
 
 .nav-menu {
-    // grid-template-rows: repeat(7, 1fr);
+    flex: 1;
+    height: calc(100% - 100px);
     margin-top: 10px;
     border-top: 2px solid var(--low-separation-color);
+    overflow-y: auto;
 }
 
 .menu-item {
@@ -142,11 +144,10 @@
 .nav-footer {
     width: 100%;
     height: 60px;
-    position: absolute;
     display: flex;
     align-content: center;
     cursor: pointer;
-    bottom: 0;
+    border-top: 1px solid var(--white-color);
 }
 
 .nav-return {

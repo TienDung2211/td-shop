@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Payment.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Select from 'react-select';
 import Button from '~/components/Button';
 import userServices from '~/services/userServices';
@@ -11,12 +11,15 @@ import addressServices from '~/services/addressServices';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import DataContext from '~/context/DataContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function Payment(props) {
     const { state } = useLocation();
+
+    const { render } = useContext(DataContext);
 
     const data = state.data;
 
@@ -78,6 +81,8 @@ function Payment(props) {
 
             if (api?.data) {
                 setUser(api.data);
+            } else {
+                setUser(null);
             }
         } else {
             setUser(null);
@@ -179,6 +184,8 @@ function Payment(props) {
 
             let api = await orderServices.addOrder(data);
 
+            console.log(api);
+
             if (payment.label === 1) {
                 if (api.status === 200) {
                     toast.success('Đơn đặt hàng của bạn được xác nhận đã thành công.', {
@@ -194,6 +201,12 @@ function Payment(props) {
                         idPayment: 1,
                     };
                     navigate('/payment/sucess', { state: { data: dataToSucess } });
+                } else if (api.status === 20001) {
+                    setErrMsg('Hiện số lượng sản phẩm còn lại không đáp ứng được đơn hàng của bạn.');
+                    toast.error('Hiện số lượng sản phẩm còn lại không đáp ứng được đơn hàng của bạn.', {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: 'toast-message',
+                    });
                 } else {
                     setErrMsg('Lỗi không xác định, vui lòng thử lại.');
                     toast.error('Lỗi không xác định, vui lòng thử lại.', {
@@ -204,6 +217,12 @@ function Payment(props) {
             } else if (payment.label === 2) {
                 if (api.status === 200) {
                     navigate('/payment/momo', { state: { data: api.data } });
+                } else if (api.status === 20001) {
+                    setErrMsg('Hiện số lượng sản phẩm còn lại không đáp ứng được đơn hàng của bạn.');
+                    toast.error('Hiện số lượng sản phẩm còn lại không đáp ứng được đơn hàng của bạn.', {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: 'toast-message',
+                    });
                 } else {
                     setErrMsg('Lỗi không xác định, vui lòng thử lại.');
                     toast.error('Lỗi không xác định, vui lòng thử lại.', {
@@ -220,7 +239,7 @@ function Payment(props) {
     useEffect(() => {
         getUserInfo();
         getAddress();
-    }, []);
+    }, [render]);
 
     useEffect(() => {
         if (ship.label !== 0) {
@@ -266,6 +285,7 @@ function Payment(props) {
                             <div className={cx('group')}>
                                 <span className={cx('error-msg')}>{errMsg}</span>{' '}
                             </div>
+                            <div className={cx('temp')}></div>
                             {/* <div className={cx('contact-info')}>
                                 <div className={cx('full-name')}>
                                     <span className={cx('lable')}>Họ tên</span>
@@ -345,7 +365,9 @@ function Payment(props) {
                             </div>
                         </div>
                     ) : (
-                        <span className={cx('no-user')}>Vui lòng đăng nhập để tiếp tục</span>
+                        <div className={cx('info-layout')}>
+                            <span className={cx('no-user')}>Vui lòng đăng nhập để tiếp tục</span>
+                        </div>
                     )}
                 </div>
             </div>
