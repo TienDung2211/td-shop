@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import { publicRoutes } from './routes';
+import ScrollToTop from './hooks/scrollToTop';
 import DefaultLayout from './layouts/DefaultLayout';
 import SettingsLayout from './layouts/SettingLayout';
 import ManagerLayout from './layouts/ManagerLayout';
@@ -34,9 +35,11 @@ function App() {
                                 key={index}
                                 path={route.path}
                                 element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
+                                    <ScrollToTop>
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    </ScrollToTop>
                                 }
                             />
                         );
