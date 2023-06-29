@@ -7,24 +7,6 @@ import { SETTING_OPTIONS } from '~/components/MenuOptions/MenuOptions';
 
 const cx = classNames.bind(styles);
 
-const controls = [
-    {
-        id: 0,
-        name: 'Hồ sơ',
-        key: 'profile',
-    },
-    {
-        id: 1,
-        name: 'Địa chỉ',
-        key: 'address',
-    },
-    {
-        id: 2,
-        name: 'Đơn hàng',
-        key: 'order',
-    },
-];
-
 function Settings() {
     return (
         <div className={cx('wrapper')}>

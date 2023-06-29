@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from '../AuthForm.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -223,14 +224,15 @@ function RegisterForm({ clickBack, onSwitchType }) {
                 </div>
             )}
 
-            <div className={cx('footer')}>
+            {/* <div className={cx('footer')}>
                 <Button
                     large
                     border
+                    disable
                     leftIcon={<FontAwesomeIcon icon={faFacebook} />}
                     className={cx('social-item', 'socials-facebook')}
                 >
-                    Kết nối với Facebook
+                    Tiếp tục với Facebook
                 </Button>
                 <Button
                     large
@@ -238,9 +240,10 @@ function RegisterForm({ clickBack, onSwitchType }) {
                     leftIcon={<FontAwesomeIcon icon={faGoogle} />}
                     className={cx('social-item', 'socials-google')}
                 >
-                    Kết nối với Google
+                    Tiếp tục với Google
                 </Button>
-            </div>
+            </div> */}
+            <div className={cx('mb-4')}></div>
             <ToastContainer />
         </div>
     );

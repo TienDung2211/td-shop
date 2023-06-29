@@ -121,7 +121,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                     large
                     border
                     leftIcon={<FontAwesomeIcon icon={faFacebook} />}
-                    className={cx('social-item', 'socials-facebook')}
+                    className={cx('social-item', 'socials-facebook', 'disable')}
                 >
                     Đăng nhập với Facebook
                 </Button>
@@ -130,6 +130,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                     border
                     leftIcon={<FontAwesomeIcon icon={faGoogle} />}
                     className={cx('social-item', 'socials-google')}
+                    href={process.env.REACT_APP_LOGIN_WITH_GOOGLE}
                 >
                     Đăng nhập với Google
                 </Button>

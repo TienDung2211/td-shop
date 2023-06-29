@@ -5,6 +5,7 @@ const authServices = {
         try {
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
+            localStorage.removeItem('userId');
             const res = await request.post('/login', data);
             if (res?.data) {
                 localStorage.setItem('access', JSON.stringify(res?.data?.AccessToken));

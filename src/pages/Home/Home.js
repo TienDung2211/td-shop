@@ -7,6 +7,8 @@ import productServices from '~/services/productServices';
 import Product from '~/components/Product';
 import Pagigation from '~/components/Pagination/Pagination';
 import Button from '~/components/Button';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +24,34 @@ function Home() {
     const [products, setProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [filter, setFilter] = useState('deal-hot');
+
+    const navigate = useNavigate();
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const handleCheckLoginWithGoogle = () => {
+        if (searchParams.get('token')) {
+            localStorage.removeItem('access');
+            localStorage.removeItem('refresh');
+            localStorage.removeItem('userId');
+            localStorage.setItem('access', JSON.stringify(searchParams.get('token')));
+            navigate('/');
+        } else if (searchParams.get('error') === '10002') {
+            toast.warning('Tài khoản đã tồn tại ', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        } else if (searchParams.get('status') === '400') {
+            toast.success('Có lỗi bất ngờ xảy ra, vui lòng thử lại', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        }
+    };
+
+    useEffect(() => {
+        handleCheckLoginWithGoogle();
+    }, []);
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -88,6 +118,7 @@ function Home() {
             <div className={cx('row')}>
                 <Pagigation length={totalPages} page={Number(page)} />
             </div>
+            <ToastContainer />
         </div>
     ) : null;
 }

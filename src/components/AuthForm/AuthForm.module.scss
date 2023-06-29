@@ -145,10 +145,10 @@
     span {
         font-size: 1.2rem;
     }
-}
 
-.social-item:hover {
-    opacity: 0.9;
+    &:hover {
+        opacity: 0.9;
+    }
 }
 
 .socials-facebook {
@@ -160,6 +160,13 @@
 .socials-google {
     background-color: var(--white-color);
     color: #666;
+}
+
+.disable {
+    cursor: no-drop !important;
+    &:hover {
+        opacity: 1 !important;
+    }
 }
 
 // Confirm Email
