@@ -325,12 +325,16 @@ function DetailProduct() {
                                 <div className={cx('digital-lable')}>Thông số kỹ thuật</div>
 
                                 <div className={cx('digital-list')}>
-                                    {product.Attributes.map((item) => (
-                                        <div key={item.id} className={cx('digital-item')}>
-                                            <span className={cx('lable')}>{item.name}</span>
-                                            <span className={cx('value')}>{item.value}</span>
-                                        </div>
-                                    ))}
+                                    {product.Attributes.map((item, index) => {
+                                        if (item.value !== '') {
+                                            return (
+                                                <div key={index} className={cx('digital-item')}>
+                                                    <span className={cx('lable')}>{item.name}</span>
+                                                    <span className={cx('value')}>{item.value}</span>
+                                                </div>
+                                            );
+                                        }
+                                    })}
                                 </div>
                             </div>
                         </div>

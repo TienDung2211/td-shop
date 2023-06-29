@@ -92,6 +92,8 @@
 
 .cart-item {
     display: flex;
+    left: 0;
+    right: 0;
     align-items: center;
     height: 80px;
     border: 1px solid var(--low-separation-color);
