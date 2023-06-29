@@ -3,23 +3,23 @@ import * as request from '~/utils/request';
 const addressServices = {
     getAllProvince: async () => {
         try {
-            const res = await request.get('/province/get-all');
+            const res = await request.get('/province/get-all?sort=shortName,ASC');
             return res;
         } catch (error) {
             console.error(error.response.data);
         }
     },
-    getDisTrictByIdProvince: async (data) => {
+    getDisTrictByIdProvince: async (id) => {
         try {
-            const res = await request.get(`/district/get-by-province/${data}`);
+            const res = await request.get(`/district/get-by-province/${id}?sort=shortName,ASC`);
             return res;
         } catch (error) {
             console.error(error.response.data);
         }
     },
-    getWardByIdDistrict: async (data) => {
+    getWardByIdDistrict: async (id) => {
         try {
-            const res = await request.get(`/wards/get-by-district/${data}`);
+            const res = await request.get(`/wards/get-by-district/${id}?sort=shortName,ASC`);
             return res;
         } catch (error) {
             console.error(error.response.data);

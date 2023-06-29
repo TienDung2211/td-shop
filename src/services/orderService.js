@@ -206,7 +206,7 @@ const orderServices = {
             console.error(error.response.data);
         }
     },
-    cancleShipOrder: async (idShip, data) => {
+    cancelShipOrder: async (idShip, data) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
 
@@ -216,7 +216,22 @@ const orderServices = {
                 paramsShip = 'ghn';
             }
 
-            const res = await request.post(`/${paramsShip}/cancle-order`, data, {
+            const res = await request.post(`/${paramsShip}/cancel-order`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    adminCancelOrder: async (id) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post(`/order/admin/cancel/${id}`, null, {
                 headers: {
                     Authorization: `Bearer ${access}`,
                 },
