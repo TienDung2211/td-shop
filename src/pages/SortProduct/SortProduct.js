@@ -25,6 +25,10 @@ function SortProduct() {
         setFilter(data);
     };
 
+    const handleClickPagination = (value) => {
+        setPage(value);
+    };
+
     const onChangeVariations = () => {
         const variationChecked = document.querySelectorAll('input[type=checkbox]:checked');
 
@@ -56,7 +60,12 @@ function SortProduct() {
                     <SideBar mId={mId} onChangeVariations={onChangeVariations} />
                 </div>
                 <div className={cx('grid-column-10')}>
-                    <Options handleChangeFilter={handleChangeFilter} />
+                    <Options
+                        handleChangeFilter={handleChangeFilter}
+                        page={page}
+                        totalPages={totalPages}
+                        onClickPagination={handleClickPagination}
+                    />
                     {products && products.length !== 0 ? (
                         <div>
                             <div className={cx('products-list')}>
@@ -70,7 +79,7 @@ function SortProduct() {
                                     })}
                                 </div>
                             </div>
-                            <Pagigation length={totalPages} page={page} />
+                            <Pagigation length={totalPages} page={page} onClickPagination={handleClickPagination} />
                         </div>
                     ) : (
                         <div className={cx('no-product')}>Không có sản phẩm tìm kiếm</div>

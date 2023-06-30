@@ -28,7 +28,7 @@ function Home() {
 
     const navigate = useNavigate();
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
 
     const { render, setRender } = useContext(DataContext);
 
@@ -60,6 +60,10 @@ function Home() {
         }
     };
 
+    const handleClickPagination = (value) => {
+        setPage(value);
+    };
+
     useEffect(() => {
         handleCheckAccount();
     }, []);
@@ -71,9 +75,8 @@ function Home() {
             setTotalPages(api.totalPages);
             setPage(api.pageable.pageNumber);
         };
-
         fetchAPI();
-    }, [isActive]);
+    }, [isActive, page]);
 
     return products ? (
         <div className={cx('wrapper')}>
@@ -110,15 +113,11 @@ function Home() {
             </div>
             <div className={cx('row', 'products-list')}>
                 {products.map((product, index) => {
-                    return (
-                        // <div key={product.Id.toString()} className={cx('grid-column-20percent')}>
-                        <Product data={product} key={index} />
-                        // </div>
-                    );
+                    return <Product data={product} key={index} />;
                 })}
             </div>
             <div className={cx('row')}>
-                <Pagigation length={totalPages} page={Number(page)} />
+                <Pagigation length={totalPages} page={Number(page)} onClickPagination={handleClickPagination} />
             </div>
             <ToastContainer />
         </div>

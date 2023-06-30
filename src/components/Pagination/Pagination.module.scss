@@ -21,15 +21,6 @@
     overflow: hidden;
 }
 
-.pagination-item__active .pagination-link {
-    background-color: var(--red-color);
-    color: var(--white-color);
-}
-
-.pagination-item__active .pagination-link:hover {
-    filter: brightness(95%);
-}
-
 .pagination-link {
     display: flex;
     justify-content: center;
@@ -39,5 +30,18 @@
     color: var(--text-color);
     text-decoration: none;
     font-size: 2rem;
-    font-weight: 400;
+    font-weight: 600;
+    cursor: pointer;
+}
+.pagination-link.active {
+    background-color: var(--red-color);
+    color: var(--white-color);
+
+    &:hover {
+        filter: brightness(95%);
+    }
+}
+.pagination-icon {
+    width: 18px;
+    height: 18px;
 }

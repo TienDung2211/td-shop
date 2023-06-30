@@ -16,7 +16,7 @@ const options = [
     { id: 3, title: 'Giá tăng', key: 'price-asc' },
 ];
 
-function Options({ handleChangeFilter }) {
+function Options({ handleChangeFilter, page, totalPages, onClickPagination }) {
     // const [page, setPage] = useState(0);
     const [isActive, setIsActive] = useState(0);
     const [filter, setFilter] = useState('new');
@@ -56,19 +56,29 @@ function Options({ handleChangeFilter }) {
 
                 <div className={cx('sort-options-page')}>
                     <div className={cx('number')}>
-                        <span className={cx('number-currenly')}>1</span>
+                        <span className={cx('number-currenly')}>{page + 1}</span>
                         <span>/</span>
-                        <span className={cx('number-total')}>14</span>
+                        <span className={cx('number-total')}>{totalPages}</span>
                     </div>
 
                     <div className={cx('control')}>
                         <Button
                             iconOnly={<FontAwesomeIcon icon={faAngleLeft} />}
                             className={cx('control-btn', 'separete-full')}
+                            onClick={() => {
+                                if (page > 0) {
+                                    onClickPagination(page - 1);
+                                }
+                            }}
                         ></Button>
                         <Button
                             iconOnly={<FontAwesomeIcon icon={faAngleRight} />}
                             className={cx('control-btn')}
+                            onClick={() => {
+                                if (page < totalPages - 1) {
+                                    onClickPagination(page + 1);
+                                }
+                            }}
                         ></Button>
                     </div>
                 </div>
