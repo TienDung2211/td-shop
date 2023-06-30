@@ -109,10 +109,10 @@ function Home() {
                 </div>
             </div>
             <div className={cx('row', 'products-list')}>
-                {products.map((product) => {
+                {products.map((product, index) => {
                     return (
                         // <div key={product.Id.toString()} className={cx('grid-column-20percent')}>
-                        <Product data={product} />
+                        <Product data={product} key={index} />
                         // </div>
                     );
                 })}

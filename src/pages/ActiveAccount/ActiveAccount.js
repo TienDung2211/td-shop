@@ -13,23 +13,24 @@ const cx = classNames.bind(styles);
 
 function ActiveAccount() {
     const [note, setNote] = useState('');
+    const [id, setId] = useState(0);
     const [searchParams] = useSearchParams();
 
     const { state } = useLocation();
 
-    let data;
-
-    if (state !== 'undefined') {
-        data = state.data;
-    } else {
-        if (searchParams.get('activate-success') === 'false') {
-            data = searchParams.get('user-id');
-            setNote('Tài khoản kích hoạt thất bại.<br>Vui lòng xác nhận sau 5 phút kể từ lúc gửi Gmail.');
+    const handleCheckData = () => {
+        if (state?.data) {
+            setId(state.data);
+        } else if (searchParams.get('activate-success') === 'false') {
+            setId(searchParams.get('user-id'));
+            setNote('Tài khoản kích hoạt thất bại.\nVui lòng xác nhận sau 5 phút kể từ lúc gửi Gmail.');
+        } else {
+            console.log('No data');
         }
-    }
+    };
 
     const handleSendEmailActiveAccount = async () => {
-        const api = await authServices.authSendEmailActiveAccount(data);
+        const api = await authServices.authSendEmailActiveAccount(id);
 
         if (api.status === 200) {
             setNote('Đã gửi gmail kích hoạt tài khoản.');
@@ -38,7 +39,9 @@ function ActiveAccount() {
         }
     };
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        handleCheckData();
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -48,7 +51,14 @@ function ActiveAccount() {
                     <span className={cx('note')} style={{ whiteSpace: 'pre-line' }}>
                         {note}
                     </span>
-                    <Button primary border outline onClick={() => handleSendEmailActiveAccount()}>
+                    <Button
+                        primary
+                        border
+                        outline
+                        onClick={() => {
+                            handleSendEmailActiveAccount();
+                        }}
+                    >
                         Gửi Gmail
                     </Button>
                 </div>
