@@ -5,7 +5,7 @@ import { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '~/components/Button';
 import DataContext from '~/context/DataContext';
 import authServices from '~/services/authServices';
@@ -15,42 +15,48 @@ const cx = classNames.bind(styles);
 function LoginForm({ onLogin, onSwitchType, clickBack }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isActiveAccount, setIsActiveAccount] = useState(true);
+    const [idAccount, setIdAccount] = useState(0);
     const [errMsg, setErrMsg] = useState('');
 
     const { render, setRender } = useContext(DataContext);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setErrMsg('');
     }, [username, password]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleLogin = async () => {
+        const data = {
+            Username: username,
+            Password: password,
+        };
 
-        try {
-            const data = {
-                Username: username,
-                Password: password,
-            };
+        let dataAPI = await authServices.authLogin(data);
 
-            let dataAPI = await authServices.authLogin(data);
-
-            if (dataAPI?.data) {
-                onLogin();
-                setRender(!render);
-            } else {
-                if (dataAPI.message === 'Login failed: your account has been banned') {
-                    setErrMsg('Tài khoản của bạn đã bị vô hiệu hóa');
-                } else if (dataAPI.status === 401) {
-                    setErrMsg('Sai tài khoản hoặc mật khẩu');
-                }
+        if (dataAPI.status === 200) {
+            onLogin();
+            setRender(!render);
+        } else if (dataAPI.status === 10001) {
+            setErrMsg('Tài khoản của bạn chưa được kích hoạt.');
+            setIsActiveAccount(false);
+            setIdAccount(dataAPI.data.id);
+        } else {
+            if (dataAPI.message === 'Login failed: your account has been banned') {
+                setErrMsg('Tài khoản của bạn đã bị vô hiệu hóa');
+            } else if (dataAPI.status === 401) {
+                setErrMsg('Sai tài khoản hoặc mật khẩu');
             }
-        } catch (error) {
-            console.log(error);
         }
     };
 
+    const handleGoToActive = () => {
+        navigate('/resend-token', { state: { data: idAccount } });
+    };
+
     return (
-        <div className={cx('wrapper')} onClick={(e) => e.stopPropagation()}>
+        <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 <h3 className={cx('heading')}>Đăng nhập</h3>
                 <Button className={cx('switch-btn')} onClick={onSwitchType}>
@@ -58,7 +64,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                 </Button>
             </div>
 
-            <form className={cx('body')} onSubmit={handleSubmit}>
+            <div className={cx('body')}>
                 <div className={cx('group')}>
                     <span className={cx('error-msg')}>{errMsg}</span>{' '}
                 </div>
@@ -110,11 +116,17 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                     <Button border transparent className={cx('back-btn')} onClick={clickBack}>
                         Trở lại
                     </Button>
-                    <Button type="submit" primary border>
-                        Đăng nhập
-                    </Button>
+                    {isActiveAccount ? (
+                        <Button primary border onClick={() => handleLogin()}>
+                            Đăng nhập
+                        </Button>
+                    ) : (
+                        <Button primary border onClick={() => handleGoToActive()}>
+                            Kích hoạt
+                        </Button>
+                    )}
                 </div>
-            </form>
+            </div>
 
             <div className={cx('footer')}>
                 <Button
@@ -123,7 +135,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                     leftIcon={<FontAwesomeIcon icon={faFacebook} />}
                     className={cx('social-item', 'socials-facebook', 'disable')}
                 >
-                    Đăng nhập với Facebook
+                    Tiếp tục với Facebook
                 </Button>
                 <Button
                     large
@@ -132,7 +144,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                     className={cx('social-item', 'socials-google')}
                     href={process.env.REACT_APP_LOGIN_WITH_GOOGLE}
                 >
-                    Đăng nhập với Google
+                    Tiếp tục với Google
                 </Button>
             </div>
         </div>

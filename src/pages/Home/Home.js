@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Home.module.scss';
 import { useState, useEffect, useContext } from 'react';
 
-import Button from '~/components/Button';
+import { Link } from 'react-router-dom';
 import Product from '~/components/Product';
 import DataContext from '~/context/DataContext';
 import productServices from '~/services/productServices';
@@ -32,7 +32,7 @@ function Home() {
 
     const { render, setRender } = useContext(DataContext);
 
-    const handleCheckLoginWithGoogle = () => {
+    const handleCheckAccount = () => {
         if (searchParams.get('token')) {
             localStorage.removeItem('access');
             localStorage.removeItem('refresh');
@@ -43,7 +43,12 @@ function Home() {
                 navigate('/');
             }, 2000);
         } else if (searchParams.get('error') === '10002') {
-            toast.warning('Tài khoản đã tồn tại ', {
+            toast.warning('Tài khoản đã tồn tại.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        } else if (searchParams.get('activate-success') === 'true') {
+            toast.info('Tài khoản của bản đã được kích hoạt.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
@@ -56,7 +61,7 @@ function Home() {
     };
 
     useEffect(() => {
-        handleCheckLoginWithGoogle();
+        handleCheckAccount();
     }, []);
 
     useEffect(() => {
@@ -72,52 +77,43 @@ function Home() {
 
     return products ? (
         <div className={cx('wrapper')}>
-            <div className={cx('row', 'options')}>
-                <div className={cx('grid-column-10')}>
-                    <div className={cx('options-list')}>
-                        {options.map((option, index) => {
-                            if (isActive === index) {
-                                return (
-                                    <div
-                                        key={option.id.toString()}
-                                        className={cx('grid-column-20percent', 'options-item', 'selection')}
-                                    >
-                                        <Button large transparent>
-                                            {option.title}
-                                        </Button>
-                                    </div>
-                                );
-                            } else {
-                                return (
-                                    <div
-                                        key={option.id.toString()}
-                                        className={cx('grid-column-20percent', 'options-item')}
-                                        onClick={() => {
-                                            setIsActive(index);
-                                            setFilter(options[index].key);
-                                        }}
-                                    >
-                                        <Button large transparent>
-                                            {option.title}
-                                        </Button>
-                                    </div>
-                                );
-                            }
-                        })}
-                    </div>
+            <div className={cx('row', 'd-flex', 'justify-content-between', 'options', 'pl-3', 'pr-3')}>
+                <div className={cx('col-6', 'd-flex')}>
+                    {options.map((option, index) => {
+                        if (isActive === index) {
+                            return (
+                                <div key={option.id.toString()} className={cx('col-4', 'options-item', 'selection')}>
+                                    {option.title}
+                                </div>
+                            );
+                        } else {
+                            return (
+                                <div
+                                    key={option.id.toString()}
+                                    className={cx('col-4', 'options-item')}
+                                    onClick={() => {
+                                        setIsActive(index);
+                                        setFilter(options[index].key);
+                                    }}
+                                >
+                                    {option.title}
+                                </div>
+                            );
+                        }
+                    })}
                 </div>
-                <div className={cx('grid-column-2', 'view-all-layout')}>
-                    <Button to="/sort/0/0" large transparent className={cx('view-all-btn')}>
+                <div className={cx('col-2', 'view-all-layout')}>
+                    <Link to="/sort/0/0" className={cx('view-all-btn')}>
                         Xem tất cả {'>>'}
-                    </Button>
+                    </Link>
                 </div>
             </div>
             <div className={cx('row', 'products-list')}>
                 {products.map((product) => {
                     return (
-                        <div key={product.Id.toString()} className={cx('grid-column-20percent')}>
-                            <Product data={product} />
-                        </div>
+                        // <div key={product.Id.toString()} className={cx('grid-column-20percent')}>
+                        <Product data={product} />
+                        // </div>
                     );
                 })}
             </div>

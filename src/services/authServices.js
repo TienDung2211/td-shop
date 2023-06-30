@@ -7,7 +7,7 @@ const authServices = {
             localStorage.removeItem('refresh');
             localStorage.removeItem('userId');
             const res = await request.post('/login', data);
-            if (res?.data) {
+            if (res?.status === 200) {
                 localStorage.setItem('access', JSON.stringify(res?.data?.AccessToken));
                 localStorage.setItem('refresh', JSON.stringify(res?.data?.RefreshToken));
                 localStorage.setItem('userId', JSON.stringify(res?.data?.UserInfo.Id));
@@ -49,6 +49,14 @@ const authServices = {
     authResetPassword: async (data) => {
         try {
             const res = await request.post('/auth/reset-password', data);
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    authSendEmailActiveAccount: async (id) => {
+        try {
+            const res = await request.post(`/email/send-activate-account-email/${id}`, null);
             return res;
         } catch (error) {
             console.error(error.response.data);

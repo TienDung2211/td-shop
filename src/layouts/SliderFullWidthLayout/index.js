@@ -1,4 +1,5 @@
 import classNames from 'classnames/bind';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Slider from '~/components/Slider/Slider';
@@ -47,16 +48,20 @@ const dataSlider = [
 
 function SliderFullWidthLayout({ children }) {
     return (
-        <div className={cx('wrapper')}>
-            <Header />
-            <div className={cx('slider')}>
-                <Slider data={dataSlider} />
-                <div className={cx('variations')}>
-                    <Variations />
+        <div className={cx('container-fluid', 'p-0', 'm-0', 'wrapper')}>
+            <div className={cx('row', 'p-0', 'm-0')}>
+                <Header />
+            </div>
+            <div className={cx('p-0', 'm-0', 'w-100')}>
+                <div className={cx('slider')}>
+                    <Slider data={dataSlider} />
+                    <div className={cx('variations')}>
+                        <Variations />
+                    </div>
                 </div>
             </div>
-            <div className={cx('container')}>
-                <div className={cx('page')}>{children}</div>
+            <div className={cx('row', 'p-0', 'm-0', 'd-flex', 'justify-content-center')}>
+                <div className={cx('container')}>{children}</div>
             </div>
             <Footer />
         </div>

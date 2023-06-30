@@ -9,6 +9,7 @@ import SortProduct from '~/pages/SortProduct';
 import DetailProduct from '~/pages/DetailProduct';
 import Cart from '~/pages/Cart';
 import ResetPassword from '~/pages/ResetPassword';
+import ActiveAccount from '~/pages/ActiveAccount/ActiveAccount';
 import Payment from '~/pages/Payment/Payment';
 import MomoPayment from '~/pages/Payment/MomoPayment/MomoPayment';
 import PaymentFailure from '~/pages/Payment/Failure';
@@ -43,6 +44,7 @@ const publicRoutes = [
     { path: '/payment/sucess', component: PaymentSucess },
     { path: '/payment/failure', component: PaymentFailure },
     { path: '/reset-password', component: ResetPassword, layout: null },
+    { path: '/resend-token', component: ActiveAccount, layout: null },
     { path: '/detail-product/:id', component: DetailProduct },
     { path: '/setting/profile', component: Profile, layout: SettingsLayout },
     { path: '/setting/address', component: Address, layout: SettingsLayout },

@@ -83,7 +83,7 @@ function Header() {
 
                 <div className={cx('layout')}>
                     <nav className={cx('navbar')}>
-                        <ul className={cx('navbar-list')}>
+                        <ul className={cx('navbar-list', 'connect-diffrent-app')}>
                             <li className={cx('navbar-item', 'item--noreply')}>
                                 <QrCode title="Vào cửa hàng trên ứng dụng TD-Shop" />
                             </li>
@@ -95,6 +95,11 @@ function Header() {
                                     <FontAwesomeIcon icon={faInstagram} className={cx('icon')} />
                                 </div>
                             </li>
+                        </ul>
+                        <ul className={cx('navbar-list', 'item--noreply', 'web-name-layout')}>
+                            <Link to={'/'} className={cx('web-name')}>
+                                TD Shop
+                            </Link>
                         </ul>
                         {isLoadUser ? null : (
                             <ul className={cx('navbar-list')}>

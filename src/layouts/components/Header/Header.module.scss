@@ -43,9 +43,14 @@
     justify-content: space-between;
 }
 
+.navbar-list.web-name {
+    display: none;
+}
+
 .navbar-list {
     list-style: none;
     padding-left: 0;
+    padding-right: 8px;
     display: flex;
     align-items: center;
 }
@@ -131,18 +136,66 @@
     justify-content: center;
     align-items: center;
     padding-bottom: 10px;
+
+    .search-layout {
+        flex: 1;
+        margin: 0px 40px;
+    }
 }
 
-// Search
-.search-layout {
-    flex: 1;
-    margin-left: 40px;
-}
 // Cart
 .cart-layout {
-    width: 120px;
+    width: 80px;
     height: 40px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+}
+
+@media only screen and (max-width: 46.249em) {
+    .wrapper {
+        --nav-height: 60px;
+    }
+
+    .logo-app {
+        display: none;
+    }
+
+    .navbar {
+        .connect-diffrent-app {
+            display: none;
+        }
+        .web-name-layout {
+            display: block;
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+
+            .web-name {
+                font-size: 2.6rem;
+                line-height: 2.7rem;
+                font-weight: bold;
+                color: var(--white-color);
+            }
+        }
+    }
+
+    .area-search {
+        .search-layout {
+            margin: 0px 20px;
+        }
+
+        .cart-layout {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (max-width: 63.9375em) and (min-width: 46.25em) {
+    .navbar {
+        justify-content: flex-end;
+    }
+    .connect-diffrent-app {
+        display: none;
+    }
 }

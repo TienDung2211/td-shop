@@ -18,7 +18,7 @@ function Product({ data }) {
     // };
 
     return data ? (
-        <Link to={`/detail-product/${data.Id}`}>
+        <Link to={`/detail-product/${data.Id}`} className={cx('wrapper')}>
             <div key={data.Id.toString()} className={cx('item')}>
                 <div
                     className={cx('item-img')}
@@ -92,7 +92,7 @@ function Product({ data }) {
                     <div className={cx('orther-data')}>
                         <div className={cx('brand')}>Thương hiệu : {data.Brand.name}</div>
                         <span className={cx('sel-amount')}>
-                            Đã bán
+                            Đã bán{' '}
                             <span className={cx('amount')}>
                                 <span>(</span>
                                 {data.SelAmount}
