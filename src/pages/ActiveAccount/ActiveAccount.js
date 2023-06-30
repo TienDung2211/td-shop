@@ -12,9 +12,7 @@ import Button from '~/components/Button/Button';
 const cx = classNames.bind(styles);
 
 function ActiveAccount() {
-    const [note, setNote] = useState(
-        'Tài khoản kích hoạt thất bại.\nVui lòng xác nhận sau 5 phút kể từ lúc gửi Gmail.',
-    );
+    const [note, setNote] = useState('');
     const [searchParams] = useSearchParams();
 
     const { state } = useLocation();
