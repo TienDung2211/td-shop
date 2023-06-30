@@ -6,23 +6,28 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import authServices from '~/services/authServices';
-import { ToastContainer, toast } from 'react-toastify';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import Button from '~/components/Button/Button';
 
 const cx = classNames.bind(styles);
 
 function ActiveAccount() {
-    const [note, setNote] = useState('');
+    const [note, setNote] = useState(
+        'Tài khoản kích hoạt thất bại.\nVui lòng xác nhận sau 5 phút kể từ lúc gửi Gmail.',
+    );
+    const [searchParams] = useSearchParams();
 
     const { state } = useLocation();
 
-    let data = state.data;
+    let data;
 
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    if (searchParams.get('activate-success') === 'false') {
-        data = searchParams.get('user-id');
+    if (state !== 'undefined') {
+        data = state.data;
+    } else {
+        if (searchParams.get('activate-success') === 'false') {
+            data = searchParams.get('user-id');
+            setNote('Tài khoản kích hoạt thất bại.<br>Vui lòng xác nhận sau 5 phút kể từ lúc gửi Gmail.');
+        }
     }
 
     const handleSendEmailActiveAccount = async () => {
@@ -42,7 +47,9 @@ function ActiveAccount() {
             <div className={cx('layout')}>
                 <span className={cx('title')}>Kích hoạt tài khoản</span>
                 <div className={cx('body')}>
-                    <span className={cx('note')}>{note}</span>
+                    <span className={cx('note')} style={{ whiteSpace: 'pre-line' }}>
+                        {note}
+                    </span>
                     <Button primary border outline onClick={() => handleSendEmailActiveAccount()}>
                         Gửi Gmail
                     </Button>
@@ -50,7 +57,6 @@ function ActiveAccount() {
                 <div className={cx('return-layout')}>
                     <Link to={'/'}>{'<<'}Trở về trang chủ</Link>
                 </div>
-                <ToastContainer />
             </div>
         </div>
     );
