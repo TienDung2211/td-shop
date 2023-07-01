@@ -5,18 +5,20 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { useEffect, useState, useContext } from 'react';
 import Select from 'react-select';
+import { Link } from 'react-router-dom';
 import Button from '~/components/Button';
+import DataContext from '~/context/DataContext';
 import userServices from '~/services/userServices';
 import addressServices from '~/services/addressServices';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-import DataContext from '~/context/DataContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Payment(props) {
+function Payment() {
     const { state } = useLocation();
 
     const { render } = useContext(DataContext);
@@ -40,7 +42,7 @@ function Payment(props) {
     const [errMsg, setErrMsg] = useState('');
 
     const [shipFee, setShipFee] = useState('0');
-    const [shipDeliveryTime, setShipDeliveryTime] = useState('0');
+    const [shipDeliveryTime, setShipDeliveryTime] = useState('dd/mm/yyyy');
 
     const navigate = useNavigate();
 
@@ -48,6 +50,7 @@ function Payment(props) {
         setAddress(selectedOption);
         setShip({ value: 'Chọn đơn vị vận chuyển', label: 0 });
         setPayment({ value: 'Chọn phương thức thanh toán', label: 0 });
+        setErrMsg('');
         if ([1, 31, 79].includes(selectedOption.label?.ProvinceId)) {
             setOptionsShip([
                 { value: 'Giao hàng nhanh', label: 1 },
@@ -58,6 +61,9 @@ function Payment(props) {
         }
     };
     const handleChangeShip = (selectedOption) => {
+        setShipFee('0');
+        setShipDeliveryTime('dd/mm/yyyy');
+        setErrMsg('');
         setShip(selectedOption);
         setPayment({ value: 'Chọn phương thức thanh toán', label: 0 });
         if (selectedOption.label === 1 && getTotalOrder() <= 10000000) {
@@ -71,6 +77,7 @@ function Payment(props) {
     };
     const handleChangePayment = (selectedOption) => {
         setPayment(selectedOption);
+        setErrMsg('');
     };
 
     const getUserInfo = async () => {
@@ -173,6 +180,10 @@ function Payment(props) {
                 setErrMsg('Vui lòng chọn hình thức vận chuyển');
                 return;
             }
+            if (shipFee === '0' || shipDeliveryTime === 'dd/mm/yyyy') {
+                setErrMsg('Vui lòng đợi thông tin ship');
+                return;
+            }
 
             const data = {
                 Products: products,
@@ -183,8 +194,6 @@ function Payment(props) {
             };
 
             let api = await orderServices.addOrder(data);
-
-            console.log(api);
 
             if (payment.label === 1) {
                 if (api.status === 200) {
@@ -251,41 +260,51 @@ function Payment(props) {
     return (
         <div className={cx('container')}>
             <div className={cx('row')}>
-                <div className={cx('header')}>
-                    <h3 className={cx('heading')}>Thông tin đơn hàng</h3>
-                </div>
-            </div>
-            <div className={cx('row')}>
-                <div className={cx('col-sm-6')}>
-                    <div className={cx('list')}>
-                        {data.map((item, index) => {
-                            return (
-                                <div key={index} className={cx('item')}>
-                                    <div className={cx('item-layout-img')}>
-                                        <img src={item.Product.ImageUrl} alt="" className={cx('item-img')} />
-                                    </div>
-                                    <div className={cx('item-info')}>
-                                        <h5 className={cx('item-name')}>{item.Product.Name}</h5>
-                                        <div className={cx('item-total')}>
-                                            <span className={cx('item-price')}>
-                                                {item.Product.Price}
-                                                <span>₫</span>
-                                            </span>
-                                            <span className={cx('item-amount')}>x {item.Quantity}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                <div className={cx('path', 'col-12', 'col-sm-12', 'col-md-9', 'col-lg-9', 'col-xl-6')}>
+                    <Button to="/" transparent>
+                        Trang chủ
+                    </Button>
+                    <Button disable transparent iconOnly={<FontAwesomeIcon icon={faAngleRight} />}></Button>{' '}
+                    <div className={cx('page-name')}>
+                        <span>Đặt hàng</span>
                     </div>
                 </div>
-                <div className={cx('col-sm-6')}>
+            </div>
+            <div className={cx('row', 'mt-5')}>
+                <div className={cx('col-12', 'col-sm-12', 'col-md-6', 'col-lg-6', 'col-xl-6')}>
+                    <div className={cx('list-layout')}>
+                        <span className={cx('heading')}>Thông tin sản phẩm</span>
+                        <div className={cx('list')}>
+                            {data.map((item, index) => {
+                                return (
+                                    <div key={index} className={cx('item')}>
+                                        <div className={cx('item-layout-img')}>
+                                            <img src={item.Product.ImageUrl} alt="" className={cx('item-img')} />
+                                        </div>
+                                        <div className={cx('item-info')}>
+                                            <h5 className={cx('item-name')}>{item.Product.Name}</h5>
+                                            <div className={cx('item-total')}>
+                                                <span className={cx('item-price')}>
+                                                    {item.Product.Price}
+                                                    <span>₫</span>
+                                                </span>
+                                                <span className={cx('item-amount')}>x {item.Quantity}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+                <div className={cx('col-12', 'col-sm-12', 'col-md-6', 'col-lg-6', 'col-xl-6')}>
                     {user ? (
                         <div className={cx('info-layout')}>
+                            <span className={cx('heading')}>Thông tin giao hàng</span>
+
                             <div className={cx('group')}>
                                 <span className={cx('error-msg')}>{errMsg}</span>{' '}
                             </div>
-                            <div className={cx('temp')}></div>
                             {/* <div className={cx('contact-info')}>
                                 <div className={cx('full-name')}>
                                     <span className={cx('lable')}>Họ tên</span>
@@ -371,17 +390,9 @@ function Payment(props) {
                     )}
                 </div>
             </div>
-            <div className={cx('row')}>
-                <div className={cx('pay-btn-layout')}>
-                    <Button
-                        large
-                        primary
-                        border
-                        onClick={() => {
-                            handlePayment();
-                        }}
-                        className={cx('pay-btn')}
-                    >
+            <div className={cx('row', 'd-flex', 'justify-content-end', 'mt-5')}>
+                <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                    <Button large primary border onClick={() => handlePayment()}>
                         Đặt hàng
                     </Button>
                 </div>

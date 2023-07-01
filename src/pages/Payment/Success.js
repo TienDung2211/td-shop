@@ -19,7 +19,7 @@ function PaymentSucess() {
     return (
         <div className={cx('container')}>
             <div className={cx('row')}>
-                <div className={cx('sucess-info')}>
+                <div className={cx('success-info')}>
                     <div className={cx('image-layout')}>
                         <img
                             className={cx('image')}
@@ -44,14 +44,16 @@ function PaymentSucess() {
                         </div>
                         <div className={cx('order-info')}>
                             <div className={cx('label')}>Tổng tiền</div>
-                            <div className={cx('label')}>{data.amount * 100} ₫</div>
-                        </div>
-                        <div className={cx('btn-layout')}>
-                            <Button to={'/cart'} className={cx('btn')} large primary border>
-                                Trở lại giỏ hàng
-                            </Button>
+                            <div className={cx('label')}>{data.amount} ₫</div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className={cx('row', 'd-flex', 'justify-content-end', 'mt-5')}>
+                <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                    <Button to={'/cart'} large primary border>
+                        Giỏ hàng
+                    </Button>
                 </div>
             </div>
         </div>

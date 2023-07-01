@@ -53,10 +53,7 @@ input,
 
 a[href] {
     text-decoration: none;
-    // cursor: default;
-    &:hover {
-        color: var(--text-color);
-    }
+    cursor: pointer;
 }
 
 .item:hover {

@@ -4,8 +4,9 @@
 
 .container {
     margin-top: calc(var(--header-height) + 32px);
+    margin-bottom: 32px;
     max-width: var(--width-app);
-    min-height: 600px;
+    min-height: 550px;
     display: flex;
     justify-content: center;
 }

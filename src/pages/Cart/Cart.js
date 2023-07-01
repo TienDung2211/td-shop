@@ -75,7 +75,7 @@ function Cart() {
         }
     };
 
-    const handlePayment = () => {
+    const handleOrder = () => {
         const checked = document.querySelectorAll('input[type=checkbox]:checked');
         const select = [];
         for (let i = 0; i < checked.length; i++) {
@@ -264,7 +264,7 @@ function Cart() {
                     </div>
                     <div className={cx('d-flex', 'justify-content-end', 'pay')}>
                         <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
-                            <Button large primary border onClick={() => handlePayment()}>
+                            <Button large primary border onClick={() => handleOrder()}>
                                 Đặt hàng
                             </Button>
                         </div>

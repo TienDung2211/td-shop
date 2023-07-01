@@ -29,7 +29,7 @@ function PaymentFailure() {
                     <div className={cx('content')}>
                         <div className={cx('title')}>Thanh toán không thành công</div>
                         <div className={cx('error-block')}>
-                            <span className={cx('generic')}>Thanh toán thất bại.</span>
+                            <span className={cx('generic')}>Thanh toán thất bại. </span>
                             <span className={cx('spec')}>
                                 Vui lòng thanh toán lại hoặc chọn phương thức thanh toán khác
                             </span>
@@ -46,14 +46,16 @@ function PaymentFailure() {
                         </div>
                         <div className={cx('order-info')}>
                             <div className={cx('label')}>Tổng tiền</div>
-                            <div className={cx('label')}>{data.amount * 100} ₫</div>
-                        </div>
-                        <div className={cx('btn-layout')}>
-                            <Button to={'/cart'} className={cx('btn')} large primary border>
-                                Giỏ hàng
-                            </Button>
+                            <div className={cx('label')}>{data.amount} ₫</div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div className={cx('row', 'd-flex', 'justify-content-end', 'mt-5')}>
+                <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                    <Button to={'/cart'} large primary border>
+                        Giỏ hàng
+                    </Button>
                 </div>
             </div>
         </div>

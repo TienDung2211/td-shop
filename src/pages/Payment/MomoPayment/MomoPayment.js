@@ -82,14 +82,14 @@ function MomoPayment() {
     useEffect(() => {
         const fetchApi = async () => {
             const userId = await getUserId();
-            eventSource = registerSSE(`https://tdshop.herokuapp.com/api/v1/order/register-client/${userId}`);
+            eventSource = registerSSE(process.env.REACT_APP_REGISTER_CLIENT + `/${userId}`);
         };
 
         fetchApi();
 
         const interval = setInterval(async () => {
             const userId = await getUserId();
-            axios.get(`https://tdshop.herokuapp.com/api/v1/send-dummy-message/${userId}`);
+            axios.get(process.env.REACT_APP_SEND_DUMMY_MESSAGE + `/${userId}`);
         }, 20000);
 
         return () => {

@@ -1,5 +1,7 @@
 .momo-payment-layout {
     background-color: var(--white-color);
+    border-radius: 8px;
+    overflow: hidden;
     .header {
         height: 80px;
         display: flex;
@@ -30,6 +32,8 @@
             border-radius: 16px;
             padding: 16px;
             margin-right: 40px;
+            display: flex;
+            flex-direction: column;
 
             .qr-code {
                 background: rgb(255, 255, 255);
@@ -134,5 +138,32 @@
                 }
             }
         }
+    }
+}
+
+@media only screen and (max-width: 48em) {
+    .hidden-by-mobile {
+        display: none;
+    }
+
+    .momo-payment-layout {
+        .content {
+            flex-direction: column;
+            justify-content: center;
+            .qr-code-layout {
+                margin: auto;
+            }
+
+            .intruction-layout {
+                margin-top: 24px;
+                flex-direction: column-reverse;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 63.9975em) and (min-width: 48.00001em) {
+    .hidden-by-tablet {
+        display: none;
     }
 }
