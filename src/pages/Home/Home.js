@@ -48,12 +48,12 @@ function Home() {
                 className: 'toast-message',
             });
         } else if (searchParams.get('activate-success') === 'true') {
-            toast.info('Tài khoản của bản đã được kích hoạt.', {
+            toast.success('Tài khoản của bản đã được kích hoạt.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
         } else if (searchParams.get('status') === '400') {
-            toast.success('Có lỗi bất ngờ xảy ra, vui lòng thử lại', {
+            toast.warning('Có lỗi bất ngờ xảy ra, vui lòng thử lại', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });

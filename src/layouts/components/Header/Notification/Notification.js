@@ -8,13 +8,16 @@ import { faBell, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import notificationServices from '~/services/notificationServices';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 function Notification() {
     const [announcements, setAnnouncements] = useState([]);
+    const [placement, setPlacement] = useState('bottom-end');
+    const popperRef = useRef();
+
     const navigate = useNavigate();
 
     const getAllNotify = async () => {
@@ -42,6 +45,23 @@ function Notification() {
             setAnnouncements(newAnnouncements);
         }
     };
+    useEffect(() => {
+        const popper = popperRef.current;
+        const getWidth = () => {
+            const width = popper.offsetWidth;
+            if (width < 550) {
+                setPlacement('bottom-start');
+            }
+        };
+
+        getWidth();
+
+        window.addEventListener('resize', getWidth);
+
+        return () => {
+            window.removeEventListener('resize', getWidth);
+        };
+    }, []);
 
     useEffect(() => {
         getAllNotify();
@@ -52,7 +72,8 @@ function Notification() {
             <HeadlessTippy
                 interactive
                 // visible={true}
-                placement="bottom-end"
+                ref={popperRef}
+                placement={placement}
                 render={(attrs) => (
                     <div className={cx('notification-wrapper')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>

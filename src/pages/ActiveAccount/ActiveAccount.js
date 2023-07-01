@@ -36,6 +36,8 @@ function ActiveAccount() {
             setNote('Đã gửi gmail kích hoạt tài khoản.');
         } else if (api.status === 10003) {
             setNote('Tài khoản đã được kích hoạt.');
+        } else {
+            setNote('Có lỗi bất ngờ xảy ra, vui lòng thử lại sau.');
         }
     };
 

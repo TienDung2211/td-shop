@@ -18,7 +18,7 @@ const cx = classNames.bind(styles);
 
 function Cart() {
     const [products, setProducts] = useState([]);
-    const [labelSelect, setLabelSelect] = useState('Chọn tất cả');
+    const [labelSelect, setLabelSelect] = useState('Chọn hết');
     const { render, renderCart, setRenderCart } = useContext(DataContext);
 
     const navigate = useNavigate();
@@ -62,7 +62,7 @@ function Cart() {
                     checkBox[i].checked = true;
                 }
             }
-            setLabelSelect('Hủy chọn tất cả');
+            setLabelSelect('Bỏ hết');
         } else {
             const checkBox = document.querySelectorAll('input[type=checkbox]');
 
@@ -71,7 +71,7 @@ function Cart() {
                     checkBox[i].checked = false;
                 }
             }
-            setLabelSelect('Chọn tất cả');
+            setLabelSelect('Chọn hết');
         }
     };
 
@@ -83,8 +83,14 @@ function Cart() {
                 select.push(products[checked[i].value]);
             }
         }
-
-        navigate('/payment', { state: { data: select } });
+        if (select.length > 0) {
+            navigate('/payment', { state: { data: select } });
+        } else {
+            toast.info('Vui lòng chọn sản phẩm để tiếp tục đặt hàng.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
+        }
     };
 
     useEffect(() => {
@@ -107,7 +113,7 @@ function Cart() {
     return (
         <div className={cx('container')}>
             <div className={cx('row')}>
-                <div className={cx('path')}>
+                <div className={cx('path', 'col-12', 'col-sm-12', 'col-md-9', 'col-lg-9', 'col-xl-6')}>
                     <Button to="/" transparent>
                         Trang chủ
                     </Button>
@@ -118,10 +124,10 @@ function Cart() {
                 </div>
             </div>
             <div className={cx('row', 'main-layout')}>
-                <div className={cx('col-9')}>
-                    <div className={cx('row', 'content')}>
+                <div className={cx('col-12', 'col-sm-12', 'col-md-12', 'col-lg-9', 'col-xl-9')}>
+                    <div className={cx('content')}>
                         <div className={cx('column-lable')}>
-                            <div className={cx('grid-column-50percent')}>
+                            <div className={cx('col-12', 'col-sm-12', 'col-md-2', 'col-lg-2', 'col-xl-2')}>
                                 <div className={cx('select-all-layout')}>
                                     <input
                                         type="checkbox"
@@ -132,102 +138,139 @@ function Cart() {
                                     <label className={cx('select-all-lable')}>{labelSelect}</label>
                                 </div>
                             </div>
-                            <div className={cx('grid-column-10percent')}>Giá</div>
-                            <div className={cx('grid-column-15percent', 'amount')}>Số lượng</div>
-                            <div className={cx('grid-column-15percent')}>Khuyến mãi</div>
-                            <div className={cx('grid-column-10percent')}></div>
+                            <div
+                                className={cx(
+                                    'd-none',
+                                    'd-sm-none',
+                                    'd-md-flex',
+                                    'd-lg-flex',
+                                    'd-xl-flex',
+                                    'col-md-10',
+                                    'col-lg-10',
+                                    'col-xl-10',
+                                    'columns',
+                                )}
+                            >
+                                <div className={cx('col-4', 'left-item')}>Sản phẩm</div>
+                                <div className={cx('col-3', 'item')}>Giá</div>
+                                <div className={cx('col-3', 'item')}>Số lượng</div>
+                                <div className={cx('col-2', 'item')}></div>
+                            </div>
                         </div>
                         {products && (
                             <div className={cx('cart-list')}>
                                 {products.map((data, index) => (
                                     <div key={index} className={cx('cart-item')}>
-                                        <div className={cx('grid-column-50percent')}>
+                                        <div className={cx('col-5', 'col-sm-5', 'col-md-2', 'col-lg-2', 'col-xl-2')}>
                                             <div className={cx('select-layout')}>
                                                 <input type="checkbox" className={cx('check')} value={index} />
-                                                <div className={cx('select-lable')}>
-                                                    <img
-                                                        src={data?.Product?.ImageUrl}
-                                                        className={cx('select-image')}
-                                                        alt="Ảnh"
-                                                    />
-                                                    <span className={cx('select-text')}>{data?.Product.Name}</span>
-                                                </div>
+
+                                                <img src={data?.Product?.ImageUrl} className={cx('image')} alt="Ảnh" />
                                             </div>
                                         </div>
-                                        <div className={cx('grid-column-10percent')}>
-                                            {data?.Product.Price}
-                                            <span>₫</span>
-                                        </div>
-                                        <div className={cx('grid-column-15percent', 'amount-layout')}>
-                                            <Button
-                                                outline
-                                                transparent
-                                                iconOnly={<FontAwesomeIcon icon={faAngleLeft} />}
-                                                onClick={() => {
-                                                    if (data.Quantity > 1) {
-                                                        changeAmount(data?.Product.Id, data?.Quantity - 1);
-                                                    } else {
-                                                        toast.warning('Số lượng giỏ hàng tối thiểu là 1.', {
-                                                            position: toast.POSITION.TOP_RIGHT,
-                                                            className: 'toast-message',
-                                                        });
-                                                    }
-                                                }}
-                                            />
-                                            <span className={cx('amount-value')}>{data?.Quantity}</span>
-                                            <Button
-                                                outline
-                                                transparent
-                                                iconOnly={<FontAwesomeIcon icon={faAngleRight} />}
-                                                onClick={() => {
-                                                    if (data.Quantity < data.Product.Total) {
-                                                        changeAmount(data?.Product.Id, data?.Quantity + 1);
-                                                    } else {
-                                                        toast.warning(
-                                                            'Số lượng giỏ hàng vượt qua số lượng sản phẩm hiện có.',
-                                                            {
+                                        <div
+                                            className={cx(
+                                                'col-7',
+                                                'col-sm-7',
+                                                'col-md-10',
+                                                'col-lg-10',
+                                                'col-xl-10',
+                                                'info',
+                                            )}
+                                        >
+                                            <span className={cx('name', 'col-md-4', 'col-lg-4', 'col-xl-4')}>
+                                                {data?.Product.Name}
+                                            </span>
+                                            <div className={cx('item', 'col-md-3', 'col-lg-3', 'col-xl-3')}>
+                                                {data?.Product?.Discount ? (
+                                                    <div>
+                                                        <span className={cx('original-price')}>
+                                                            {data?.Product.Price}
+                                                            <span>₫</span>
+                                                        </span>
+                                                        <span className={cx('space')}></span>
+                                                        <span className={cx('current-price')}>
+                                                            {data?.Product.Price *
+                                                                data?.Product?.Discount?.DiscountRate}
+                                                            <span>₫</span>
+                                                        </span>
+                                                    </div>
+                                                ) : (
+                                                    <span className={cx('current-price')}>
+                                                        {data?.Product.Price}
+                                                        <span>₫</span>
+                                                    </span>
+                                                )}
+                                            </div>
+                                            <div
+                                                className={cx(
+                                                    'item',
+                                                    'amount-layout',
+                                                    'col-md-3',
+                                                    'col-lg-3',
+                                                    'col-xl-3',
+                                                )}
+                                            >
+                                                <Button
+                                                    outline
+                                                    transparent
+                                                    iconOnly={<FontAwesomeIcon icon={faAngleLeft} />}
+                                                    onClick={() => {
+                                                        if (data.Quantity > 1) {
+                                                            changeAmount(data?.Product.Id, data?.Quantity - 1);
+                                                        } else {
+                                                            toast.warning('Số lượng giỏ hàng tối thiểu là 1.', {
                                                                 position: toast.POSITION.TOP_RIGHT,
                                                                 className: 'toast-message',
-                                                            },
-                                                        );
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-                                        <div className={cx('grid-column-15percent')}>
-                                            {data?.Product?.Discount ? (
-                                                <span className={cx('discount-value')}>
-                                                    {data?.Product?.Discount?.DiscountRate * 100} %
+                                                            });
+                                                        }
+                                                    }}
+                                                />
+                                                <span className={cx('amount-value')}>{data?.Quantity}</span>
+                                                <Button
+                                                    outline
+                                                    transparent
+                                                    iconOnly={<FontAwesomeIcon icon={faAngleRight} />}
+                                                    onClick={() => {
+                                                        if (data.Quantity < data.Product.Total) {
+                                                            changeAmount(data?.Product.Id, data?.Quantity + 1);
+                                                        } else {
+                                                            toast.warning(
+                                                                'Số lượng giỏ hàng vượt qua số lượng sản phẩm hiện có.',
+                                                                {
+                                                                    position: toast.POSITION.TOP_RIGHT,
+                                                                    className: 'toast-message',
+                                                                },
+                                                            );
+                                                        }
+                                                    }}
+                                                />
+                                            </div>
+                                            <div className={cx('item', 'col-md-2', 'col-lg-2', 'col-xl-2')}>
+                                                <span
+                                                    className={cx('delete-btn')}
+                                                    onClick={() => {
+                                                        removeCart(data?.Product.Id);
+                                                    }}
+                                                >
+                                                    Xóa
                                                 </span>
-                                            ) : null}
-                                        </div>
-                                        <div className={cx('grid-column-10percent', 'delete-layout')}>
-                                            <Button
-                                                small
-                                                transparent
-                                                className={cx('delete-btn')}
-                                                onClick={() => {
-                                                    removeCart(data?.Product.Id);
-                                                }}
-                                            >
-                                                Xóa
-                                            </Button>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         )}
                     </div>
-                    <div className={cx('grid-row', 'pay')}>
-                        <div className={cx('grid-column-8')}></div>
-                        <div className={cx('grid-column-4')}>
+                    <div className={cx('d-flex', 'justify-content-end', 'pay')}>
+                        <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
                             <Button large primary border onClick={() => handlePayment()}>
-                                Thanh toán
+                                Đặt hàng
                             </Button>
                         </div>
                     </div>
                 </div>
-                <div className={cx('col-3')}>
+                <div className={cx('d-none', 'd-sm-none', 'd-md-none', 'd-lg-block', 'd-xl-block', 'col-3')}>
                     <Policy />
                 </div>
             </div>

@@ -75,7 +75,7 @@ function Header() {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('body')}>
-                <div className={cx('logo-app')}>
+                <div className={cx('logo-app', 'hidden-by-mobile')}>
                     <Link to="/">
                         <img src={images.logo} alt="Logo App" />
                     </Link>
@@ -83,7 +83,7 @@ function Header() {
 
                 <div className={cx('layout')}>
                     <nav className={cx('navbar')}>
-                        <ul className={cx('navbar-list', 'connect-diffrent-app')}>
+                        <ul className={cx('navbar-list', 'hidden-by-mobile', 'hidden-by-tablet')}>
                             <li className={cx('navbar-item', 'item--noreply')}>
                                 <QrCode title="Vào cửa hàng trên ứng dụng TD-Shop" />
                             </li>
@@ -96,14 +96,14 @@ function Header() {
                                 </div>
                             </li>
                         </ul>
-                        <ul className={cx('navbar-list', 'item--noreply', 'web-name-layout')}>
-                            <Link to={'/'} className={cx('web-name')}>
+                        <ul className={cx('navbar-list', 'item--noreply', 'name-app-layout')}>
+                            <Link to={'/'} className={cx('name-app')}>
                                 TD Shop
                             </Link>
                         </ul>
                         {isLoadUser ? null : (
                             <ul className={cx('navbar-list')}>
-                                <li className={cx('navbar-item')}>
+                                <li className={cx('navbar-item', 'hidden-by-mobile')}>
                                     <FontAwesomeIcon icon={faCircleQuestion} className={cx('icon')} />
                                     <span>Trợ giúp</span>
                                 </li>
@@ -147,7 +147,10 @@ function Header() {
                                                 {
                                                     <div className={cx('account')}>
                                                         <span>
-                                                            {user.LastName + ' ' + user.FirstName} #{user.Id}
+                                                            {user.LastName + ' ' + user.FirstName}
+                                                            <span className={cx('user-id', 'hidden-by-mobile')}>
+                                                                #{user.Id}
+                                                            </span>
                                                         </span>
                                                     </div>
                                                 }
@@ -165,7 +168,7 @@ function Header() {
                         <div className={cx('search-layout')}>
                             <Search />
                         </div>
-                        <div className={cx('cart-layout')}>
+                        <div className={cx('cart-layout', 'hidden-by-mobile')}>
                             <Cart />
                         </div>
                     </div>
