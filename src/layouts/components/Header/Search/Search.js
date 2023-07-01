@@ -19,25 +19,11 @@ function Search() {
     const [showResults, setShowResults] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
 
+    const [widthResult, setWidthResult] = useState('0px');
+
     const inputRef = useRef();
 
     const keyword = useDebounce(searchValue, 500);
-
-    useEffect(() => {
-        if (!keyword.trim()) {
-            setSearchResults([]);
-            return;
-        }
-
-        const fetchApi = async () => {
-            setLoading(true);
-            const result = await productServices.getProducts(null, 0, null, keyword);
-            setSearchResults(result.content);
-            setLoading(false);
-        };
-
-        fetchApi();
-    }, [keyword]);
 
     const handleClear = () => {
         setSearchValue('');
@@ -58,6 +44,38 @@ function Search() {
         }
     };
 
+    useEffect(() => {
+        if (!keyword.trim()) {
+            setSearchResults([]);
+            return;
+        }
+
+        const fetchApi = async () => {
+            setLoading(true);
+            const result = await productServices.getProducts(null, 0, null, keyword);
+            setSearchResults(result.content);
+            setLoading(false);
+        };
+
+        fetchApi();
+    }, [keyword]);
+
+    useEffect(() => {
+        const searchInput = inputRef.current;
+        const getWidth = () => {
+            const width = searchInput.offsetWidth;
+            setWidthResult(width.toString() + 'px');
+        };
+
+        getWidth();
+
+        window.addEventListener('resize', getWidth);
+
+        return () => {
+            window.removeEventListener('resize', getWidth);
+        };
+    }, []);
+
     return (
         <div>
             <HeadlessTippy
@@ -65,7 +83,7 @@ function Search() {
                 visible={showResults}
                 placement="bottom-start"
                 render={(attrs) => (
-                    <div className={cx('search-results')} tabIndex="-1" {...attrs}>
+                    <div className={cx('search-results')} style={{ width: widthResult }} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
                             {searchResults.length > 0 ? (
                                 <div>

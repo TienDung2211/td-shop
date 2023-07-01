@@ -9,8 +9,6 @@ import categoryServices from '~/services/categoryServices';
 const cx = classNames.bind(styles);
 
 function Variations() {
-    const [showVariations, setShowVariations] = useState(false);
-    const [contentLayoutWidth, setContentLayoutWidth] = useState('300px');
     const [varitons, setVaritons] = useState([]);
     const [categorys, setCategorys] = useState([]);
     const [masterCategory, setMasterCategory] = useState([]);
@@ -20,7 +18,7 @@ function Variations() {
 
     const getAllMasterCategory = async () => {
         let api = await categoryServices.getAllMasterCategory();
-        if (api?.data) {
+        if (api?.status === 200) {
             setMasterCategory(api.data.content);
         }
     };
@@ -38,48 +36,31 @@ function Variations() {
         getCategorysById();
     }, [render, idMCategory]);
 
-    useEffect(() => {
-        if (showVariations) {
-            setContentLayoutWidth('100%');
-        } else {
-            setContentLayoutWidth('300px');
-        }
-    }, [showVariations]);
-
     return varitons ? (
         <div className={cx('wrapper')}>
-            <div
-                className={cx('content-layout')}
-                style={{ width: contentLayoutWidth }}
-                onMouseOver={() => setShowVariations(true)}
-                onMouseOut={() => setShowVariations(false)}
-            >
-                <div className={cx('list-master')}>
-                    {masterCategory.map((item, index) => {
-                        return (
-                            <span
-                                className={cx('item')}
-                                key={index}
-                                onMouseOver={() => {
-                                    setIdMCategory(item.id);
-                                }}
-                            >
-                                {item.name}
-                            </span>
-                        );
-                    })}
-                </div>
-                {showVariations && (
-                    <div className={cx('list-categorys')}>
-                        {categorys.map((category, index) => {
-                            return (
-                                <div key={index} className={cx('grid-column-4')}>
-                                    <Options data={category} mId={idMCategory} />
-                                </div>
-                            );
-                        })}
-                    </div>
-                )}
+            <div className={cx('list-master')}>
+                {masterCategory.map((item, index) => {
+                    return (
+                        <span
+                            className={cx('item')}
+                            key={index}
+                            onMouseOver={() => {
+                                setIdMCategory(item.id);
+                            }}
+                        >
+                            {item.name}
+                        </span>
+                    );
+                })}
+            </div>
+            <div className={cx('list-categorys')}>
+                {categorys.map((category, index) => {
+                    return (
+                        <div key={index} className={cx('col-12', 'col-sm-6', 'col-md-6', 'col-lg-6', 'col-xl-4')}>
+                            <Options data={category} mId={idMCategory} />
+                        </div>
+                    );
+                })}
             </div>
         </div>
     ) : null;

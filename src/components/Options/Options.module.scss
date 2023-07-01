@@ -31,3 +31,21 @@
         background-color: var(--item-hover-color);
     }
 }
+
+@media only screen and (max-width: 46.249em) {
+    .wrapper {
+        .title {
+            font-size: 1.3rem;
+            height: 28px;
+        }
+
+        .item {
+            padding-left: 4px;
+            font-size: 1.2rem;
+            height: 24px;
+        }
+    }
+}
+
+@media only screen and (max-width: 63.9375em) and (min-width: 46.25em) {
+}

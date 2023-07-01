@@ -10,7 +10,7 @@
     flex-wrap: wrap;
 }
 
-.options {
+.control {
     min-height: 48px;
     background-color: rgba(0, 0, 0, 0.05);
     border-radius: 4px;
@@ -39,7 +39,7 @@
     overflow: hidden;
     font-size: 1.6rem;
     font-weight: 400;
-    color: var(--text-color);
+    color: var(--primary-color);
     &:hover {
         cursor: pointer;
         color: var(--primary-color);

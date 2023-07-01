@@ -80,8 +80,8 @@ function Home() {
 
     return products ? (
         <div className={cx('wrapper')}>
-            <div className={cx('row', 'd-flex', 'justify-content-between', 'options', 'pl-3', 'pr-3')}>
-                <div className={cx('col-6', 'd-flex')}>
+            <div className={cx('row', 'd-flex', 'justify-content-between', 'control', 'pl-3', 'pr-3')}>
+                <div className={cx('col-9', 'col-sm-6', 'col-md-6', 'col-lg-6', 'col-xl-6', 'd-flex')}>
                     {options.map((option, index) => {
                         if (isActive === index) {
                             return (
@@ -105,9 +105,9 @@ function Home() {
                         }
                     })}
                 </div>
-                <div className={cx('col-2', 'view-all-layout')}>
+                <div className={cx('view-all-layout', 'col-3', 'col-sm-2', 'col-md-2', 'col-lg-2', 'col-xl-2')}>
                     <Link to="/sort/0/0" className={cx('view-all-btn')}>
-                        Xem tất cả {'>>'}
+                        Xem tất cả
                     </Link>
                 </div>
             </div>

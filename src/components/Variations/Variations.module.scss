@@ -1,14 +1,36 @@
-.content-layout {
-    height: 440px;
+.wrapper {
+    width: 300px;
+    height: 100%;
     background-color: var(--white-color);
     border-radius: 8px;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
     display: flex;
     overflow: hidden;
-    overflow-y: auto;
+
+    &:hover {
+        width: 100%;
+    }
+
+    &:hover .list-categorys {
+        opacity: 1;
+        visibility: visible;
+        display: flex;
+    }
+
+    .list-categorys {
+        display: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+        flex: 1;
+        flex-direction: column;
+        flex-wrap: wrap;
+        overflow: hidden;
+        overflow-y: auto;
+    }
 
     .list-master {
-        width: 300px;
+        min-width: 300px;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -17,9 +39,10 @@
         background-color: var(--low-primary-color);
 
         .item {
+            min-height: 30px;
+            flex: 1;
             display: flex;
             align-items: center;
-            height: 100%;
             color: black;
             font-size: 1.6rem;
             font-weight: 500;
@@ -29,13 +52,41 @@
             border-top: 1px solid var(--low-separation-color);
         }
     }
+}
 
-    .list-categorys {
-        // width: 100%;
-        height: 100%;
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        flex-wrap: wrap;
+@media only screen and (max-width: 46.249em) {
+    .wrapper {
+        width: 164px;
+
+        .list-master {
+            min-width: 164px;
+            padding: 4px 8px;
+            overflow: hidden;
+            overflow-y: auto;
+
+            .item {
+                font-weight: 500;
+                font-size: 1.3rem;
+            }
+        }
+
+        .list-categorys {
+            flex-direction: row;
+        }
+    }
+}
+
+@media only screen and (max-width: 63.9375em) and (min-width: 46.25em) {
+    .wrapper {
+        width: 260px;
+
+        .list-master {
+            min-width: 260px;
+            padding: 4px 16px;
+        }
+
+        .list-categorys {
+            flex-direction: row;
+        }
     }
 }

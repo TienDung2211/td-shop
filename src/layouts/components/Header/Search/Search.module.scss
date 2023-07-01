@@ -95,7 +95,7 @@
 
 .search-results {
     display: flex;
-    width: 900px;
+    // width: 900px;
     font-family: var(--font-family);
 }
 
@@ -163,19 +163,19 @@
 
 .name {
     display: block;
-    font-size: 1.8 rem;
+    font-size: 1.6rem;
     font-weight: 500;
     color: var(--text-color);
     opacity: 0.9;
     flex: 6;
     margin-top: 4px;
 
-    line-height: 2rem;
-    height: 2rem;
+    line-height: 1.8rem;
+    height: 3.6rem;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
 }
 
 .orther-info {
@@ -199,5 +199,42 @@
             color: var(--black-color);
             font-weight: 500;
         }
+    }
+}
+
+@media only screen and (max-width: 46.249em) {
+    .name {
+        flex: 6;
+        font-size: 1.5rem;
+        font-weight: 500;
+
+        line-height: 1.8rem;
+        max-height: 3.6rem;
+    }
+    .orther-info {
+        font-size: 1.4rem;
+        font-weight: 400;
+
+        .price {
+            width: 110px;
+        }
+    }
+    .search-control-btn {
+        right: 4px;
+        font-size: 1.5rem;
+        transform: translateY(calc(-8px));
+    }
+}
+
+@media only screen and (max-width: 63.9375em) and (min-width: 46.25em) {
+    .orther-info {
+        .price {
+            width: 140px;
+        }
+    }
+    .search-control-btn {
+        right: 8px;
+        font-size: 1.5rem;
+        transform: translateY(calc(-8px));
     }
 }

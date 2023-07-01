@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 import Button from '~/components/Button';
-import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
@@ -91,35 +90,29 @@ function Pagigation({ length = 1, page = 0, onClickPagination }) {
                         <FontAwesomeIcon icon={faAngleLeft} className={cx('pagination-icon')} />
                     </div>
                 </li>
-                <li className={cx('pagination-item')}>
+                <li
+                    className={cx('pagination-item')}
+                    onClick={() => {
+                        if (page > 0) {
+                            onClickPagination(page - 1);
+                        }
+                    }}
+                >
                     <div className={cx('pagination-link')}>
-                        <Button
-                            transparent
-                            iconOnly={
-                                <FontAwesomeIcon
-                                    icon={faAngleLeft}
-                                    onClick={() => {
-                                        if (page > 0) {
-                                            onClickPagination(page - 1);
-                                        }
-                                    }}
-                                />
-                            }
-                        />
+                        <FontAwesomeIcon icon={faAngleLeft} className={cx('pagination-icon')} />
                     </div>
                 </li>
                 {render(length)}
-                <li className={cx('pagination-item')}>
+                <li
+                    className={cx('pagination-item')}
+                    onClick={() => {
+                        if (page < length - 1) {
+                            onClickPagination(page + 1);
+                        }
+                    }}
+                >
                     <div className={cx('pagination-link')}>
-                        <Button
-                            transparent
-                            iconOnly={<FontAwesomeIcon icon={faAngleRight} />}
-                            onClick={() => {
-                                if (page < length - 1) {
-                                    onClickPagination(page + 1);
-                                }
-                            }}
-                        />
+                        <FontAwesomeIcon icon={faAngleRight} className={cx('pagination-icon')} />
                     </div>
                 </li>
                 <li

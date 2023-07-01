@@ -14,6 +14,7 @@
         top: 10%;
         left: 12%;
         right: 12%;
+        bottom: 10%;
     }
 }
 
@@ -22,4 +23,18 @@
     min-height: 600px;
     display: flex;
     justify-content: center;
+}
+
+@media only screen and (max-width: 46.249em) {
+    .slider {
+        .variations {
+            top: 6%;
+            bottom: 6%;
+            left: 6%;
+            right: 6%;
+        }
+    }
+}
+
+@media only screen and (max-width: 63.9375em) and (min-width: 46.25em) {
 }

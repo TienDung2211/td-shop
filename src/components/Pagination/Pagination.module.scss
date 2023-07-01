@@ -45,3 +45,22 @@
     width: 18px;
     height: 18px;
 }
+
+@media only screen and (max-width: 46.249em) {
+    .pagination-item {
+        margin: 0 6px;
+        border-radius: 2px;
+        overflow: hidden;
+    }
+
+    .pagination-link {
+        min-width: 28px;
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+
+    .pagination-icon {
+        width: 14px;
+        height: 14px;
+    }
+}
