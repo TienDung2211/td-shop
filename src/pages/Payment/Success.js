@@ -18,12 +18,13 @@ function PaymentSucess() {
 
     return (
         <div className={cx('container')}>
-            <div className={cx('row')}>
+            <div className={cx('row', 'mb-5')}>
                 <div className={cx('success-info')}>
                     <div className={cx('image-layout')}>
                         <img
                             className={cx('image')}
                             src="https://1.bp.blogspot.com/-cDTv91FdVm4/WDv2fOmF1CI/AAAAAAALljc/KE_mbzCayJ0TBViywHGXXnf7CH8EWIdEQCLcB/s1600/AS001654_17.gif"
+                            alt="Ảnh thành công"
                         />
                     </div>
                     <div className={cx('content')}>
@@ -49,7 +50,7 @@ function PaymentSucess() {
                     </div>
                 </div>
             </div>
-            <div className={cx('row', 'd-flex', 'justify-content-end', 'mt-5')}>
+            <div className={cx('row', 'd-flex', 'justify-content-end', 'single-btn-layout')}>
                 <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
                     <Button to={'/cart'} large primary border>
                         Giỏ hàng

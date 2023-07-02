@@ -112,7 +112,7 @@ function Cart() {
 
     return (
         <div className={cx('container')}>
-            <div className={cx('row')}>
+            <div className={cx('row', 'mb-5', 'hidden-by-mobile')}>
                 <div className={cx('path', 'col-12', 'col-sm-12', 'col-md-9', 'col-lg-9', 'col-xl-6')}>
                     <Button to="/" transparent>
                         Trang chủ
@@ -123,7 +123,7 @@ function Cart() {
                     </div>
                 </div>
             </div>
-            <div className={cx('row', 'main-layout')}>
+            <div className={cx('row')}>
                 <div className={cx('col-12', 'col-sm-12', 'col-md-12', 'col-lg-9', 'col-xl-9')}>
                     <div className={cx('content')}>
                         <div className={cx('column-lable')}>
@@ -262,7 +262,7 @@ function Cart() {
                             </div>
                         )}
                     </div>
-                    <div className={cx('d-flex', 'justify-content-end', 'pay')}>
+                    <div className={cx('d-flex', 'justify-content-end', 'single-btn-layout')}>
                         <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
                             <Button large primary border onClick={() => handleOrder()}>
                                 Đặt hàng

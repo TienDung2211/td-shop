@@ -42,6 +42,8 @@ body {
     line-height: 1.5rem;
     text-rendering: optimizeSpeed;
     overflow-y: overlay;
+    // scrollbar-width: none;
+    // overflow-x: overlay;
 }
 
 button,
@@ -78,6 +80,7 @@ a[href] {
 html *::-webkit-scrollbar {
     border-radius: 0;
     width: 8px;
+    height: 8px;
 }
 
 html *::-webkit-scrollbar-thumb {

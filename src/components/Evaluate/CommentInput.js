@@ -19,7 +19,7 @@ function CommentInput() {
     const [reviewText, setReviewText] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const optionRef = useRef([]);
-    const { id, brandId } = useParams();
+    const { id } = useParams();
 
     const handleOptionClick = (index) => {
         if (activeIndex === index) {
@@ -41,6 +41,7 @@ function CommentInput() {
     const handleAddReview = async () => {
         if (reviewText === '') {
             setErrMsg('Vui lòng nhập phản hồi');
+            return;
         }
 
         const data = {
@@ -51,8 +52,6 @@ function CommentInput() {
 
         var api = await reviewServices.addReview(data);
 
-        console.log(api);
-
         if (api?.status === 200) {
             toast.success('Phản hồi về sản phẩm của bạn đã được lưu lại.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -61,11 +60,6 @@ function CommentInput() {
             setErrMsg('');
         } else if (api === undefined) {
             toast.error('Vui lòng đăng nhập để tiếp tục thêm tùy chọn.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: 'toast-message',
-            });
-        } else if (api.status === 400) {
-            toast.info('Tên MasterCategory đã tồn tại.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });

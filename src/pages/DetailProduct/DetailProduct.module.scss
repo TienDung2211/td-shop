@@ -1,10 +1,9 @@
 // Path
-
 .path {
     position: relative;
     background-color: rgba(0, 0, 0, 0.05);
     display: flex;
-    width: 72.5%;
+    // width: 72.5%;
 
     &::after {
         content: '';
@@ -17,7 +16,7 @@
         right: -60px;
     }
 
-    .product-name {
+    .page-name {
         display: flex;
         align-items: center;
         flex: 1;
@@ -37,27 +36,20 @@
     }
 }
 
-.main-layout {
-    margin-top: 32px;
-}
-
 .content {
     background-color: var(--white-color);
-    padding: 24px 0;
+    padding: 24px 12px;
     border-radius: 8px;
 }
 
 // Info
-
 .main-info-layout {
-    height: 320px;
-
+    display: flex;
+    justify-content: center;
     .image-layout {
         height: 320px;
     }
-
     .info {
-        height: 320px;
         display: flex;
         flex-direction: column;
 
@@ -160,109 +152,69 @@
                 }
             }
         }
-
-        .btn-layout {
-            display: flex;
-            margin-right: 12px;
-        }
     }
 }
 
-// Star
-// .quality {
-//     margin: 6px 0 4px;
-//     display: flex;
-//     flex-wrap: wrap;
-//     align-items: center;
-// }
-
-// .quality-lable {
-//     font-size: 1.4rem;
-// }
-
-// .rating {
-//     font-size: 1.2rem;
-//     margin-left: 8px;
-//     .rated {
-//         color: var(--yellow-color);
-//     }
-//     .icon-rate + .icon-rate {
-//         margin-left: 3px;
-//     }
-// }
-
-// .sold {
-//     font-size: 1.4rem;
-//     margin-left: 12px;
-// }
-
-// .separation {
-//     color: var(--separation-color);
-//     border-left: 2px solid var(--separation-color);
-//     height: 14px;
-//     margin: 0 16px;
-//     display: flex;
-//     align-items: center;
-// }
+.btn-pay {
+    margin-top: 0px;
+}
 
 .info-add {
     margin-top: 24px;
 }
+
 // Digital Info
-
-.digital-lable {
-    font-size: 1.8rem;
-    font-weight: 600;
-    line-height: 2rem;
-    padding: 10px 0px;
-}
-
-.digital-list {
-    margin-top: 12px;
-    margin-right: 12px;
-}
-
-.digital-item {
-    width: 100%;
-    min-height: 44px;
-    line-height: 2rem;
-    display: flex;
-
-    .lable {
-        flex: 1;
-        font-size: 1.6rem;
-        font-weight: 500;
+.digital-info {
+    .digital-lable {
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 2rem;
+        padding: 10px 0px;
     }
-    .value {
-        flex: 2;
-        font-size: 1.5rem;
-        font-weight: 400;
+    .digital-list {
+        margin-top: 12px;
+        margin-right: 12px;
+
+        .digital-item {
+            width: 100%;
+            min-height: 44px;
+            line-height: 2rem;
+            display: flex;
+
+            .lable {
+                flex: 1;
+                font-size: 1.6rem;
+                font-weight: 500;
+            }
+            .value {
+                flex: 2;
+                font-size: 1.5rem;
+                font-weight: 400;
+            }
+        }
     }
 }
-
 // Other Product
-
-.other-products-layout {
+.other-layout {
     background-color: var(--white-color);
-    margin: 32px 0;
     border-radius: 8px;
 }
 
-.other-products {
-    justify-content: space-between;
-}
-
 .orther-products-lable {
-    height: 100%;
+    min-height: 50px;
     width: 100%;
     display: flex;
     align-items: center;
     font-size: 2rem;
+    line-height: 2.1rem;
     font-weight: 600;
     padding-left: 12px;
 }
 
 .view-all-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     span {
         font-size: 1.6rem;
         font-weight: 400;
@@ -273,33 +225,143 @@
     }
 }
 
-// Description
+.products-list {
+    display: flex;
+    overflow: hidden;
+    overflow-x: scroll;
+}
 
+// Description
 .desc-info {
-    margin-top: 24px;
-    padding: 0 24px;
     color: var(--black-color);
     display: flex;
     flex-direction: column;
+    .desc-lable {
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 2rem;
+        padding: 10px 0px;
+    }
+    .desc-introduce {
+        font-size: 1.6rem;
+        font-weight: 400;
+        line-height: 2rem;
+    }
+
+    .image {
+        width: 80%;
+        height: 450px;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 }
 
-.desc-lable {
-    font-size: 1.8rem;
-    font-weight: 600;
-    line-height: 2rem;
-    padding: 10px 0px;
+@media only screen and (max-width: 35.994em) {
+    .path {
+        width: 82.5%;
+    }
+
+    .content {
+        padding: 8px 4px;
+        border-radius: 0px;
+    }
+
+    .main-info-layout {
+        display: flex;
+        flex-direction: column-reverse;
+        .image-layout {
+            height: calc(100vw / 1.2666667);
+        }
+
+        .info {
+            height: 150px;
+            .name {
+                /* Giới hạn dòng chữ */
+                line-height: 2.8rem;
+                height: 5.6rem;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+        }
+    }
+
+    .desc-info {
+        .image {
+            width: 100%;
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+    }
+    .btn-layout {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+        background-color: rgba(60, 179, 113, 0.7);
+        padding: 10px 0px;
+    }
+
+    .hidden-by-mobile {
+        display: none;
+    }
 }
 
-.desc-introduce {
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 2rem;
+@media only screen and (max-width: 47.994em) and (min-width: 36em) {
+    .path {
+        width: 82.5%;
+    }
+
+    .btn-pay {
+        margin-top: 10px;
+    }
+
+    .main-info-layout {
+        .image-layout {
+            height: calc(100vw / 1.2666667);
+            max-height: 300px;
+            max-width: 380px;
+        }
+        .info {
+            height: 280px;
+            .name {
+                /* Giới hạn dòng chữ */
+                line-height: 2.8rem;
+                height: 5.6rem;
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+        }
+    }
 }
 
-.image {
-    width: 80%;
-    height: 450px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+@media only screen and (max-width: 62em) and (min-width: 48em) {
+    .main-info-layout {
+        .info {
+            height: 320px;
+        }
+    }
+
+    .btn-pay {
+        margin-top: 10px;
+    }
+
+    .hidden-by-tablet {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 62.00001em) {
+    .main-info-layout {
+        .info {
+            height: 320px;
+        }
+    }
 }

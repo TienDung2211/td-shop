@@ -42,12 +42,22 @@ function Evaluate() {
                 <span className={cx('title')}>Đánh giá nhận xét từ khách hàng</span>
             </div>
             <div className={cx('row')}>
-                <div className={cx('col-4')}>
+                <div
+                    className={cx(
+                        'col-12',
+                        'col-sm-6',
+                        'col-md-6',
+                        'col-lg-5',
+                        'col-xl-4',
+                        'd-flex',
+                        'justify-content-center',
+                    )}
+                >
                     <div className={cx('overview-layout')}>
                         <Overview />
                     </div>
                 </div>
-                <div className={cx('col-8')}>
+                <div className={cx('col-12', 'col-sm-6', 'col-md-6', 'col-lg-7', 'col-xl-8')}>
                     <div className={cx('comment-filter-layout')}>{checkBuy && <CommentInput />}</div>
                 </div>
             </div>

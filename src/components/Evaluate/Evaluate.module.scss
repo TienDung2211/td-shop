@@ -8,7 +8,7 @@
 
 // Overview
 .overview-layout {
-    padding-left: 4.8rem;
+    margin-left: 4.8rem;
 
     .heading-overview {
         height: 4.5rem;
@@ -96,6 +96,11 @@
     .label {
         margin: 6px 0;
     }
+    .form-control {
+        padding: 12px;
+        font-size: 1.6rem;
+        width: 100%;
+    }
     .btn {
         margin-bottom: 12px;
         display: flex;
@@ -115,6 +120,7 @@
         padding-top: 4px;
         color: rgb(56, 56, 61);
         font-weight: 400;
+        margin-top: 10px;
     }
 
     .filter-options {
@@ -131,7 +137,7 @@
             border-radius: 100px;
             color: rgb(56, 56, 61);
             background: rgb(245, 245, 250);
-            margin: 0px 12px 0px 0px;
+            margin: 10px 12px 0px 0px;
             cursor: pointer;
             display: flex;
             -webkit-box-align: center;
@@ -151,9 +157,8 @@
 
 // comment-item
 .comment-item {
-    display: flex;
     border-top: 1px solid rgb(242, 242, 242);
-    padding: 32px 0px;
+    padding: 32px 0;
 }
 
 .user {
@@ -265,4 +270,79 @@
         font-size: 1.3rem;
         font-weight: 500;
     }
+}
+
+@media only screen and (max-width: 35.664em) {
+    .overview-layout {
+        max-width: 340px;
+        display: flex;
+        justify-content: center;
+        margin-left: 0;
+    }
+    .comment-filter-layout {
+        margin-right: 0;
+    }
+    .comment-item {
+        border-top: 2px solid rgb(242, 242, 242);
+        padding: 12px 16px;
+    }
+    .user {
+        margin-left: 0;
+        .user-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+}
+
+@media only screen and (max-width: 47.994em) and (min-width: 36em) {
+    .overview-layout {
+        max-width: 340px;
+        display: flex;
+        justify-content: center;
+        margin-left: 1.2rem;
+        .heading-overview {
+            .average-rate {
+                margin-right: 12px;
+            }
+            .info {
+                .star {
+                    .icon-star + .icon-star {
+                        margin-left: 6px;
+                    }
+                }
+            }
+        }
+        .detail-overview {
+            .item {
+                .small-star {
+                    .icon-star + .icon-star {
+                        margin-left: 4px;
+                    }
+                }
+                .ratio-layout {
+                    width: 106px;
+                }
+            }
+        }
+    }
+    .comment-filter-layout {
+        margin-right: 1.2rem;
+    }
+}
+
+@media only screen and (max-width: 61.994em) and (min-width: 48em) {
+    .overview-layout {
+        max-width: 340px;
+        display: flex;
+        justify-content: center;
+        margin-left: 2.4rem;
+    }
+    .comment-filter-layout {
+        margin-right: 2.4rem;
+    }
+}
+
+@media only screen and (min-width: 62em) {
 }

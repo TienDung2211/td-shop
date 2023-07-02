@@ -2,9 +2,11 @@
     padding: 0px 12px;
     width: 100%;
     max-width: 240px;
+    min-width: 220px;
 }
 .item {
     max-width: 220px;
+    min-width: 200px;
     margin: 12px 0px;
     background-color: var(--white-color);
     cursor: pointer;
@@ -203,17 +205,22 @@
     text-transform: uppercase;
 }
 
-@media only screen and (max-width: 46.249em) {
+@media only screen and (max-width: 35.994em) {
     .wrapper {
         padding: 0px 8px;
         width: 100%;
         max-width: 186px;
+        min-width: 160px;
     }
     .item {
-        max-width: 180px;
         margin: 8px 0px;
+        max-width: 180px;
+        min-width: 164px;
+    }
+    .hidden-by-mobile {
+        display: none;
     }
 }
 
-@media only screen and (max-width: 63.9375em) and (min-width: 46.25em) {
+@media only screen and (max-width: 63.9375em) and (min-width: 48em) {
 }

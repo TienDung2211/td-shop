@@ -39,7 +39,7 @@ const productServices = {
             const paramsCategory = `&category-id=${categoryId}`;
             const paramsMasterCategory = `&master-category-id=${masterCategoryId}`;
 
-            let endpoint = `?page=${page}&size=3${paramsVariations}${paramsFilter}${paramsKeyword}${paramsCategory}${paramsMasterCategory}`;
+            let endpoint = `?page=${page}&size=20${paramsVariations}${paramsFilter}${paramsKeyword}${paramsCategory}${paramsMasterCategory}`;
 
             const res = await request.get(`/product/search${endpoint}`);
             return res.data;

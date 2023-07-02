@@ -18,12 +18,13 @@ function PaymentFailure() {
 
     return (
         <div className={cx('container')}>
-            <div className={cx('row')}>
+            <div className={cx('row', 'mb-5')}>
                 <div className={cx('failure-info')}>
                     <div className={cx('image-layout')}>
                         <img
                             className={cx('image')}
                             src="https://salt.tikicdn.com/ts/upload/5a/f7/f7/4ce925ffff6449700efdc46a98112f88.jpg"
+                            alt="Ảnh thất bại"
                         />
                     </div>
                     <div className={cx('content')}>
@@ -51,7 +52,7 @@ function PaymentFailure() {
                     </div>
                 </div>
             </div>
-            <div className={cx('row', 'd-flex', 'justify-content-end', 'mt-5')}>
+            <div className={cx('row', 'd-flex', 'justify-content-end', 'single-btn-layout')}>
                 <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
                     <Button to={'/cart'} large primary border>
                         Giỏ hàng

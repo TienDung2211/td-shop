@@ -10,7 +10,7 @@ function Footer() {
     return (
         <div className={cx('container-fluid', 'wrapper')}>
             <div className={cx('body')}>
-                <div className={cx('col-info')}>
+                <div className={cx('col-info', 'col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'col-xl-3')}>
                     <h3 className={cx('heading')}>Chăm sóc khách hàng</h3>
 
                     <ul className={cx('list')}>
@@ -25,7 +25,7 @@ function Footer() {
                         </li>
                     </ul>
                 </div>
-                <div className={cx('col-info')}>
+                <div className={cx('col-info', 'col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'col-xl-3')}>
                     <h3 className={cx('heading')}>Giới thiệu</h3>
 
                     <ul className={cx('list')}>
@@ -40,19 +40,7 @@ function Footer() {
                         </li>
                     </ul>
                 </div>
-                <div className={cx('col-info')}>
-                    <h3 className={cx('heading')}>Chứng nhận quốc tế</h3>
-
-                    <ul className={cx('list')}>
-                        <li className={cx('item')}>
-                            <a href="/">PDF</a>
-                        </li>
-                        <li className={cx('item')}>
-                            <a href="/">PNG</a>
-                        </li>
-                    </ul>
-                </div>
-                <div className={cx('col-info')}>
+                <div className={cx('col-info', 'col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'col-xl-3')}>
                     <h3 className={cx('heading')}>Theo dõi</h3>
 
                     <ul className={cx('list')}>
@@ -76,7 +64,7 @@ function Footer() {
                         </li>
                     </ul>
                 </div>
-                <div className={cx('col-info')}>
+                <div className={cx('col-info', 'col-6', 'col-sm-6', 'col-md-3', 'col-lg-3', 'col-xl-3')}>
                     <h3 className={cx('heading')}>Vào ứng dụng trên TD-Shop</h3>
 
                     <div className={cx('qr')}>

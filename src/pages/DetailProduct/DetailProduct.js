@@ -3,7 +3,6 @@ import { useState, useEffect, useContext, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import styles from './DetailProduct.module.scss';
 
 import { Tooltip } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,6 +19,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import productServices from '~/services/productServices';
 import Evaluate from '~/components/Evaluate';
 import { useNavigate } from 'react-router-dom';
+import styles from './DetailProduct.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -30,6 +30,8 @@ function DetailProduct() {
     const [product, setProduct] = useState(null);
     const [productByBrand, setProductByBrand] = useState([]);
     const [isFollow, setIsFollow] = useState(false);
+    const [mCId, setMCId] = useState(0);
+    const [cId, setCId] = useState(0);
 
     const navigate = useNavigate();
 
@@ -48,9 +50,17 @@ function DetailProduct() {
 
         setSlider(images);
 
+        setMCId(api.MCategoryId);
+
+        const temp = api.Categories.find((item) => item.name.toLowerCase() === api.Brand.name.toLowerCase());
+
+        if (temp) {
+            setCId(temp.id);
+        }
+
         let api2 = await productServices.getProductByBrand(api.Brand.id);
         if (api?.content !== []) {
-            setProductByBrand(api2.content);
+            setProductByBrand(api2.content.filter((item) => item.Id !== parseInt(id)));
         } else setProductByBrand([]);
     };
 
@@ -127,7 +137,7 @@ function DetailProduct() {
 
     const memoizedDiv = useMemo(
         () => (
-            <div className={cx('col-2', 'd-flex', 'justify-content-center', 'align-items-center')}>
+            <div className={cx('d-flex', 'justify-content-center', 'align-items-center')}>
                 {isFollow ? (
                     <Tooltip title="Hủy theo dõi sản phẩm">
                         <Button
@@ -161,22 +171,24 @@ function DetailProduct() {
 
     return product ? (
         <div className={cx('container')}>
-            <div className={cx('row')}>
-                <div className={cx('path')}>
+            <div className={cx('row', 'mb-5', 'hidden-by-mobile')}>
+                <div className={cx('path', 'col-12', 'col-sm-12', 'col-md-9', 'col-lg-9', 'col-xl-6')}>
                     <Button to="/" transparent>
                         Trang chủ
                     </Button>
                     <Button disable transparent iconOnly={<FontAwesomeIcon icon={faAngleRight} />}></Button>{' '}
-                    <div className={cx('product-name')}>
+                    <div className={cx('page-name')}>
                         <span>{product.Name}</span>
                     </div>
                 </div>
             </div>
-            <div className={cx('row', 'main-layout')}>
-                <div className={cx('col-9', 'content')}>
+            <div className={cx('row')}>
+                <div className={cx('col-12', 'col-sm-12', 'col-md-12', 'col-lg-9', 'col-xl-9', 'content')}>
                     <div className={cx('row', 'main-info-layout')}>
-                        <div className={cx('col-5', 'image-layout')}>{<Slider data={slider} />}</div>
-                        <div className={cx('col-7', 'info')}>
+                        <div className={cx('col-12', 'col-sm-12', 'col-md-5', 'col-lg-5', 'col-xl-5', 'image-layout')}>
+                            {<Slider data={slider} />}
+                        </div>
+                        <div className={cx('col-12', 'col-sm-12', 'col-md-7', 'col-lg-7', 'col-xl-7', 'info')}>
                             <h4 className={cx('name')}>{product.Name}</h4>
 
                             <div className={cx('center')}>
@@ -213,30 +225,21 @@ function DetailProduct() {
                             </div>
 
                             <div className={cx('row', 'btn-layout')}>
-                                <div className={cx('col-2', 'd-flex', 'justify-content-center', 'align-items-center')}>
+                                <div
+                                    className={cx(
+                                        'col-2',
+                                        'col-sm-4',
+                                        'col-md-4',
+                                        'col-lg-2',
+                                        'col-xl-2',
+                                        'd-flex',
+                                        'justify-content-center',
+                                        'align-items-center',
+                                    )}
+                                >
                                     {memoizedDiv}
-                                    {/* {isFollow ? (
-                                        <Tooltip title="Hủy theo dõi sản phẩm">
-                                            <Button
-                                                rounded
-                                                border
-                                                transparent
-                                                iconOnly={<FontAwesomeIcon icon={faBellSlash} />}
-                                            ></Button>
-                                        </Tooltip>
-                                    ) : (
-                                        <Tooltip title="Theo dõi sản phẩm">
-                                            <Button
-                                                rounded
-                                                border
-                                                transparent
-                                                approach
-                                                iconOnly={<FontAwesomeIcon icon={faBell} />}
-                                            ></Button>
-                                        </Tooltip>
-                                    )} */}
                                 </div>
-                                <div className={cx('col-5')}>
+                                <div className={cx('col-5', 'col-sm-8', 'col-md-8', 'col-lg-5', 'col-xl-5')}>
                                     <Button
                                         border
                                         outline
@@ -247,7 +250,9 @@ function DetailProduct() {
                                         Thêm giỏ hàng
                                     </Button>
                                 </div>
-                                <div className={cx('col-5')}>
+                                <div
+                                    className={cx('col-5', 'col-sm-12', 'col-md-12', 'col-lg-5', 'col-xl-5', 'btn-pay')}
+                                >
                                     {product.Total > 0 ? (
                                         <Button
                                             primary
@@ -261,66 +266,64 @@ function DetailProduct() {
                                         </Button>
                                     ) : (
                                         <Button disable outline border large>
-                                            Sản phẩm hiện hết hàng
+                                            Hết hàng
                                         </Button>
                                     )}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className={cx('row', 'info-add')}>
-                        <div className={cx('col-5')}>
-                            {/* <div className={cx('free-list')}>
-                                        <div className={cx('free-lable')}>Sản phẩm tặng kèm</div>
-                                        <div className={cx('free-item')}>
-                                            <div className={cx('free-item-image')}>
-                                                <img
-                                                    src="https://lh3.googleusercontent.com/8clBU5pQcfH3gvh9PTtGwUNig-8L_SN3ONrnN62MjKjzMhuZPTbZ-JtonfiKdBElHCuFWp6rqALX1mROYPZZub6ZAamgOqLT=w500-rw"
-                                                    alt="Ảnh"
-                                                />
-                                            </div>
-                                            <div className={cx('free-item-info')}>
-                                                <div className={cx('free-item-name')}>
-                                                    Chuột máy tính Dareu LM115G (Đen)
-                                                </div>
-                                                <div className={cx('free-item-price')}>
-                                                    350.000 <span>₫</span>
-                                                </div>
-                                            </div>
+                    <div className={cx('row', 'd-flex', 'justify-content-end')}>
+                        {/* <div className={cx('col-5')}>
+                            <div className={cx('free-list')}>
+                                <div className={cx('free-lable')}>Sản phẩm tặng kèm</div>
+                                <div className={cx('free-item')}>
+                                    <div className={cx('free-item-image')}>
+                                        <img
+                                            src="https://lh3.googleusercontent.com/8clBU5pQcfH3gvh9PTtGwUNig-8L_SN3ONrnN62MjKjzMhuZPTbZ-JtonfiKdBElHCuFWp6rqALX1mROYPZZub6ZAamgOqLT=w500-rw"
+                                            alt="Ảnh"
+                                        />
+                                    </div>
+                                    <div className={cx('free-item-info')}>
+                                        <div className={cx('free-item-name')}>Chuột máy tính Dareu LM115G (Đen)</div>
+                                        <div className={cx('free-item-price')}>
+                                            350.000 <span>₫</span>
                                         </div>
-                                        <div className={cx('free-item')}>
-                                            <div className={cx('free-item-image')}>
-                                                <img
-                                                    src="https://lh3.googleusercontent.com/qRrzXfxMNDS0l_4CQLWdP6adXw5GYobdVEkra-rP43h4OV_GYWNXU9yNUARFaCbE0GIPLLxMVkbNs0E0BWrwdaAJN_RqHeJd=w500-rw"
-                                                    alt="Ảnh"
-                                                />
-                                            </div>
-                                            <div className={cx('free-item-info')}>
-                                                <div className={cx('free-item-name')}>Bàn phím Dareu LK185</div>
-                                                <div className={cx('free-item-price')}>
-                                                    159.000 <span>₫</span>
-                                                </div>
-                                            </div>
+                                    </div>
+                                </div>
+                                <div className={cx('free-item')}>
+                                    <div className={cx('free-item-image')}>
+                                        <img
+                                            src="https://lh3.googleusercontent.com/qRrzXfxMNDS0l_4CQLWdP6adXw5GYobdVEkra-rP43h4OV_GYWNXU9yNUARFaCbE0GIPLLxMVkbNs0E0BWrwdaAJN_RqHeJd=w500-rw"
+                                            alt="Ảnh"
+                                        />
+                                    </div>
+                                    <div className={cx('free-item-info')}>
+                                        <div className={cx('free-item-name')}>Bàn phím Dareu LK185</div>
+                                        <div className={cx('free-item-price')}>
+                                            159.000 <span>₫</span>
                                         </div>
-                                        <div className={cx('free-item')}>
-                                            <div className={cx('free-item-image')}>
-                                                <img
-                                                    src="https://lh3.googleusercontent.com/K9WLhOq8cL0l53OQYXChl2BvX6iw0FoZEETyiO5U0p6xWkvZBhsxl35jc1f-7l150U07o_k9GPxwHD0WWpM=rw-w230"
-                                                    alt="Ảnh"
-                                                />
-                                            </div>
-                                            <div className={cx('free-item-info')}>
-                                                <div className={cx('free-item-name')}>
-                                                    Tai nghe Over-ear Dareu EH925s (Đen,Đỏ)
-                                                </div>
-                                                <div className={cx('free-item-price')}>
-                                                    769.000 <span>₫</span>
-                                                </div>
-                                            </div>
+                                    </div>
+                                </div>
+                                <div className={cx('free-item')}>
+                                    <div className={cx('free-item-image')}>
+                                        <img
+                                            src="https://lh3.googleusercontent.com/K9WLhOq8cL0l53OQYXChl2BvX6iw0FoZEETyiO5U0p6xWkvZBhsxl35jc1f-7l150U07o_k9GPxwHD0WWpM=rw-w230"
+                                            alt="Ảnh"
+                                        />
+                                    </div>
+                                    <div className={cx('free-item-info')}>
+                                        <div className={cx('free-item-name')}>
+                                            Tai nghe Over-ear Dareu EH925s (Đen,Đỏ)
                                         </div>
-                                    </div> */}
-                        </div>
-                        <div className={cx('col-7')}>
+                                        <div className={cx('free-item-price')}>
+                                            769.000 <span>₫</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> */}
+                        <div className={cx('col-12', 'col-sm-12', 'col-md-7', 'col-lg-7', 'col-xl-7')}>
                             <div className={cx('digital-info')}>
                                 <div className={cx('digital-lable')}>Thông số kỹ thuật</div>
 
@@ -339,51 +342,58 @@ function DetailProduct() {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('row', 'desc-info')}>
-                        <div className={cx('desc-lable')}>Mô tả sản phẩm</div>
-                        <div className={cx('desc-introduce')}>
-                            <p>{product.Description}</p>
+                    <div className={cx('row', 'mt-5')}>
+                        <div className={cx('col-12', 'desc-info')}>
+                            <div className={cx('desc-lable')}>Mô tả sản phẩm</div>
+                            <div className={cx('desc-introduce')}>
+                                <p>{product.Description}</p>
+                            </div>
+                            <div
+                                className={cx('image')}
+                                style={{
+                                    backgroundImage: `url('${product ? product.ImageUrl : images.imgError}')`,
+                                }}
+                            ></div>
                         </div>
-                        <div
-                            className={cx('image')}
-                            style={{
-                                backgroundImage: `url('${product ? product.ImageUrl : images.imgError}')`,
-                            }}
-                        ></div>
                     </div>
                 </div>
-                <div className={cx('col-3')}>
+                <div className={cx('d-none', 'd-sm-none', 'd-md-none', 'd-lg-block', 'd-xl-block', 'col-3')}>
                     <Policy />
                 </div>
             </div>
             {productByBrand?.length > 0 ? (
-                <div className={cx('row', 'other-products-layout')}>
-                    <div className={cx('row', 'other-products')}>
-                        <div className={cx('grid-column-4')}>
+                <div className={cx('row', 'mt-5', 'other-layout')}>
+                    <div className={cx('row', 'd-flex', 'justify-content-between')}>
+                        <div className={cx('col-8', 'col-sm-8', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
                             <span className={cx('orther-products-lable')}>Cùng thương hiệu {product.Brand.name}</span>
                         </div>
-                        <div className={cx('grid-column-2')}>
-                            <Button to="/sort/0/0" transparent large className={cx('view-all-btn')}>
+                        <div
+                            className={cx(
+                                'col-4',
+                                'col-sm-3',
+                                'col-md-3',
+                                'col-lg-2',
+                                'col-xl-2',
+                                'd-flex',
+                                'align-items-center',
+                                'justify-content-end',
+                            )}
+                        >
+                            <Button to={`/sort/${mCId}/${cId}`} transparent className={cx('view-all-btn')}>
                                 Xem tất cả {'>>'}
                             </Button>
                         </div>
                     </div>
                     <div className={cx('row')}>
-                        {productByBrand.map((product, index) => {
-                            if (index < 5) {
-                                return (
-                                    <div className={cx('grid-column-20percent')} key={index}>
-                                        <Product data={product} />
-                                    </div>
-                                );
-                            } else {
-                                return null;
-                            }
-                        })}
+                        <div className={cx('products-list')}>
+                            {productByBrand.map((product, index) => (
+                                <Product data={product} key={index} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             ) : null}
-            <div className={cx('row', 'other-products-layout')}>
+            <div className={cx('row', 'mt-5', 'other-layout')}>
                 <Evaluate />
             </div>
 

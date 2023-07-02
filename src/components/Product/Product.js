@@ -90,7 +90,9 @@ function Product({ data }) {
                     </div> */}
 
                     <div className={cx('orther-data')}>
-                        <div className={cx('brand')}>Thương hiệu : {data.Brand.name}</div>
+                        <div className={cx('brand')}>
+                            <span className={cx('hidden-by-mobile')}>Thương hiệu :</span> {data.Brand.name}
+                        </div>
                         <span className={cx('sel-amount')}>
                             Đã bán{' '}
                             <span className={cx('amount')}>

@@ -259,7 +259,7 @@ function Payment() {
 
     return (
         <div className={cx('container')}>
-            <div className={cx('row')}>
+            <div className={cx('row', 'mb-5', 'hidden-by-mobile')}>
                 <div className={cx('path', 'col-12', 'col-sm-12', 'col-md-9', 'col-lg-9', 'col-xl-6')}>
                     <Button to="/" transparent>
                         Trang chủ
@@ -270,7 +270,7 @@ function Payment() {
                     </div>
                 </div>
             </div>
-            <div className={cx('row', 'mt-5')}>
+            <div className={cx('row', 'mb-5')}>
                 <div className={cx('col-12', 'col-sm-12', 'col-md-6', 'col-lg-6', 'col-xl-6')}>
                     <div className={cx('list-layout')}>
                         <span className={cx('heading')}>Thông tin sản phẩm</span>
@@ -390,7 +390,7 @@ function Payment() {
                     )}
                 </div>
             </div>
-            <div className={cx('row', 'd-flex', 'justify-content-end', 'mt-5')}>
+            <div className={cx('row', 'd-flex', 'justify-content-end', 'single-btn-layout')}>
                 <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
                     <Button large primary border onClick={() => handlePayment()}>
                         Đặt hàng
