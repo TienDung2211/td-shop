@@ -125,7 +125,7 @@ function Cart() {
             </div>
             <div className={cx('row')}>
                 <div className={cx('col-12', 'col-sm-12', 'col-md-12', 'col-lg-9', 'col-xl-9')}>
-                    <div className={cx('content')}>
+                    <div className={cx('content', 'mb-5')}>
                         <div className={cx('column-lable')}>
                             <div className={cx('col-12', 'col-sm-12', 'col-md-2', 'col-lg-2', 'col-xl-2')}>
                                 <div className={cx('select-all-layout')}>

@@ -52,10 +52,15 @@ function PaymentFailure() {
                     </div>
                 </div>
             </div>
-            <div className={cx('row', 'd-flex', 'justify-content-end', 'single-btn-layout')}>
-                <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
-                    <Button to={'/cart'} large primary border>
+            <div className={cx('row', 'd-flex', 'justify-content-end', 'btn-layout')}>
+                <div className={cx('col-6', 'col-sm-6', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                    <Button to={'/cart'} large border outline approach>
                         Giỏ hàng
+                    </Button>
+                </div>
+                <div className={cx('col-6', 'col-sm-6', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                    <Button to={'/payment'} large primary border>
+                        Thanh toán lại
                     </Button>
                 </div>
             </div>

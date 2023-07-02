@@ -19,13 +19,27 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 const cx = classNames.bind(styles);
 
 function Payment() {
-    const { state } = useLocation();
-
-    const { render } = useContext(DataContext);
-
-    const data = state.data;
-
+    const [data, setData] = useState([]);
     const [user, setUser] = useState({});
+    const [remainingAmount, setRemainingAmount] = useState([]);
+    const [errMsg, setErrMsg] = useState('');
+    const [shipFee, setShipFee] = useState('0');
+    const [shipDeliveryTime, setShipDeliveryTime] = useState('dd/mm/yyyy');
+    const { state } = useLocation();
+    const { render, dataPayment, setDataPayment } = useContext(DataContext);
+    const navigate = useNavigate();
+
+    const handleCheckData = () => {
+        if (state?.data) {
+            setData(state.data);
+            setDataPayment(state.data);
+        } else if (dataPayment.length > 0) {
+            setData(dataPayment);
+        } else {
+            console.log('No data');
+        }
+    };
+
     const [address, setAddress] = useState({});
     const [optionsAddress, setOptionsAddress] = useState([]);
     const [ship, setShip] = useState({ value: 'Chọn đơn vị vận chuyển', label: 0 });
@@ -38,13 +52,6 @@ function Payment() {
         { value: 'Thanh toán tiền mặt khi nhận hàng', label: 1 },
         { value: 'Thanh toán bằng ví MoMo', label: 2 },
     ]);
-
-    const [errMsg, setErrMsg] = useState('');
-
-    const [shipFee, setShipFee] = useState('0');
-    const [shipDeliveryTime, setShipDeliveryTime] = useState('dd/mm/yyyy');
-
-    const navigate = useNavigate();
 
     const handleChangeAddress = (selectedOption) => {
         setAddress(selectedOption);
@@ -216,6 +223,11 @@ function Payment() {
                         position: toast.POSITION.TOP_RIGHT,
                         className: 'toast-message',
                     });
+                    const temp = api.data.map(({ Id, Total }) => ({
+                        Id: Id,
+                        Total: Total,
+                    }));
+                    setRemainingAmount(temp);
                 } else {
                     setErrMsg('Lỗi không xác định, vui lòng thử lại.');
                     toast.error('Lỗi không xác định, vui lòng thử lại.', {
@@ -232,6 +244,11 @@ function Payment() {
                         position: toast.POSITION.TOP_RIGHT,
                         className: 'toast-message',
                     });
+                    const temp = api.data.map(({ Id, Total }) => ({
+                        Id: Id,
+                        Total: Total,
+                    }));
+                    setRemainingAmount(temp);
                 } else {
                     setErrMsg('Lỗi không xác định, vui lòng thử lại.');
                     toast.error('Lỗi không xác định, vui lòng thử lại.', {
@@ -244,6 +261,24 @@ function Payment() {
             console.log(error);
         }
     };
+
+    const renderRemainingAmount = (id) => {
+        const isExist = remainingAmount.find((item) => item.Id === id);
+
+        if (isExist) {
+            return (
+                <span className={cx('remaining-total')}>
+                    {'('}Còn lại : {isExist.Total}
+                    {')'}
+                </span>
+            );
+        }
+        return null;
+    };
+
+    useEffect(() => {
+        handleCheckData();
+    }, []);
 
     useEffect(() => {
         getUserInfo();
@@ -289,6 +324,7 @@ function Payment() {
                                                     <span>₫</span>
                                                 </span>
                                                 <span className={cx('item-amount')}>x {item.Quantity}</span>
+                                                {renderRemainingAmount(item.Product.Id)}
                                             </div>
                                         </div>
                                     </div>
@@ -390,8 +426,13 @@ function Payment() {
                     )}
                 </div>
             </div>
-            <div className={cx('row', 'd-flex', 'justify-content-end', 'single-btn-layout')}>
-                <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+            <div className={cx('row', 'd-flex', 'justify-content-end', 'btn-layout')}>
+                <div className={cx('col-6', 'col-sm-6', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                    <Button to={'/cart'} large border outline approach>
+                        Quay lại
+                    </Button>
+                </div>
+                <div className={cx('col-6', 'col-sm-6', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
                     <Button large primary border onClick={() => handlePayment()}>
                         Đặt hàng
                     </Button>
