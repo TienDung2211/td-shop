@@ -40,7 +40,7 @@ function AddAddress({ onClickCancle }) {
 
     const [viewport, setViewport] = useState({
         width: '100%',
-        height: 400,
+        height: '100%',
         latitude: 10.823098,
         longitude: 106.629663,
         zoom: 18,
@@ -286,29 +286,31 @@ function AddAddress({ onClickCancle }) {
                 </div>
             </div>
             <div className={cx('row', 'mt-5')}>
-                <div className={cx('col')}>
+                <div className={cx('col', 'map-layout')}>
                     {isValid ? (
                         <span className={cx('valid')}>Địa chỉ đã được xác nhận</span>
                     ) : (
                         <span className={cx('not-valid')}>{addresNow}</span>
                     )}
-                    <ReactMapGL
-                        {...viewport}
-                        mapStyle="https://tiles.goong.io/assets/goong_map_web.json"
-                        onViewportChange={(nextViewport) => setViewport(nextViewport)}
-                        goongApiAccessToken={process.env.REACT_APP_GOONG_MAPTILES_KEY}
-                    >
-                        {marker && (
-                            <Marker
-                                latitude={marker.latitude}
-                                longitude={marker.longitude}
-                                draggable
-                                onDragEnd={onMarkerDragEnd}
-                            >
-                                <FontAwesomeIcon className={cx('marker-location')} icon={faLocationDot} />
-                            </Marker>
-                        )}
-                    </ReactMapGL>
+                    <div className={cx('map')}>
+                        <ReactMapGL
+                            {...viewport}
+                            mapStyle="https://tiles.goong.io/assets/goong_map_web.json"
+                            onViewportChange={(nextViewport) => setViewport(nextViewport)}
+                            goongApiAccessToken={process.env.REACT_APP_GOONG_MAPTILES_KEY}
+                        >
+                            {marker && (
+                                <Marker
+                                    latitude={marker.latitude}
+                                    longitude={marker.longitude}
+                                    draggable
+                                    onDragEnd={onMarkerDragEnd}
+                                >
+                                    <FontAwesomeIcon className={cx('marker-location')} icon={faLocationDot} />
+                                </Marker>
+                            )}
+                        </ReactMapGL>
+                    </div>
                 </div>
             </div>
             <div className={cx('d-flex', 'flex-row', 'mt-5', 'confirm-layout')}>

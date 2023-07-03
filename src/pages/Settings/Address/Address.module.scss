@@ -83,12 +83,16 @@
     font-size: 1.4rem;
     font-weight: 500;
 }
-
 .valid {
     color: var(--green-color);
 }
 .not-valid {
     color: var(--red-color);
+}
+.map-layout {
+    .map {
+        height: 300px;
+    }
 }
 
 // Address Item
@@ -103,6 +107,10 @@
     font-size: 1.6rem;
     font-weight: 600;
     margin-top: 4px;
+}
+
+.content {
+    display: flex;
 }
 
 .info {
@@ -139,4 +147,40 @@
 
 .button + .button {
     margin-left: 16px;
+}
+
+@media only screen and (max-width: 35.994em) {
+    .hidden-by-mobile {
+        display: none;
+    }
+    .wrapper {
+        padding: 12px;
+    }
+    .item-address {
+        flex-direction: column;
+    }
+    .button-layout {
+        width: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        .button + .button {
+            margin-left: 0;
+        }
+    }
+    .map-layout {
+        .map {
+            height: 216px;
+        }
+    }
+}
+
+@media only screen and (max-width: 47.994em) and (min-width: 36em) {
+    .map-layout {
+        .map {
+            height: 256px;
+        }
+    }
 }

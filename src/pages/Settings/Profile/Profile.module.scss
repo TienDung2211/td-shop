@@ -90,3 +90,23 @@
     display: flex;
     justify-content: space-between;
 }
+
+@media only screen and (max-width: 35.994em) {
+    .hidden-by-mobile {
+        display: none;
+    }
+    .wrapper {
+        padding: 12px;
+    }
+
+    .label-item {
+        width: 120px;
+    }
+    .button-layout-view,
+    .button-layout-update {
+        margin-left: 120px;
+    }
+}
+
+@media only screen and (max-width: 47.994em) and (min-width: 36em) {
+}

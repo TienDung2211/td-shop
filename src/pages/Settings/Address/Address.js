@@ -63,40 +63,42 @@ function Address() {
                         return (
                             <div key={item.Id} className={cx('item-address')}>
                                 <div className={cx('type-address')}>Địa chỉ {item.IsDefault ? 'mặc định' : null}</div>
-                                <div className={cx('info')}>
-                                    <div className={cx('address')}>
-                                        <FontAwesomeIcon icon={faMapLocation} className={cx('icon', 'map')} />
-                                        {item.WardsName}, {item.DistrictName}, {item.ProvinceName}
+                                <div className={cx('content')}>
+                                    <div className={cx('info')}>
+                                        <div className={cx('address')}>
+                                            <FontAwesomeIcon icon={faMapLocation} className={cx('icon', 'map')} />
+                                            {item.WardsName}, {item.DistrictName}, {item.ProvinceName}
+                                        </div>
+                                        <div className={cx('detail')}>
+                                            <FontAwesomeIcon icon={faLocationDot} className={cx('icon', 'location')} />
+                                            {item.AddressDetail}
+                                        </div>
+                                        <div className={cx('name')}>
+                                            <FontAwesomeIcon icon={faImagePortrait} className={cx('icon', 'user')} />
+                                            {item.Name}
+                                        </div>
                                     </div>
-                                    <div className={cx('detail')}>
-                                        <FontAwesomeIcon icon={faLocationDot} className={cx('icon', 'location')} />
-                                        {item.AddressDetail}
+                                    <div className={cx('button-layout')}>
+                                        <Button
+                                            className={cx('button')}
+                                            transparent
+                                            rounded
+                                            iconOnly={<FontAwesomeIcon icon={faPen} />}
+                                            onClick={() => {
+                                                setView(false);
+                                                setAddressUpdate(item);
+                                            }}
+                                        ></Button>
+                                        <Button
+                                            className={cx('button')}
+                                            transparent
+                                            rounded
+                                            iconOnly={<FontAwesomeIcon icon={faTrashCan} />}
+                                            onClick={() => {
+                                                handleRemoveAddress(item.Id);
+                                            }}
+                                        ></Button>
                                     </div>
-                                    <div className={cx('name')}>
-                                        <FontAwesomeIcon icon={faImagePortrait} className={cx('icon', 'user')} />
-                                        {item.Name}
-                                    </div>
-                                </div>
-                                <div className={cx('button-layout')}>
-                                    <Button
-                                        className={cx('button')}
-                                        transparent
-                                        rounded
-                                        iconOnly={<FontAwesomeIcon icon={faPen} />}
-                                        onClick={() => {
-                                            setView(false);
-                                            setAddressUpdate(item);
-                                        }}
-                                    ></Button>
-                                    <Button
-                                        className={cx('button')}
-                                        transparent
-                                        rounded
-                                        iconOnly={<FontAwesomeIcon icon={faTrashCan} />}
-                                        onClick={() => {
-                                            handleRemoveAddress(item.Id);
-                                        }}
-                                    ></Button>
                                 </div>
                             </div>
                         );
