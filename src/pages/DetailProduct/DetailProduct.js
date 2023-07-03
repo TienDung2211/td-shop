@@ -198,8 +198,10 @@ function DetailProduct() {
                                 {product && product.Discount ? (
                                     <div className={cx('price')}>
                                         <span className={cx('price--original')}>
-                                            {Number(product.Price)}
-                                            <span>₫</span>
+                                            {parseInt(product.Price).toLocaleString('vi-VN', {
+                                                style: 'currency',
+                                                currency: 'VND',
+                                            })}
                                         </span>
                                         <div className={cx('sale')}>
                                             <span className={cx('sale__lable')}>Giảm</span>
@@ -209,16 +211,19 @@ function DetailProduct() {
                                             </span>
                                         </div>
                                         <span className={cx('price--discount')}>
-                                            {Number(product.Price) -
-                                                Number(product.Price * product.Discount.DiscountRate)}
-                                            <span>₫</span>
+                                            {parseInt(
+                                                Number(product.Price) -
+                                                    Number(product.Price * product.Discount.DiscountRate),
+                                            ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                         </span>
                                     </div>
                                 ) : (
                                     <div className={cx('price')}>
                                         <span className={cx('price--discount')}>
-                                            {Number(product.Price)}
-                                            <span>₫</span>
+                                            {parseInt(product.Price).toLocaleString('vi-VN', {
+                                                style: 'currency',
+                                                currency: 'VND',
+                                            })}
                                         </span>
                                     </div>
                                 )}

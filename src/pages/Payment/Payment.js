@@ -108,7 +108,7 @@ function Payment() {
         data.forEach((item) => {
             total = total + item?.Quantity * item?.Product.Price;
         });
-        total = total + shipFee;
+        total = total + parseInt(shipFee);
         return total;
     };
 
@@ -319,10 +319,28 @@ function Payment() {
                                         <div className={cx('item-info')}>
                                             <h5 className={cx('item-name')}>{item.Product.Name}</h5>
                                             <div className={cx('item-total')}>
-                                                <span className={cx('item-price')}>
-                                                    {item.Product.Price}
-                                                    <span>₫</span>
-                                                </span>
+                                                {item.Product?.Discount ? (
+                                                    <span className={cx('item-price')}>
+                                                        {parseInt(
+                                                            Number(item.Product.Price) -
+                                                                Number(
+                                                                    item.Product.Price *
+                                                                        item.Product.Discount.DiscountRate,
+                                                                ),
+                                                        ).toLocaleString('vi-VN', {
+                                                            style: 'currency',
+                                                            currency: 'VND',
+                                                        })}
+                                                    </span>
+                                                ) : (
+                                                    <span className={cx('item-price')}>
+                                                        {parseInt(item.Product.Price).toLocaleString('vi-VN', {
+                                                            style: 'currency',
+                                                            currency: 'VND',
+                                                        })}
+                                                    </span>
+                                                )}
+
                                                 <span className={cx('item-amount')}>x {item.Quantity}</span>
                                                 {renderRemainingAmount(item.Product.Id)}
                                             </div>
@@ -416,7 +434,12 @@ function Payment() {
 
                             <div className={cx('price')}>
                                 <span className={cx('lable')}>Tổng giá</span>
-                                <span className={cx('value')}> {getTotalOrder()} ₫</span>
+                                <span className={cx('value')}>
+                                    {parseInt(getTotalOrder()).toLocaleString('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND',
+                                    })}
+                                </span>
                             </div>
                         </div>
                     ) : (

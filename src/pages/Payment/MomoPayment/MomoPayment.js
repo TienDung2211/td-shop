@@ -119,7 +119,13 @@ function MomoPayment() {
                                 className={cx('qr-code')}
                             />
                             <div className={cx('price-layout')}>
-                                Tổng tiền : <span className={cx('price')}>{data.amount} ₫</span>
+                                Tổng tiền :{' '}
+                                <span className={cx('price')}>
+                                    {parseInt(data.amount).toLocaleString('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND',
+                                    })}
+                                </span>
                             </div>
                         </div>
                         <div className={cx('intruction-layout')}>

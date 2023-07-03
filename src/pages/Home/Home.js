@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Home.module.scss';
 import { useState, useEffect, useContext } from 'react';
 

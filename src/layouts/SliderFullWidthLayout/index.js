@@ -5,6 +5,10 @@ import Footer from '../components/Footer';
 import Slider from '~/components/Slider/Slider';
 import styles from './SliderFullWidthLayout.module.scss';
 import Variations from '~/components/Variations/Variations';
+import Button from '~/components/Button/Button';
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp, faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -47,17 +51,46 @@ const dataSlider = [
 ];
 
 function SliderFullWidthLayout({ children }) {
+    const [showVariations, setShowVariations] = useState(false);
+
     return (
         <div className={cx('container-fluid', 'p-0', 'm-0', 'wrapper')}>
             <div className={cx('row', 'p-0', 'm-0')}>
                 <Header />
             </div>
             <div className={cx('p-0', 'm-0', 'w-100')}>
-                <div className={cx('slider')}>
-                    <Slider data={dataSlider} />
-                    <div className={cx('variations')}>
-                        <Variations />
+                <div className={cx('layout')}>
+                    <div className={cx('slider-layout')}>
+                        <Slider data={dataSlider} />
+                        <div className={cx('btn-show')}>
+                            {!showVariations ? (
+                                <Button
+                                    transparent
+                                    primary
+                                    border
+                                    leftIcon={<FontAwesomeIcon icon={faFilter} />}
+                                    onClick={() => setShowVariations(true)}
+                                >
+                                    Show
+                                </Button>
+                            ) : (
+                                <Button
+                                    transparent
+                                    primary
+                                    border
+                                    leftIcon={<FontAwesomeIcon icon={faFilter} />}
+                                    onClick={() => setShowVariations(false)}
+                                >
+                                    Hidden
+                                </Button>
+                            )}
+                        </div>
                     </div>
+                    {showVariations && (
+                        <div className={cx('variations')}>
+                            <Variations />
+                        </div>
+                    )}
                 </div>
             </div>
             <div className={cx('row', 'p-0', 'm-0', 'd-flex', 'justify-content-center')}>

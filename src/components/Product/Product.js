@@ -33,12 +33,15 @@ function Product({ data }) {
                         <div>
                             <div className={cx('item-price')}>
                                 <span className={cx('item-price--original')}>
-                                    {data.Price}
-                                    <span>₫</span>
+                                    {parseInt(data.Price).toLocaleString('vi-VN', {
+                                        style: 'currency',
+                                        currency: 'VND',
+                                    })}
                                 </span>
                                 <span className={cx('item-price--discount')}>
-                                    {Number(data.Price) - Number(data.Price * data.Discount.DiscountRate)}
-                                    <span>₫</span>
+                                    {parseInt(
+                                        Number(data.Price) - Number(data.Price * data.Discount.DiscountRate),
+                                    ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                                 </span>
                             </div>
                             <div className={cx('item-sale')}>
@@ -52,8 +55,7 @@ function Product({ data }) {
                     ) : (
                         <div className={cx('item-price')}>
                             <span className={cx('item-price--discount')}>
-                                {data.Price}
-                                <span>₫</span>
+                                {parseInt(data.Price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
                             </span>
                         </div>
                     )}

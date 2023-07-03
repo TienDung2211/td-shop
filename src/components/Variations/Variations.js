@@ -1,7 +1,8 @@
 import classNames from 'classnames/bind';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Variations.module.scss';
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import Options from '~/components/Options';
 import DataContext from '~/context/DataContext';
 import categoryServices from '~/services/categoryServices';
@@ -9,10 +10,11 @@ import categoryServices from '~/services/categoryServices';
 const cx = classNames.bind(styles);
 
 function Variations() {
-    const [varitons, setVaritons] = useState([]);
     const [categorys, setCategorys] = useState([]);
     const [masterCategory, setMasterCategory] = useState([]);
     const [idMCategory, setIdMCategory] = useState(1);
+
+    const wrapperRef = useRef();
 
     const { render } = useContext(DataContext);
 
@@ -36,8 +38,26 @@ function Variations() {
         getCategorysById();
     }, [render, idMCategory]);
 
-    return varitons ? (
-        <div className={cx('wrapper')}>
+    useEffect(() => {
+        const element = wrapperRef.current;
+        const getWidth = () => {
+            const width = element.offsetWidth;
+            if (width <= 768 && idMCategory === 0) {
+                setIdMCategory(1);
+            }
+        };
+
+        getWidth();
+
+        window.addEventListener('resize', getWidth);
+
+        return () => {
+            window.removeEventListener('resize', getWidth);
+        };
+    }, []);
+
+    return (
+        <div className={cx('wrapper')} ref={wrapperRef}>
             <div className={cx('list-master')}>
                 {masterCategory.map((item, index) => {
                     return (
@@ -63,7 +83,7 @@ function Variations() {
                 })}
             </div>
         </div>
-    ) : null;
+    );
 }
 
 export default Variations;

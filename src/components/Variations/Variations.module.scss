@@ -18,23 +18,23 @@
     }
 
     .list-categorys {
-        display: none;
+        display: flex;
+        flex: 1;
+        height: 100%;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.3s ease;
-        flex: 1;
-        flex-direction: column;
         flex-wrap: wrap;
-        overflow: hidden;
         overflow-y: auto;
     }
 
     .list-master {
-        min-width: 300px;
+        width: 300px;
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        overflow-y: auto;
         padding: 4px 24px;
         background-color: var(--low-primary-color);
 
@@ -44,7 +44,7 @@
             display: flex;
             align-items: center;
             color: black;
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             font-weight: 500;
             cursor: pointer;
         }
@@ -54,39 +54,52 @@
     }
 }
 
-@media only screen and (max-width: 47.994em) {
+@media only screen and (max-width: 35.994em) {
     .wrapper {
-        width: 164px;
-
+        width: 100%;
         .list-master {
-            min-width: 164px;
             padding: 4px 8px;
-            overflow: hidden;
-            overflow-y: auto;
-
+            width: 180px;
             .item {
-                font-weight: 500;
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
         }
-
         .list-categorys {
-            flex-direction: row;
+            opacity: 1;
+            visibility: visible;
+            display: flex;
         }
     }
 }
 
-@media only screen and (max-width: 63.9375em) and (min-width: 48em) {
+@media only screen and (max-width: 47.994em) and (min-width: 36em) {
     .wrapper {
-        width: 260px;
+        width: 100%;
+        .list-master {
+            padding: 4px 12px;
+            width: 200px;
+            .item {
+                font-size: 1.4rem;
+            }
+        }
+        .list-categorys {
+            opacity: 1;
+            visibility: visible;
+            display: flex;
+        }
+    }
+}
+
+@media only screen and (max-width: 63.994em) and (min-width: 48em) {
+    .wrapper {
+        width: 220px;
 
         .list-master {
-            min-width: 260px;
-            padding: 4px 16px;
-        }
-
-        .list-categorys {
-            flex-direction: row;
+            width: 220px;
+            padding: 4px 12px;
+            .item {
+                font-size: 1.5rem;
+            }
         }
     }
 }

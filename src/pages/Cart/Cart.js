@@ -1,5 +1,4 @@
 import classNames from 'classnames/bind';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './Cart.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -185,20 +184,28 @@ function Cart() {
                                                 {data?.Product?.Discount ? (
                                                     <div>
                                                         <span className={cx('original-price')}>
-                                                            {data?.Product.Price}
-                                                            <span>₫</span>
+                                                            {parseInt(data?.Product.Price).toLocaleString('vi-VN', {
+                                                                style: 'currency',
+                                                                currency: 'VND',
+                                                            })}
                                                         </span>
                                                         <span className={cx('space')}></span>
                                                         <span className={cx('current-price')}>
-                                                            {data?.Product.Price *
-                                                                data?.Product?.Discount?.DiscountRate}
-                                                            <span>₫</span>
+                                                            {parseInt(
+                                                                data?.Product.Price *
+                                                                    data?.Product?.Discount?.DiscountRate,
+                                                            ).toLocaleString('vi-VN', {
+                                                                style: 'currency',
+                                                                currency: 'VND',
+                                                            })}
                                                         </span>
                                                     </div>
                                                 ) : (
                                                     <span className={cx('current-price')}>
-                                                        {data?.Product.Price}
-                                                        <span>₫</span>
+                                                        {parseInt(data?.Product.Price).toLocaleString('vi-VN', {
+                                                            style: 'currency',
+                                                            currency: 'VND',
+                                                        })}
                                                     </span>
                                                 )}
                                             </div>

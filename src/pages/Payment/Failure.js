@@ -47,7 +47,12 @@ function PaymentFailure() {
                         </div>
                         <div className={cx('order-info')}>
                             <div className={cx('label')}>Tổng tiền</div>
-                            <div className={cx('label')}>{data.amount} ₫</div>
+                            <div className={cx('label')}>
+                                {parseInt(data.amount).toLocaleString('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND',
+                                })}
+                            </div>
                         </div>
                     </div>
                 </div>

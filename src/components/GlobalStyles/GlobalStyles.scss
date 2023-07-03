@@ -43,7 +43,7 @@ body {
     text-rendering: optimizeSpeed;
     overflow-y: overlay;
     // scrollbar-width: none;
-    // overflow-x: overlay;
+    overflow-x: overlay;
 }
 
 button,
@@ -229,7 +229,6 @@ body {
 }
 
 /* Animation */
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -239,11 +238,22 @@ body {
     }
 }
 
-@keyframes growth {
+@keyframes scaleUp {
     from {
         transform: scale(var(--growth-from));
     }
     to {
         transform: scale(var(--growth-to));
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 1;
+        transform: scale(100%);
     }
 }
