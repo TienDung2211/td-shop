@@ -2,59 +2,75 @@ import classNames from 'classnames/bind';
 import styles from './Options.module.scss';
 import { useState, useEffect, memo } from 'react';
 
+import Select from 'react-select';
+import Button from '~/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
-
-import Button from '~/components/Button';
 
 const cx = classNames.bind(styles);
 
 const options = [
-    { id: 0, title: 'Mới nhất', key: 'new' },
-    { id: 1, title: 'Bán chạy', key: 'popular' },
-    { id: 2, title: 'Giá giảm', key: 'price-desc' },
-    { id: 3, title: 'Giá tăng', key: 'price-asc' },
+    { label: 0, value: 'Mới nhất', key: 'new' },
+    { label: 1, value: 'Bán chạy', key: 'popular' },
+    { label: 2, value: 'Giá giảm', key: 'price-desc' },
+    { label: 3, value: 'Giá tăng', key: 'price-asc' },
 ];
 
-function Options({ handleChangeFilter, page, totalPages, onClickPagination }) {
-    // const [page, setPage] = useState(0);
+function Options({ onChangeFilter, page, totalPages, onClickPagination }) {
     const [isActive, setIsActive] = useState(0);
     const [filter, setFilter] = useState('new');
 
+    const handleChangeFilter = (selection) => {
+        setIsActive(selection.label);
+        setFilter(selection.key);
+    };
+
     useEffect(() => {
-        handleChangeFilter(filter);
+        onChangeFilter(filter);
     }, [filter]);
 
     return (
-        <div className={cx('options-layout')}>
-            <div className={cx('sort-options')}>
-                <span className={cx('sort-options__lable')}>Sắp xếp theo</span>
+        <div className={cx('w-100')}>
+            <div className={cx('sort-layout')}>
+                <span className={cx('lable')}>Sắp xếp theo</span>
 
-                {options.map((option, index) => {
-                    if (isActive === index) {
-                        return (
-                            <Button key={option.key} primary border className={cx('sort-options-item')}>
-                                {option.title}
-                            </Button>
-                        );
-                    } else {
-                        return (
-                            <Button
-                                key={option.key}
-                                border
-                                className={cx('sort-options-item')}
-                                onClick={() => {
-                                    setIsActive(index);
-                                    setFilter(options[index].key);
-                                }}
-                            >
-                                {option.title}
-                            </Button>
-                        );
-                    }
-                })}
+                <div className={cx('list', 'button')}>
+                    {options.map((option, index) => {
+                        if (isActive === index) {
+                            return (
+                                <Button key={option.label} primary border className={cx('item')}>
+                                    {option.value}
+                                </Button>
+                            );
+                        } else {
+                            return (
+                                <Button
+                                    key={option.label}
+                                    border
+                                    className={cx('item')}
+                                    onClick={() => {
+                                        setIsActive(index);
+                                        setFilter(option.key);
+                                    }}
+                                >
+                                    {option.value}
+                                </Button>
+                            );
+                        }
+                    })}
+                </div>
 
-                <div className={cx('sort-options-page')}>
+                <div className={cx('list', 'select')}>
+                    <Select
+                        formatOptionLabel={(option) => `${option.value}`}
+                        className={cx('item', 'w-100')}
+                        value={options[isActive]}
+                        onChange={handleChangeFilter}
+                        options={options}
+                    />
+                </div>
+
+                <div className={cx('page')}>
                     <div className={cx('number')}>
                         <span className={cx('number-currenly')}>{page + 1}</span>
                         <span>/</span>

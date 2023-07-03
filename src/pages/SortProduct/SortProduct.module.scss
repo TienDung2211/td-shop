@@ -1,6 +1,19 @@
+.sidebar {
+    width: 220px;
+}
+
+.content {
+    flex: 1;
+
+    overflow: hidden;
+}
+
 .products-list {
     margin-top: 12px;
     margin-bottom: 12px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .no-product {
@@ -12,4 +25,102 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.sidebar__row {
+    display: none;
+    height: 40px;
+    padding: 0px 20px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(60, 179, 113, 0.7);
+    .label {
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: var(--white-color);
+        .icon {
+            margin-right: 12px;
+        }
+    }
+
+    .nav-icon {
+        display: block;
+        position: relative;
+        width: 30px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .nav-icon span {
+        display: block;
+        position: absolute;
+        height: 4px;
+        width: 100%;
+        background: var(--white-color);
+        border-radius: 9px;
+        opacity: 1;
+        left: 0;
+        transform: rotate(0deg);
+        transition: 0.25s ease-in-out;
+    }
+
+    .nav-icon span:nth-child(1) {
+        top: 0px;
+    }
+
+    .nav-icon span:nth-child(2),
+    .nav-icon span:nth-child(3) {
+        top: 8px;
+    }
+
+    .nav-icon span:nth-child(4) {
+        top: 16px;
+    }
+
+    .nav-icon.open span:nth-child(1) {
+        transform: rotate(45deg);
+        top: 8px;
+        // left: 8px;
+    }
+
+    .nav-icon.open span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-icon.open span:nth-child(3) {
+        transform: rotate(-45deg);
+        top: 8px;
+        // left: 8px;
+    }
+
+    .nav-icon.open span:nth-child(4) {
+        transform: rotate(45deg);
+        top: 8px;
+        // left: 8px;
+    }
+}
+@media only screen and (max-width: 35.994em) {
+    .layout {
+        flex-direction: column;
+    }
+    .sidebar__row {
+        display: flex;
+    }
+    .sidebar {
+        width: 100%;
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width: 47.994em) and (min-width: 36em) {
+    .layout {
+        flex-direction: column;
+    }
+    .sidebar__row {
+        display: flex;
+    }
+    .sidebar {
+        width: 100%;
+        height: 280px;
+    }
 }

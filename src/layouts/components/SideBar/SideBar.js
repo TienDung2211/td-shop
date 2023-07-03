@@ -33,17 +33,19 @@ function SideBar({ mId, onChangeVariations }) {
 
     return varitons ? (
         <aside className={cx('wrapper')}>
-            <nav className={cx('category')}>
-                <h3 className={cx('category-heading')}>
-                    <FontAwesomeIcon icon={faList} className={cx('category-heading-icon')} />
-                    Danh mục
-                </h3>
-                <ul className={cx('category-list')}>
-                    {varitons.map((variation, index) => {
-                        return <CheckOptions key={index} data={variation} onChangeVariations={onChangeVariations} />;
-                    })}
-                </ul>
-            </nav>
+            <h3 className={cx('heading')}>
+                <FontAwesomeIcon icon={faList} className={cx('heading-icon')} />
+                Danh mục
+            </h3>
+            <ul className={cx('list')}>
+                {varitons.map((variation, index) => {
+                    return (
+                        <div key={index} className={cx('col-6', 'col-sm-4', 'col-md-12', 'col-lg-12', 'col-xl-12')}>
+                            <CheckOptions data={variation} onChangeVariations={onChangeVariations} />
+                        </div>
+                    );
+                })}
+            </ul>
         </aside>
     ) : null;
 }

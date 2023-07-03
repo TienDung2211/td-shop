@@ -76,6 +76,57 @@ a[href] {
     margin-top: 12px;
 }
 
+.path {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.05);
+    display: flex;
+    // width: 72.5%;
+
+    &::after {
+        content: '';
+        position: absolute;
+        border-width: 18px 30px;
+        border-style: solid;
+        border-color: transparent transparent transparent rgba(0, 0, 0, 0.05);
+
+        top: 0%;
+        right: -60px;
+    }
+
+    .page-name {
+        display: flex;
+        align-items: center;
+        flex: 1;
+
+        span {
+            font-style: 1.4rem;
+            font-weight: 400;
+            padding: 0 24px;
+
+            line-height: 1.8rem;
+            height: 2rem;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+        }
+    }
+}
+@media only screen and (max-width: 35.994em) {
+    .path {
+        width: 82.5%;
+    }
+    .hidden-by-mobile {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 47.994em) {
+    .path {
+        width: 82.5%;
+    }
+}
+
 // Scroll Bar
 html *::-webkit-scrollbar {
     border-radius: 0;
