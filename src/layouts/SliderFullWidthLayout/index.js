@@ -6,9 +6,9 @@ import Slider from '~/components/Slider/Slider';
 import styles from './SliderFullWidthLayout.module.scss';
 import Variations from '~/components/Variations/Variations';
 import Button from '~/components/Button/Button';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp, faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
@@ -53,13 +53,33 @@ const dataSlider = [
 function SliderFullWidthLayout({ children }) {
     const [showVariations, setShowVariations] = useState(false);
 
+    const layoutRef = useRef();
+
+    useEffect(() => {
+        const element = layoutRef.current;
+        const getWidth = () => {
+            const width = element.offsetWidth;
+            if (width >= 768) {
+                setShowVariations(true);
+            }
+        };
+
+        getWidth();
+
+        window.addEventListener('resize', getWidth);
+
+        return () => {
+            window.removeEventListener('resize', getWidth);
+        };
+    }, []);
+
     return (
         <div className={cx('container-fluid', 'p-0', 'm-0', 'wrapper')}>
             <div className={cx('row', 'p-0', 'm-0')}>
                 <Header />
             </div>
             <div className={cx('p-0', 'm-0', 'w-100')}>
-                <div className={cx('layout')}>
+                <div className={cx('layout')} ref={layoutRef}>
                     <div className={cx('slider-layout')}>
                         <Slider data={dataSlider} />
                         <div className={cx('btn-show')}>
