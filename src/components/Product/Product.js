@@ -95,11 +95,19 @@ function Product({ data }) {
                         <div className={cx('brand')}>
                             <span className={cx('hidden-by-mobile')}>Thương hiệu :</span> {data.Brand.name}
                         </div>
-                        <span className={cx('sel-amount')}>
+                        {/* <span className={cx('sel-amount')}>
                             Đã bán{' '}
                             <span className={cx('amount')}>
                                 <span>(</span>
                                 {data.SelAmount}
+                                <span>)</span>
+                            </span>
+                        </span> */}
+                        <span className={cx('sel-amount')}>
+                            Còn lại{' '}
+                            <span className={cx('amount')}>
+                                <span>(</span>
+                                {data.Total}
                                 <span>)</span>
                             </span>
                         </span>

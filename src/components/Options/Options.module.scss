@@ -25,6 +25,7 @@
     color: var(--text-color);
     font-size: 1.5rem;
     cursor: pointer;
+    user-select: none;
 
     &:hover {
         color: var(--red-color);

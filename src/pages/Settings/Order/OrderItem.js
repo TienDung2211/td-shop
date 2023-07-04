@@ -27,34 +27,38 @@ function OrderItem({ data, onClickViewDetail }) {
             <div className={cx('info')}>
                 <div className={cx('receiver-info')}>
                     <h5 className={cx('name')}>
-                        <FontAwesomeIcon icon={faImagePortrait} className={cx('icon', 'name-icon')} />
+                        <div className={cx('icon-layout')}>
+                            <FontAwesomeIcon icon={faImagePortrait} className={cx('icon', 'name-icon')} />
+                        </div>
                         <span className={cx('text')}>{data.Address.name}</span>
                     </h5>
                     <h5 className={cx('phone')}>
-                        <FontAwesomeIcon icon={faPhoneSquare} className={cx('icon', 'phone-icon')} />
+                        <div className={cx('icon-layout')}>
+                            <FontAwesomeIcon icon={faPhoneSquare} className={cx('icon', 'phone-icon')} />
+                        </div>
                         <span className={cx('text')}>{data.Address.phone}</span>
                     </h5>
                     <h5 className={cx('address')}>
-                        <FontAwesomeIcon icon={faLocationDot} className={cx('icon', 'address-icon')} />
+                        <div className={cx('icon-layout')}>
+                            <FontAwesomeIcon icon={faLocationDot} className={cx('icon', 'address-icon')} />
+                        </div>
                         <span className={cx('text')}>{data.Address.addressDetail}</span>
                     </h5>
                 </div>
 
                 <div className={cx('order-info')}>
-                    <div className={cx('desc')}>{data.OrderDetails.length} sản phẩm</div>
+                    {/*<div className={cx('desc')}>{data.OrderDetails.length} sản phẩm</div> */}
                     <div className={cx('product-one')}>+{data.OrderDetails[0].Name}</div>
                     <div className={cx('product-two')}>
                         {data.OrderDetails[1] ? '+' + data.OrderDetails[1].Name + '...' : null}
                     </div>
-                    <div className={cx('total')}>
-                        <span className={cx('price')}>
-                            Tổng giá : {getTotalPrice()}
-                            <span> ₫</span>
-                        </span>
-                    </div>
+                    <span className={cx('price')}>
+                        Tổng giá :{' '}
+                        {parseInt(getTotalPrice()).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+                    </span>
+                    <div className={cx('status', 'hidden-by-mobile')}>Trạng thái : {data.OrderStatus.name}</div>
                 </div>
             </div>
-            <div className={cx('status')}>{data.OrderStatus.name}</div>
         </div>
     );
 }

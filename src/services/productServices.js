@@ -125,7 +125,7 @@ const productServices = {
             }
 
             const res = await request.get(
-                `/product/admin/search?${paramsKeyword}category-id=0&max-price=0&min-price=0&brand-id=0&page=0&size=200&sort=id`,
+                `/product/admin/search?${paramsKeyword}category-id=0&max-price=0&min-price=0&brand-id=0&page=0&size=2000&sort=id`,
                 {
                     headers: {
                         Authorization: `Bearer ${access}`,

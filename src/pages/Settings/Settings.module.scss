@@ -47,3 +47,9 @@
     color: var(--red-color);
     padding-left: 30px;
 }
+
+@media only screen and (max-width: 61.994em) and (min-width: 48em) {
+    .content {
+        padding: 12px 8px;
+    }
+}

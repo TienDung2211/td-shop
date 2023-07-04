@@ -17,15 +17,23 @@ function SettingsLayout({ children }) {
     };
 
     const handleClickSetting = () => {
-        setOpen(false);
+        const element = layoutRef.current;
+        const width = element.offsetWidth;
+        if (width >= 768) {
+            setOpen(true);
+        } else {
+            setOpen(false);
+        }
     };
 
     useEffect(() => {
-        const element = layoutRef.current;
         const getWidth = () => {
+            const element = layoutRef.current;
             const width = element.offsetWidth;
             if (width >= 768) {
                 setOpen(true);
+            } else {
+                setOpen(false);
             }
         };
 

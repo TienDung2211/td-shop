@@ -56,7 +56,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
     };
 
     return (
-        <div className={cx('wrapper')}>
+        <form className={cx('wrapper')}>
             <div className={cx('header')}>
                 <h3 className={cx('heading')}>Đăng nhập</h3>
                 <Button className={cx('switch-btn')} onClick={onSwitchType}>
@@ -76,6 +76,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                         name="username"
                         placeholder="Nhập tài khoản"
                         required
+                        autoComplete="off"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
@@ -87,6 +88,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                         name="password"
                         placeholder="Nhập mật khẩu"
                         required
+                        autoComplete="off"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
@@ -147,7 +149,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                     Tiếp tục với Google
                 </Button>
             </div>
-        </div>
+        </form>
     );
 }
 

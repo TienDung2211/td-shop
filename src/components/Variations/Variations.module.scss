@@ -47,6 +47,7 @@
             font-size: 1.7rem;
             font-weight: 500;
             cursor: pointer;
+            user-select: none;
         }
         .item + .item {
             border-top: 1px solid var(--low-separation-color);

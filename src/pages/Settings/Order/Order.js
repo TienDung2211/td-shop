@@ -102,9 +102,11 @@ function Order() {
 
     return orders ? (
         <div className={cx('wrapper')}>
-            <div className={cx('title')}>
-                <p>Đơn hàng của bạn</p>
-            </div>
+            {!viewDetail && (
+                <div className={cx('title')}>
+                    <p>Đơn hàng của bạn</p>
+                </div>
+            )}
             {!viewDetail && (
                 <div className={cx('options')}>
                     {options.map((option, index) => {
@@ -156,9 +158,9 @@ function Order() {
                                     <span className={cx('text')}>{detailOrder.Address.addressDetail}</span>
                                 </h5>
                             </div>
+                            <span className={cx('title2')}>Danh sách sản phẩm</span>
                             <div className={cx('product--list')}>
-                                <span className={cx('title')}>Danh sách sản phẩm</span>
-                                {detailOrder.OrderDetails.map((product) => (
+                                {detailOrder?.OrderDetails.map((product) => (
                                     <div className={cx('product--item')} key={product.Id}>
                                         <div className={cx('layout-img')}>
                                             <img src={product.ImageUrl} alt="" className={cx('img')} />
@@ -167,8 +169,10 @@ function Order() {
                                             <h5 className={cx('name')}>{product.Name}</h5>
                                             <div className={cx('total')}>
                                                 <span className={cx('price')}>
-                                                    {product.Price}
-                                                    <span>$</span>
+                                                    {parseInt(product.Price).toLocaleString('vi-VN', {
+                                                        style: 'currency',
+                                                        currency: 'VND',
+                                                    })}
                                                 </span>
                                                 <span className={cx('multiply')}>x</span>
                                                 <span className={cx('amount')}>{product.Quantity}</span>
@@ -177,21 +181,38 @@ function Order() {
                                     </div>
                                 ))}
                             </div>
-                            <div className={cx('payment')}>
-                                Phương thức thanh toán :{' '}
-                                <span className={cx('value')}>{detailOrder.PaymentMethod.name}</span>
-                            </div>
-                            <div className={cx('ship')}>
-                                Cách thức vận chuyển :{' '}
-                                <span className={cx('value')}>
-                                    {detailOrder.Ship.name} - {detailOrder.Ship.price}
-                                </span>
-                            </div>
-                            <div className={cx('total-order')}>
-                                Tổng giá trị đơn hàng :{' '}
-                                <span className={cx('value')}>
-                                    {getTotalPrice()} {'₫'}
-                                </span>
+                            <span className={cx('title2')}>Thông tin giao hàng</span>
+                            <div className={cx('ship-order')}>
+                                <div className={cx('item-ship')}>
+                                    <span className={cx('label')}>Phương thức thanh toán </span>
+                                    <span className={cx('value')}>{detailOrder?.PaymentMethod.name}</span>
+                                </div>
+                                <div className={cx('item-ship')}>
+                                    <span className={cx('label')}>Đơn vị vận chuyển </span>
+                                    <span className={cx('value')}>{detailOrder?.Ship.name}</span>
+                                </div>
+                                <div className={cx('item-ship')}>
+                                    <span className={cx('label')}>Phí ship </span>
+                                    <span className={cx('value')}>
+                                        {parseInt(detailOrder?.Ship.price).toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        })}
+                                    </span>
+                                </div>
+                                <div className={cx('item-ship')}>
+                                    <span className={cx('label')}>Tổng giá trị đơn hàng </span>
+                                    <span className={cx('value')}>
+                                        {parseInt(getTotalPrice()).toLocaleString('vi-VN', {
+                                            style: 'currency',
+                                            currency: 'VND',
+                                        })}
+                                    </span>
+                                </div>
+                                {/* <div className={cx('item-ship')}>
+                                    <span className={cx('label')}>Tình trạng đơn giao hàng </span>
+                                    <span className={cx('value')}>{detailOrder?.ShipStatusDescription}</span>
+                                </div> */}
                             </div>
                             <div className={cx('status-detail')}>
                                 Tình trạng đơn hàng :{' '}

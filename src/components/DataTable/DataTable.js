@@ -77,8 +77,9 @@ const DataTable = ({ data, columns, showExport = true, onClickRow }) => {
             )}
 
             <AntTable
-                dataSource={data}
+                dataSource={data.map((item, index) => ({ ...item, key: index }))}
                 columns={columns}
+                pagination={{ pageSize: 20 }}
                 onRow={(record, rowIndex) => ({
                     onClick: () => handleRowClick(record, rowIndex),
                 })}

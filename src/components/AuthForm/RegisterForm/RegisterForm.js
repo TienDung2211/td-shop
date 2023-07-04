@@ -98,7 +98,7 @@ function RegisterForm({ clickBack, onSwitchType }) {
     };
 
     return (
-        <div className={cx('wrapper')} onClick={(e) => e.stopPropagation()}>
+        <form className={cx('wrapper')} onClick={(e) => e.stopPropagation()}>
             <div className={cx('header')}>
                 <h3 className={cx('heading')}>Đăng ký</h3>
                 <Button className={cx('switch-btn')} onClick={onSwitchType}>
@@ -245,7 +245,7 @@ function RegisterForm({ clickBack, onSwitchType }) {
             </div> */}
             <div className={cx('mb-4')}></div>
             <ToastContainer />
-        </div>
+        </form>
     );
 }
 
