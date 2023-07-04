@@ -28,9 +28,7 @@ function RegisterForm({ clickBack, onSwitchType }) {
         setErrMsg('');
     }, [firstName, lastName, email, phone, username, password, repeatPassword]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const handleRegister = async () => {
         try {
             // eslint-disable-next-line
             var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
@@ -98,7 +96,7 @@ function RegisterForm({ clickBack, onSwitchType }) {
     };
 
     return (
-        <form className={cx('wrapper')} onClick={(e) => e.stopPropagation()}>
+        <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 <h3 className={cx('heading')}>Đăng ký</h3>
                 <Button className={cx('switch-btn')} onClick={onSwitchType}>
@@ -106,7 +104,7 @@ function RegisterForm({ clickBack, onSwitchType }) {
                 </Button>
             </div>
             {!confirmEmail ? (
-                <form className={cx('body')} onSubmit={handleSubmit}>
+                <div className={cx('body')}>
                     <div className={cx('group')}>
                         <span className={cx('error-msg')}>{errMsg}</span>{' '}
                     </div>
@@ -202,11 +200,11 @@ function RegisterForm({ clickBack, onSwitchType }) {
                         <Button border transparent className={cx('back-btn')} onClick={clickBack}>
                             Trở lại
                         </Button>
-                        <Button primary border /*onClick={clickLogin}*/>
+                        <Button primary border onClick={() => handleRegister()}>
                             Đăng ký
                         </Button>
                     </div>
-                </form>
+                </div>
             ) : (
                 <div className={cx('confirm-email')}>
                     <h2 className={cx('heading')}>Vui lòng xác nhận Email</h2>
@@ -245,7 +243,7 @@ function RegisterForm({ clickBack, onSwitchType }) {
             </div> */}
             <div className={cx('mb-4')}></div>
             <ToastContainer />
-        </form>
+        </div>
     );
 }
 

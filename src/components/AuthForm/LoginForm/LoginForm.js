@@ -56,7 +56,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
     };
 
     return (
-        <form className={cx('wrapper')}>
+        <div className={cx('wrapper')}>
             <div className={cx('header')}>
                 <h3 className={cx('heading')}>Đăng nhập</h3>
                 <Button className={cx('switch-btn')} onClick={onSwitchType}>
@@ -149,7 +149,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                     Tiếp tục với Google
                 </Button>
             </div>
-        </form>
+        </div>
     );
 }
 

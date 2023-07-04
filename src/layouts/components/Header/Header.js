@@ -2,7 +2,7 @@ import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
@@ -28,7 +28,6 @@ function Header() {
     const [isModal, setIsModal] = useState(false);
     const [typeModal, setTypeModal] = useState('login');
     const [user, setUser] = useState(null);
-    const [isLoadUser, setIsLoadUser] = useState(false);
 
     const { render, setRender } = useContext(DataContext);
 
@@ -48,29 +47,99 @@ function Header() {
         });
     };
 
-    useEffect(() => {
-        const getUserInfo = async () => {
-            setIsLoadUser(true);
+    const getUserInfo = async () => {
+        const access = JSON.parse(localStorage.getItem('access'));
 
-            const access = JSON.parse(localStorage.getItem('access'));
+        if (access) {
+            let api = await userServices.getUser();
 
-            if (access) {
-                let api = await userServices.getUser();
-
-                if (api?.data) {
-                    setUser(api.data);
-
-                    localStorage.setItem('userId', JSON.stringify(api.data.Id));
-                }
-            } else {
+            if (api?.status === 200) {
+                setUser(api.data);
+                console.log(api.data);
+                localStorage.setItem('userId', JSON.stringify(api.data.Id));
+            } else if (api?.status === 403) {
                 setUser(null);
+                // setRender(!render);
             }
+        } else {
+            setUser(null);
+        }
+    };
 
-            setIsLoadUser(false);
-        };
+    const memoizedDiv = useMemo(
+        () => (
+            <ul className={cx('navbar-list')}>
+                <li className={cx('navbar-item', 'hidden-by-mobile')}>
+                    <FontAwesomeIcon icon={faCircleQuestion} className={cx('icon')} />
+                    <span>Trợ giúp</span>
+                </li>
 
+                {!user ? (
+                    <div className={cx('login-status')}>
+                        <li
+                            className={cx('navbar-item')}
+                            onClick={() => {
+                                setIsModal(true);
+                                setTypeModal('register');
+                            }}
+                        >
+                            <span>Đăng ký</span>
+                        </li>
+                        <span className={cx('separation')} />
+                        <li
+                            className={cx('navbar-item')}
+                            onClick={() => {
+                                setIsModal(true);
+                                setTypeModal('login');
+                            }}
+                        >
+                            <span>Đăng nhập</span>
+                        </li>
+                    </div>
+                ) : (
+                    <div className={cx('login-status')}>
+                        <li className={cx('navbar-item')}>
+                            <Notification />
+                        </li>
+                        <li className={cx('navbar-item')}>
+                            <Menu
+                                items={MENU_OPTIONS}
+                                clickLogout={() => {
+                                    setUser(null);
+                                    authServices.authLogOut();
+                                    setRender(!render);
+                                }}
+                            >
+                                {
+                                    <div className={cx('account')}>
+                                        <span>
+                                            {user.LastName + ' ' + user.FirstName}
+                                            <span className={cx('user-id', 'hidden-by-mobile')}>#{user.Id}</span>
+                                        </span>
+                                    </div>
+                                }
+                            </Menu>
+                        </li>
+                    </div>
+                )}
+            </ul>
+        ),
+        [user],
+    );
+
+    useEffect(() => {
         getUserInfo();
-    }, [isModal, render]);
+    }, [render]);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            getUserInfo();
+        }, 5 * 60 * 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
 
     return (
         <div className={cx('wrapper')}>
@@ -101,65 +170,65 @@ function Header() {
                                 TD Shop
                             </Link>
                         </ul>
-                        {isLoadUser ? null : (
-                            <ul className={cx('navbar-list')}>
-                                <li className={cx('navbar-item', 'hidden-by-mobile')}>
-                                    <FontAwesomeIcon icon={faCircleQuestion} className={cx('icon')} />
-                                    <span>Trợ giúp</span>
-                                </li>
 
-                                {!user ? (
-                                    <div className={cx('login-status')}>
-                                        <li
-                                            className={cx('navbar-item')}
-                                            onClick={() => {
-                                                setIsModal(true);
-                                                setTypeModal('register');
+                        {/* <ul className={cx('navbar-list')}>
+                            <li className={cx('navbar-item', 'hidden-by-mobile')}>
+                                <FontAwesomeIcon icon={faCircleQuestion} className={cx('icon')} />
+                                <span>Trợ giúp</span>
+                            </li>
+
+                            {!user ? (
+                                <div className={cx('login-status')}>
+                                    <li
+                                        className={cx('navbar-item')}
+                                        onClick={() => {
+                                            setIsModal(true);
+                                            setTypeModal('register');
+                                        }}
+                                    >
+                                        <span>Đăng ký</span>
+                                    </li>
+                                    <span className={cx('separation')} />
+                                    <li
+                                        className={cx('navbar-item')}
+                                        onClick={() => {
+                                            setIsModal(true);
+                                            setTypeModal('login');
+                                        }}
+                                    >
+                                        <span>Đăng nhập</span>
+                                    </li>
+                                </div>
+                            ) : (
+                                <div className={cx('login-status')}>
+                                    <li className={cx('navbar-item')}>
+                                        <Notification />
+                                    </li>
+                                    <li className={cx('navbar-item')}>
+                                        <Menu
+                                            items={MENU_OPTIONS}
+                                            clickLogout={() => {
+                                                setUser(null);
+                                                authServices.authLogOut();
+                                                setRender(!render);
                                             }}
                                         >
-                                            <span>Đăng ký</span>
-                                        </li>
-                                        <span className={cx('separation')} />
-                                        <li
-                                            className={cx('navbar-item')}
-                                            onClick={() => {
-                                                setIsModal(true);
-                                                setTypeModal('login');
-                                            }}
-                                        >
-                                            <span>Đăng nhập</span>
-                                        </li>
-                                    </div>
-                                ) : (
-                                    <div className={cx('login-status')}>
-                                        <li className={cx('navbar-item')}>
-                                            <Notification />
-                                        </li>
-                                        <li className={cx('navbar-item')}>
-                                            <Menu
-                                                items={MENU_OPTIONS}
-                                                clickLogout={() => {
-                                                    setUser(null);
-                                                    authServices.authLogOut();
-                                                    setRender(!render);
-                                                }}
-                                            >
-                                                {
-                                                    <div className={cx('account')}>
-                                                        <span>
-                                                            {user.LastName + ' ' + user.FirstName}
-                                                            <span className={cx('user-id', 'hidden-by-mobile')}>
-                                                                #{user.Id}
-                                                            </span>
+                                            {
+                                                <div className={cx('account')}>
+                                                    <span>
+                                                        {user.LastName + ' ' + user.FirstName}
+                                                        <span className={cx('user-id', 'hidden-by-mobile')}>
+                                                            #{user.Id}
                                                         </span>
-                                                    </div>
-                                                }
-                                            </Menu>
-                                        </li>
-                                    </div>
-                                )}
-                            </ul>
-                        )}
+                                                    </span>
+                                                </div>
+                                            }
+                                        </Menu>
+                                    </li>
+                                </div>
+                            )}
+                        </ul> */}
+                        {memoizedDiv}
                     </nav>
                     <div className={cx('area-search')}>
                         {/* <div className={cx('options-layout')}>
