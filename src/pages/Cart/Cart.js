@@ -193,7 +193,7 @@ function Cart() {
                                                         <span className={cx('current-price')}>
                                                             {parseInt(
                                                                 data?.Product.Price *
-                                                                    data?.Product?.Discount?.DiscountRate,
+                                                                    (1 - data?.Product?.Discount?.DiscountRate),
                                                             ).toLocaleString('vi-VN', {
                                                                 style: 'currency',
                                                                 currency: 'VND',

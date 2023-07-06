@@ -76,7 +76,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                         name="username"
                         placeholder="Nhập tài khoản"
                         required
-                        autoComplete="off"
+                        // autoComplete="off"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
@@ -88,7 +88,7 @@ function LoginForm({ onLogin, onSwitchType, clickBack }) {
                         name="password"
                         placeholder="Nhập mật khẩu"
                         required
-                        autoComplete="off"
+                        // autoComplete="off"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />

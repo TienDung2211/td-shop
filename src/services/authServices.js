@@ -4,12 +4,10 @@ const authServices = {
     authLogin: async (data) => {
         try {
             localStorage.removeItem('access');
-            localStorage.removeItem('refresh');
             localStorage.removeItem('userId');
             const res = await request.post('/login', data);
             if (res?.status === 200) {
                 localStorage.setItem('access', JSON.stringify(res?.data?.AccessToken));
-                localStorage.setItem('refresh', JSON.stringify(res?.data?.RefreshToken));
                 localStorage.setItem('userId', JSON.stringify(res?.data?.UserInfo.Id));
             }
             return res;
@@ -27,7 +25,6 @@ const authServices = {
     },
     authLogOut: () => {
         localStorage.removeItem('access');
-        localStorage.removeItem('refresh');
         localStorage.removeItem('userId');
     },
     authSendEmailForgotPassword: async (data) => {

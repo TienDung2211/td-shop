@@ -1,27 +1,26 @@
-.wrapper {
-    background-color: var(--white-color);
-    width: 100%;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    border-radius: 3px;
-    margin-bottom: 64px;
+.heading {
+    font-family: var(--font-family);
+    font-size: 2.4rem;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .control {
-    background-color: rgba(0, 0, 0, 0.05);
-    width: 100%;
     display: flex;
-    align-items: center;
-    padding: 0 24px;
-    flex-shrink: 0;
-}
+    justify-content: space-between;
 
-// Select Options
-
-.control-filt {
-    flex: 1;
-    height: 60px;
-    display: flex;
-    align-items: center;
+    .add-layout {
+        width: 200px;
+        display: flex;
+        align-items: center;
+        border-radius: 999px;
+        border: 1px solid var(--low-separation-color);
+        .text {
+            margin-left: 12px;
+            font-size: 1.6rem;
+            font-weight: 500;
+        }
+    }
 }
 
 // Input
@@ -48,8 +47,11 @@
 //Form
 
 .form-layout {
-    margin: 0px 128px;
+    margin: 0px 24px;
     padding: 32px 0;
+    display: flex;
+    max-width: 700px;
+    flex-direction: column;
 }
 
 .title {
@@ -74,7 +76,6 @@
 .value-item,
 .input-item {
     flex: 1;
-    max-width: 400px;
     color: var(--text-color);
     font-size: 1.6rem;
     padding-left: 1.6rem;
@@ -94,7 +95,13 @@
 .input-item-select {
     height: 40px;
     flex: 1;
-    max-width: 400px;
+    font-size: 1.6rem;
+    font-weight: 400;
+}
+
+.input-item-date {
+    height: 40px;
+    flex: 1;
     font-size: 1.6rem;
     font-weight: 400;
 }

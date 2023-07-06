@@ -110,9 +110,17 @@ const categoryServices = {
         }
     },
     // ChildrenCategory
-    getAllChildrenCategory: async (id) => {
+    getChildrenCategoryById: async (id) => {
         try {
             const res = await request.get(`/category/get/${id}`);
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    getAllChildrenCategory: async () => {
+        try {
+            const res = await request.get(`/category/get-all?page=0&size=200&sort=id`);
             return res;
         } catch (error) {
             console.error(error.response.data);

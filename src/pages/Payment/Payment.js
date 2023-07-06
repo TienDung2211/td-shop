@@ -106,7 +106,11 @@ function Payment() {
     const getTotalOrder = () => {
         let total = 0;
         data.forEach((item) => {
-            total = total + item?.Quantity * item?.Product.Price;
+            if (item.Product?.Discount) {
+                total = total + item?.Quantity * (item?.Product.Price * (1 - item.Product?.Discount.DiscountRate));
+            } else {
+                total = total + item?.Quantity * item?.Product.Price;
+            }
         });
         total = total + parseInt(shipFee);
         return total;
@@ -244,6 +248,7 @@ function Payment() {
                         position: toast.POSITION.TOP_RIGHT,
                         className: 'toast-message',
                     });
+                    console.log(api.data);
                     const temp = api.data.map(({ Id, Total }) => ({
                         Id: Id,
                         Total: Total,
@@ -450,12 +455,12 @@ function Payment() {
                 </div>
             </div>
             <div className={cx('row', 'd-flex', 'justify-content-end', 'btn-layout')}>
-                <div className={cx('col-6', 'col-sm-6', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
-                    <Button to={'/cart'} large border outline approach>
+                <div className={cx('col-6', 'col-sm-6', 'col-md-4', 'col-lg-3', 'col-xl-3')}>
+                    <Button to={'/cart'} large border outline>
                         Quay lại
                     </Button>
                 </div>
-                <div className={cx('col-6', 'col-sm-6', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                <div className={cx('col-6', 'col-sm-6', 'col-md-4', 'col-lg-3', 'col-xl-3')}>
                     <Button large primary border onClick={() => handlePayment()}>
                         Đặt hàng
                     </Button>

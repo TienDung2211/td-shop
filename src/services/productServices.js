@@ -115,7 +115,7 @@ const productServices = {
     },
 
     // Employee
-    getAllProducts: async (keyword) => {
+    getAllProducts: async (keyword, cId) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));
             let paramsKeyword = '';
@@ -125,7 +125,7 @@ const productServices = {
             }
 
             const res = await request.get(
-                `/product/admin/search?${paramsKeyword}category-id=0&max-price=0&min-price=0&brand-id=0&page=0&size=2000&sort=id`,
+                `/product/admin/search?${paramsKeyword}category-id=${cId}&max-price=0&min-price=0&brand-id=0&page=0&size=2000&sort=id`,
                 {
                     headers: {
                         Authorization: `Bearer ${access}`,
@@ -133,7 +133,7 @@ const productServices = {
                 },
             );
 
-            return res.data;
+            return res;
         } catch (error) {
             console.error(error.response.data);
         }
@@ -153,7 +153,6 @@ const productServices = {
             console.error(error.response.data);
         }
     },
-
     addProduct: async (data) => {
         try {
             const access = JSON.parse(localStorage.getItem('access'));

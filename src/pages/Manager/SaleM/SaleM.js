@@ -1,11 +1,14 @@
 import classNames from 'classnames/bind';
 import styles from './SaleM.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment';
 
 import DateTimePicker from 'react-datetime-picker';
 import { useState, useEffect, useContext } from 'react';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faPen, faTrashCan, faL } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DataTable from '~/components/DataTable/DataTable';
+import { Tag } from 'antd';
 
 import Select from 'react-select';
 import SaleMItem from './SaleMItem';
@@ -20,6 +23,7 @@ const cx = classNames.bind(styles);
 function SaleM() {
     const [promotions, setPromotions] = useState([]);
     const [action, setAction] = useState('view');
+    const [openCategorys, setOpenCategorys] = useState(false);
     const [updatePromotion, setUpdatePromotion] = useState(null);
 
     const { render } = useContext(DataContext);
@@ -27,27 +31,131 @@ function SaleM() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [discount, setDiscount] = useState(0);
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
     const [optionsCategory, setOptionsCategory] = useState([]);
     const [categorys, setCategorys] = useState([]);
+
     const [renderPage, setRenderPage] = useState(true);
 
-    const getAllCategorys = async () => {
-        let api = await categoryServices.getAllParentCategory(1);
+    const columns = [
+        {
+            title: 'Tên chương trình',
+            dataIndex: 'name',
+            key: 'name',
+            // width: '11.111111111111%',
+            // sorter: (a, b) => a.user.localeCompare(b.user),
+        },
+        {
+            title: 'Mô tả',
+            dataIndex: 'description',
+            key: 'description',
+            align: 'center',
+            width: '25%',
+        },
+        {
+            title: 'Ngày bắt đầu',
+            dataIndex: 'startDate',
+            key: 'startDate',
+            align: 'center',
+            sorter: (a, b) =>
+                moment(a.endDate, 'YYYY-MM-DD HH:mm').unix() - moment(b.endDate, 'YYYY-MM-DD HH:mm').unix(),
+        },
+        {
+            title: 'Ngày kết thúc',
+            dataIndex: 'endDate',
+            key: 'endDate',
+            align: 'center',
+            sorter: (a, b) =>
+                moment(a.endDate, 'YYYY-MM-DD HH:mm').unix() - moment(b.endDate, 'YYYY-MM-DD HH:mm').unix(),
+        },
+        {
+            title: 'Khuyến mãi',
+            dataIndex: 'discountRate',
+            key: 'discountRate',
+            align: 'center',
+            sorter: (a, b) => a.discountRate - b.discountRate,
+            render: (discountRate) => <>{discountRate * 100} % </>,
+        },
+        {
+            title: 'Áp dụng',
+            dataIndex: 'Categories',
+            key: 'categories',
+            align: 'center',
+            editable: true,
+            render: (promotion) => {
+                return promotion.map((item, index) => (
+                    <Tag key={item.name + index} color={'green'}>
+                        {item.name}
+                    </Tag>
+                ));
+            },
+        },
+        {
+            title: 'Hành động',
+            dataIndex: '',
+            key: 'handle',
+            align: 'center',
+            render: (promotion) => (
+                <div className={cx('d-flex', 'flex-column', 'justify-content-between', 'align-items-center')}>
+                    <Button
+                        className={cx('button')}
+                        transparent
+                        rounded
+                        iconOnly={<FontAwesomeIcon icon={faPen} />}
+                        onClick={() => {
+                            handleClickUpdate(promotion);
+                        }}
+                    ></Button>
+                    <Button
+                        className={cx('button')}
+                        transparent
+                        rounded
+                        iconOnly={<FontAwesomeIcon icon={faTrashCan} />}
+                        onClick={() => handleRemovePromotion(promotion.id)}
+                    ></Button>
+                </div>
+            ),
+        },
+    ];
 
-        var options = [];
-        api.data.forEach((list) => {
-            options.push({ label: list.Id, value: '+' + list.Name, disabled: true });
-            list?.ChildCategories.forEach((item) => {
-                options.push({ label: item.Id, value: item.Name });
+    const getAllCategorys = async () => {
+        const api = await categoryServices.getAllChildrenCategory();
+
+        if (api?.status === 200) {
+            var options = [];
+            api.data.content.forEach((list) => {
+                if (list?.ChildCategories.length > 0) {
+                    var optionsChild = [];
+                    list?.ChildCategories.forEach((item) => {
+                        optionsChild.push({ label: item.Id, value: item.Name });
+                    });
+
+                    options.push({ label: list.Name, options: optionsChild });
+                }
             });
-        });
-        setOptionsCategory(options);
+            setOptionsCategory(options);
+        }
     };
 
     const handleChangeCategory = (selectedOption) => {
         setCategorys(selectedOption);
+    };
+
+    const handleClickUpdate = (data) => {
+        setName(data.name);
+        setDescription(data.description);
+        setStartDate(data.startDate);
+        setEndDate(data.endDate);
+        setDiscount(data.discountRate * 100);
+        setUpdatePromotion(data);
+
+        // Set Category
+        const options = data.Categories.map((item) => ({ label: item.id, value: item.name }));
+
+        setCategorys(options);
+        setAction('update');
     };
 
     const getValueCategorys = () => {
@@ -68,8 +176,7 @@ function SaleM() {
         } else setPromotions([]);
     };
 
-    const handleSubmitAdd = async (e) => {
-        e.preventDefault();
+    const handleAddPromotion = async () => {
         if (categorys.length === 0) {
             setErrMsg('Bạn chưa chọn Thể loại');
             return;
@@ -78,8 +185,12 @@ function SaleM() {
             Name: name,
             Description: description,
             DiscountRate: discount / 100,
-            StartDate: startDate.replace('T', ' '),
-            EndDate: endDate.replace('T', ' '),
+            StartDate: `${startDate.getFullYear()}-${
+                startDate.getMonth() < 9 ? '0' + (startDate.getMonth() + 1).toString() : startDate.getMonth() + 1
+            }-${startDate.getDate() < 10 ? '0' + startDate.getDate().toString() : startDate.getDate()} 00:00`,
+            EndDate: `${endDate.getFullYear()}-${
+                endDate.getMonth() < 9 ? '0' + (endDate.getMonth() + 1).toString() : endDate.getMonth() + 1
+            }-${endDate.getDate() < 10 ? '0' + endDate.getDate().toString() : endDate.getDate()} 23:59`,
             Categories: getValueCategorys(),
         };
 
@@ -128,28 +239,6 @@ function SaleM() {
                 className: 'toast-message',
             });
         }
-    };
-
-    const handleClickUpdate = (data) => {
-        setName(data.name);
-        setDescription(data.description);
-        setStartDate(data.startDate);
-        setEndDate(data.endDate);
-        setDiscount(data.discountRate * 100);
-        setUpdatePromotion(data);
-        // Set Category
-        let array = [];
-
-        optionsCategory.forEach((option) => {
-            data?.Categories.forEach((item) => {
-                if (option.label === item?.id) {
-                    array.push(option);
-                }
-            });
-        });
-
-        setCategorys(array);
-        setAction('update');
     };
 
     const handleUpdatePromotion = async (e) => {
@@ -202,44 +291,37 @@ function SaleM() {
     }, [renderPage, render]);
 
     return (
-        <div className={cx('wrapper')}>
-            <div className={cx('control')}>
-                <form className={cx('control-filt')}>
-                    <Button
-                        rounded
-                        approach
-                        iconOnly={<FontAwesomeIcon icon={faPlus} />}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            setAction('add');
-                        }}
-                    ></Button>
-
-                    <div className={cx('input-search-layout')}>
-                        <input className={cx('input-search')} type="text" placeholder="Nhập tên tìm kiếm"></input>
-                    </div>
-
-                    <Button primary border>
-                        Áp dụng
-                    </Button>
-                </form>
+        <div className={cx('container')}>
+            <div className={cx('row')}>
+                <span className={cx('heading')}>Quản lí khuyến mãi</span>
             </div>
+
             {action === 'view' && (
-                <div className={cx('results')}>
-                    {promotions.map((promotion, index) => {
-                        return (
-                            <SaleMItem
-                                key={index}
-                                data={promotion}
-                                onClickRemove={handleRemovePromotion}
-                                onClickUpdate={handleClickUpdate}
-                            />
-                        );
-                    })}
+                <div className={cx('row')}>
+                    <div className={cx('control')}>
+                        <div className={cx('add-layout')}>
+                            <Button
+                                rounded
+                                approach
+                                iconOnly={<FontAwesomeIcon icon={faPlus} />}
+                                onClick={() => {
+                                    setName('');
+                                    setDescription('');
+                                    setStartDate();
+                                    setEndDate();
+                                    setDiscount(0);
+                                    setAction('add');
+                                }}
+                            ></Button>
+                            <span className={cx('text')}>Thêm khuyến mãi</span>
+                        </div>
+                    </div>
+                    <DataTable data={promotions} columns={columns} showExport={false} />
                 </div>
             )}
+
             {action === 'add' && (
-                <form className={cx('form-layout')} onSubmit={handleSubmitAdd}>
+                <div className={cx('form-layout')} onSubmit={handleAddPromotion}>
                     <div className={cx('title')}>Thêm khuyến mãi</div>
                     <div className={cx('group')}>
                         <span className={cx('error-msg')}>{errMsg}</span>
@@ -267,28 +349,24 @@ function SaleM() {
                     </div>
                     <div className={cx('group-item')}>
                         <div className={cx('label-item')}>Ngày bắt đầu : </div>
-                        <input
-                            className={cx('input-item')}
-                            type="datetime-local"
-                            required
+                        <DateTimePicker
+                            className={cx('input-item-date')}
+                            format="yyyy-MM-dd"
                             value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
+                            onChange={(value) => setStartDate(value)}
                         />
                     </div>
                     <div className={cx('group-item')}>
                         <div className={cx('label-item')}>Ngày kết thúc : </div>
-                        <input
-                            className={cx('input-item')}
-                            type="datetime-local"
-                            required
+                        <DateTimePicker
+                            className={cx('input-item-date')}
+                            format="yyyy-MM-dd"
                             value={endDate}
-                            onChange={(e) => {
-                                setEndDate(e.target.value);
-                            }}
+                            onChange={(value) => setEndDate(value)}
                         />
                     </div>
                     <div className={cx('group-item')}>
-                        <div className={cx('label-item')}>Khuyễn mãi(%) : </div>
+                        <div className={cx('label-item')}>Khuyến mãi(%) : </div>
                         <input
                             className={cx('input-item')}
                             type="number"
@@ -307,12 +385,15 @@ function SaleM() {
                                 placeholder="Chọn thể loại..."
                                 onChange={handleChangeCategory}
                                 options={optionsCategory}
+                                onFocus={() => setOpenCategorys(true)}
+                                onBlur={() => setOpenCategorys(false)}
+                                menuIsOpen={openCategorys}
                             />
                         </div>
                     </div>
 
                     <div className={cx('button-layout')}>
-                        <Button outline border primary type="submit">
+                        <Button outline border primary onClick={() => handleAddPromotion()}>
                             Xác nhận
                         </Button>
                         <Button
@@ -325,8 +406,9 @@ function SaleM() {
                             Hủy
                         </Button>
                     </div>
-                </form>
+                </div>
             )}
+
             {action === 'update' && updatePromotion && (
                 <form className={cx('form-layout')} onSubmit={handleUpdatePromotion}>
                     <div className={cx('title')}>Cập nhập khuyến mãi</div>
@@ -356,24 +438,20 @@ function SaleM() {
                     </div>
                     <div className={cx('group-item')}>
                         <div className={cx('label-item')}>Ngày bắt đầu : </div>
-                        <input
-                            className={cx('input-item')}
-                            type="datetime-local"
-                            required
+                        <DateTimePicker
+                            className={cx('input-item-date')}
+                            format="yyyy-MM-dd"
                             value={startDate}
-                            onChange={(e) => setStartDate(e.target.value)}
+                            onChange={(value) => setStartDate(value)}
                         />
                     </div>
                     <div className={cx('group-item')}>
                         <div className={cx('label-item')}>Ngày kết thúc : </div>
-                        <input
-                            className={cx('input-item')}
-                            type="datetime-local"
-                            required
+                        <DateTimePicker
+                            className={cx('input-item-date')}
+                            format="yyyy-MM-dd"
                             value={endDate}
-                            onChange={(e) => {
-                                setEndDate(e.target.value);
-                            }}
+                            onChange={(value) => setEndDate(value)}
                         />
                     </div>
                     <div className={cx('group-item')}>

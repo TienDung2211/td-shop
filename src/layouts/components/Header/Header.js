@@ -55,11 +55,10 @@ function Header() {
 
             if (api?.status === 200) {
                 setUser(api.data);
-                console.log(api.data);
-                localStorage.setItem('userId', JSON.stringify(api.data.Id));
-            } else if (api?.status === 403) {
+            } else {
                 setUser(null);
-                // setRender(!render);
+                localStorage.removeItem('access');
+                localStorage.removeItem('userId');
             }
         } else {
             setUser(null);

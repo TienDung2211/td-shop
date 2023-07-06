@@ -1,8 +1,8 @@
 import classNames from 'classnames/bind';
 import styles from './SortProduct.module.scss';
 
-import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 import Options from './Options';
 import Button from '~/components/Button';
@@ -24,6 +24,7 @@ function SortProduct() {
     const [variations, setVariations] = useState('');
     const [totalPages, setTotalPages] = useState(1);
     const [open, setOpen] = useState(false);
+    const [searchParams] = useSearchParams();
     const layoutRef = useRef();
 
     const handleClick = () => {
@@ -38,7 +39,7 @@ function SortProduct() {
         setPage(value);
     };
 
-    const onChangeVariations = () => {
+    const handleChangeVariations = () => {
         const variationChecked = document.querySelectorAll('input[type=checkbox]:checked');
 
         const checked = [];
@@ -49,6 +50,17 @@ function SortProduct() {
 
         setVariations(checked.join());
     };
+
+    const checkParams = useCallback(() => {
+        const variationsString = searchParams.get('variations');
+        if (variationsString) {
+            setVariations(variationsString);
+        } else setVariations('');
+    }, [searchParams]);
+
+    useEffect(() => {
+        checkParams();
+    }, [checkParams]);
 
     useEffect(() => {
         const element = layoutRef.current;
@@ -111,11 +123,11 @@ function SortProduct() {
                 </div>
                 {open ? (
                     <div className={cx('sidebar')}>
-                        <SideBar mId={mId} onChangeVariations={onChangeVariations} />
+                        <SideBar mId={mId} onChangeVariations={handleChangeVariations} />
                     </div>
                 ) : (
                     <div className={cx('sidebar')} style={{ visibility: 'hidden', opacity: 0, height: 0 }}>
-                        <SideBar mId={mId} onChangeVariations={onChangeVariations} />
+                        <SideBar mId={mId} onChangeVariations={handleChangeVariations} />
                     </div>
                 )}
                 <div className={cx('content')}>

@@ -1,17 +1,19 @@
 import classNames from 'classnames/bind';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './ProductM.module.scss';
+import categoryServices from '~/services/categoryServices';
 import productServices from '~/services/productServices';
 
 import Button from '~/components/Button';
-import ProductMItem from './ProductMItem';
+import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashCan, faPen, faPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import DataContext from '~/context/DataContext';
 import { ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect, useContext } from 'react';
-import { faPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddProductM from './AddProductM';
 import UpdateProductM from './UpdateProductM';
+import DataTable from '~/components/DataTable/DataTable';
 
 const cx = classNames.bind(styles);
 
@@ -20,14 +22,92 @@ function ProductM() {
     const [idProduct, setIdProduct] = useState(0);
     const [searchValue, setSearchValue] = useState('');
     const [action, setAction] = useState('view');
+    const [masterCategorys, setMasterCategorys] = useState([]);
+    const [mId, setMId] = useState({ label: { id: 0, name: 'Chọn MasterCategory' }, value: 'Chọn MasterCategory' });
+    const [parentCategorys, setParentCategorys] = useState([]);
+    const [pId, setPId] = useState({ label: { Id: 0, name: 'Chọn ParentCategory' }, value: 'Chọn ParentCategory' });
+    const [childrenCategorys, setChildrenCategorys] = useState([]);
+    const [cId, setCId] = useState({ label: { Id: 0, name: 'Chọn ChildCategory' }, value: 'Chọn ChildCategory' });
+
     const { render } = useContext(DataContext);
     const [renderPage, setRenderPage] = useState(false);
 
-    const getAllProducts = async () => {
-        let api = await productServices.getAllProducts(searchValue);
+    const columns = [
+        {
+            title: 'Ảnh sản phẩm',
+            dataIndex: '',
+            key: 'product',
+            render: (product) => <img src={product.ImageUrl} className={cx('image')} />,
+        },
+        {
+            title: 'Tên sản phẩm',
+            dataIndex: '',
+            width: '25%',
+            key: 'product.Name',
+            render: (product) => <p>{product.Name}</p>,
+            sorter: (a, b) => a.Name.localeCompare(b.Name),
+        },
+        {
+            title: 'Thương hiệu',
+            dataIndex: '',
+            key: 'product.Brand',
+            align: 'center',
 
-        if (api?.content) {
-            setProducts(api?.content);
+            render: (product) => <p>{product.Brand.name}</p>,
+            sorter: (a, b) => a.Brand.name.localeCompare(b.Brand.name),
+        },
+        {
+            title: 'Giá',
+            dataIndex: '',
+            key: 'product.Price',
+            align: 'center',
+            render: (product) => (
+                <p>{parseInt(product.Price).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+            ),
+            sorter: (a, b) => a.Price - b.Price,
+        },
+        {
+            title: 'Đã bán',
+            dataIndex: 'SelAmount',
+            key: 'product.SelAmount',
+            align: 'center',
+
+            sorter: (a, b) => a.SelAmount - b.SelAmount,
+        },
+        {
+            title: 'Hành động',
+            dataIndex: '',
+            key: 'handle',
+            align: 'center',
+            render: (product) => (
+                <div className={cx('d-flex', 'flex-column', 'justify-content-between', 'align-items-center')}>
+                    <Button
+                        className={cx('button')}
+                        transparent
+                        rounded
+                        iconOnly={<FontAwesomeIcon icon={faPen} />}
+                        onClick={() => {
+                            setIdProduct(product.Id);
+                            setAction('update');
+                        }}
+                    ></Button>
+                    <Button
+                        className={cx('button')}
+                        transparent
+                        rounded
+                        iconOnly={<FontAwesomeIcon icon={faTrashCan} />}
+                        onClick={() => handleClickDelete(product.Id)}
+                    ></Button>
+                </div>
+            ),
+        },
+    ];
+
+    const getAllProducts = async () => {
+        let api = await productServices.getAllProducts(searchValue, cId.label.Id);
+
+        if (api?.status === 200) {
+            setProducts(api?.data.content);
         }
     };
 
@@ -60,9 +140,72 @@ function ProductM() {
         }
     };
 
+    const getAllMasterCategorys = async () => {
+        const api = await categoryServices.getAllMasterCategory();
+
+        if (api?.data) {
+            var options = [{ label: { id: 0, name: 'Chọn MasterCategory' }, value: 'Chọn MasterCategory' }];
+            api.data.content.forEach((item) => {
+                options.push({ label: item, value: item.name });
+            });
+            setMasterCategorys(options);
+        }
+    };
+
+    const getAllParentCategorys = async () => {
+        const api = await categoryServices.getAllParentCategory(mId.label.id);
+
+        if (api?.data) {
+            var options = [{ label: { Id: 0, name: 'Chọn ParentCategory' }, value: 'Chọn ParentCategory' }];
+            api.data.forEach((item) => {
+                options.push({ label: item, value: item.Name });
+            });
+            setParentCategorys(options);
+        }
+    };
+
+    const getAllChildrenCategorys = async () => {
+        const api = await categoryServices.getChildrenCategoryById(pId.label.Id);
+
+        if (api?.data) {
+            var options = [{ label: { Id: 0, name: 'Chọn ChildCategory' }, value: 'Chọn ChildCategory' }];
+            api.data.ChildCategories.forEach((item) => {
+                options.push({ label: item, value: item.Name });
+            });
+            setChildrenCategorys(options);
+        }
+    };
+
+    const handleChangeMC = (selectedOption) => {
+        setMId(selectedOption);
+        setPId({ label: { Id: 0, name: 'Chọn ParentCategory' }, value: 'Chọn ParentCategory' });
+        setCId({ label: { Id: 0, name: 'Chọn ChildCategory' }, value: 'Chọn ChildCategory' });
+    };
+
+    const handleChangePC = (selectedOption) => {
+        setPId(selectedOption);
+        setCId({ label: { Id: 0, name: 'Chọn ChildCategory' }, value: 'Chọn ChildCategory' });
+    };
+
+    const handleChangeCC = (selectedOption) => {
+        setCId(selectedOption);
+    };
+
+    useEffect(() => {
+        getAllMasterCategorys();
+    }, []);
+
+    useEffect(() => {
+        getAllParentCategorys();
+    }, [mId.label.id]);
+
+    useEffect(() => {
+        getAllChildrenCategorys();
+    }, [pId.label.Id]);
+
     useEffect(() => {
         getAllProducts();
-    }, [render, searchValue, renderPage]);
+    }, [render, searchValue, cId.label.Id, renderPage]);
 
     return (
         <div className={cx('container')}>
@@ -100,25 +243,49 @@ function ProductM() {
                             </div>
                         </div>
                     </div>
-                    <div className={cx('mt-3')}></div>
-                    <div className={cx('row')}>
-                        <div className={cx('product-list')}>
-                            {products.map((item, index) => {
-                                return (
-                                    <ProductMItem
-                                        key={index}
-                                        data={item}
-                                        onClickUpdate={() => {
-                                            setIdProduct(item.Id);
-                                            setAction('update');
-                                        }}
-                                        onClickRemove={() => {
-                                            handleClickDelete(item.Id);
-                                        }}
-                                    />
-                                );
-                            })}
+                    <div className={cx('row', 'mt-3', 'd-flex')}>
+                        <div className={cx('form-group')}>
+                            <label className={cx('label')}>MasterCategory</label>
+                            <div className={cx('mt-1')}></div>
+
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                placeholder="Chọn MasterCategory..."
+                                onChange={handleChangeMC}
+                                options={masterCategorys}
+                                value={mId}
+                                className={cx('select-form')}
+                            />
                         </div>
+                        <div className={cx('form-group')}>
+                            <label className={cx('label')}>ParentCategory</label>
+                            <div className={cx('mt-1')}></div>
+
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                placeholder="Chọn ParentCategory..."
+                                onChange={handleChangePC}
+                                options={parentCategorys}
+                                value={pId}
+                                className={cx('select-form')}
+                            />
+                        </div>
+                        <div className={cx('form-group')}>
+                            <label className={cx('label')}>ChildCategory</label>
+                            <div className={cx('mt-1')}></div>
+
+                            <Select
+                                formatOptionLabel={(option) => `${option.value}`}
+                                placeholder="Chọn ChildCategory..."
+                                onChange={handleChangeCC}
+                                options={childrenCategorys}
+                                value={cId}
+                                className={cx('select-form')}
+                            />
+                        </div>
+                    </div>
+                    <div className={cx('row', 'mt-3')}>
+                        <DataTable columns={columns} data={products} showExport={false} />
                     </div>
                 </div>
             )}

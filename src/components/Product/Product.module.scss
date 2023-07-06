@@ -149,6 +149,7 @@
 
 .orther-data {
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
@@ -208,13 +209,11 @@
 
 @media only screen and (max-width: 35.994em) {
     .wrapper {
-        padding: 0px 8px;
         width: 100%;
         max-width: 186px;
         min-width: 160px;
     }
     .item {
-        margin: 8px 0px;
         max-width: 180px;
         min-width: 164px;
     }

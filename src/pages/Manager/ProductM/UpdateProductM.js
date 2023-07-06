@@ -37,7 +37,6 @@ function UpdateProductM({ id, onClickCancle }) {
         const api = await productServices.adminGetProductById(id);
 
         if (api?.status === 200) {
-            console.log(api.data);
             setName(api.data.Name);
             setTotal(api.data.Total);
             setShortDescription(api.data.ShortDescription);
@@ -302,8 +301,6 @@ function UpdateProductM({ id, onClickCancle }) {
             Status: status.label,
             DeletedImages: deleteImages,
         };
-
-        console.log(cap);
 
         const json = JSON.stringify(cap);
 

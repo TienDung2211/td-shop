@@ -222,13 +222,12 @@ function RegisterForm({ clickBack, onSwitchType }) {
                 </div>
             )}
 
-            {/* <div className={cx('footer')}>
+            <div className={cx('footer')}>
                 <Button
                     large
                     border
-                    disable
                     leftIcon={<FontAwesomeIcon icon={faFacebook} />}
-                    className={cx('social-item', 'socials-facebook')}
+                    className={cx('social-item', 'socials-facebook', 'disable')}
                 >
                     Tiếp tục với Facebook
                 </Button>
@@ -237,10 +236,11 @@ function RegisterForm({ clickBack, onSwitchType }) {
                     border
                     leftIcon={<FontAwesomeIcon icon={faGoogle} />}
                     className={cx('social-item', 'socials-google')}
+                    href={process.env.REACT_APP_LOGIN_WITH_GOOGLE}
                 >
                     Tiếp tục với Google
                 </Button>
-            </div> */}
+            </div>
             <div className={cx('mb-4')}></div>
             <ToastContainer />
         </div>

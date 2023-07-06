@@ -29,9 +29,12 @@ function DetailProduct() {
     const [slider, setSlider] = useState([]);
     const [product, setProduct] = useState(null);
     const [productByBrand, setProductByBrand] = useState([]);
+    const [productSimilar, setProductSimilar] = useState([]);
     const [isFollow, setIsFollow] = useState(false);
+
     const [mCId, setMCId] = useState(0);
     const [cId, setCId] = useState(0);
+    const [variations, setVariations] = useState([]);
 
     const navigate = useNavigate();
 
@@ -52,16 +55,29 @@ function DetailProduct() {
 
         setMCId(api.MCategoryId);
 
-        const temp = api.Categories.find((item) => item.name.toLowerCase() === api.Brand.name.toLowerCase());
-
-        if (temp) {
-            setCId(temp.id);
+        // Product by Brand
+        const brandIdTemp = api.Categories.find((item) => item.name.toLowerCase() === api.Brand.name.toLowerCase());
+        if (brandIdTemp) {
+            setCId(brandIdTemp.id);
         }
-
-        let api2 = await productServices.getProductByBrand(api.Brand.id);
+        const api2 = await productServices.getProductByBrand(api.Brand.id);
         if (api?.content !== []) {
             setProductByBrand(api2.content.filter((item) => item.Id !== parseInt(id)));
         } else setProductByBrand([]);
+
+        // Similar Product
+        const variationsNotBrand = api.Variations.filter(
+            (item) => item.value.toLowerCase() !== api.Brand.name.toLowerCase(),
+        );
+        let variationsTemp = [];
+        variationsNotBrand.forEach((item) => {
+            variationsTemp.push(item.id);
+        });
+        setVariations(variationsTemp.join());
+        const api3 = await productServices.getProducts(null, 0, variationsTemp.join(), null, 0, mCId);
+        if (api3?.content !== []) {
+            setProductSimilar(api3.content.filter((item) => item.Id !== parseInt(id)));
+        } else setProductSimilar([]);
     };
 
     const handleAddCart = async () => {
@@ -100,14 +116,17 @@ function DetailProduct() {
     const handleFollowProduct = async () => {
         const api = await productServices.followProduct(id);
 
-        console.log(api);
-
         if (api?.status) {
             toast.success('Theo dõi sản phẩm thành công.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: 'toast-message',
             });
             setIsFollow(true);
+        } else if (api === undefined) {
+            toast.info('Vui lòng đăng nhập để theo dõi sản phẩm.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: 'toast-message',
+            });
         } else {
             toast.warning('Có lỗi bất ngờ xảy ra, vui lòng thử lại.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -366,6 +385,42 @@ function DetailProduct() {
                     <Policy />
                 </div>
             </div>
+            {productSimilar?.length > 0 ? (
+                <div className={cx('row', 'mt-5', 'other-layout')}>
+                    <div className={cx('row', 'd-flex', 'justify-content-between')}>
+                        <div className={cx('col-8', 'col-sm-8', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                            <span className={cx('orther-products-lable')}>Sản phẩm tương tự</span>
+                        </div>
+                        <div
+                            className={cx(
+                                'col-4',
+                                'col-sm-3',
+                                'col-md-3',
+                                'col-lg-2',
+                                'col-xl-2',
+                                'd-flex',
+                                'align-items-center',
+                                'justify-content-end',
+                            )}
+                        >
+                            <Button
+                                to={`/sort/${mCId}/0?variations=${variations}`}
+                                transparent
+                                className={cx('view-all-btn')}
+                            >
+                                Xem tất cả {'>>'}
+                            </Button>
+                        </div>
+                    </div>
+                    <div className={cx('row')}>
+                        <div className={cx('products-list')}>
+                            {productSimilar.map((product, index) => (
+                                <Product data={product} key={index} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            ) : null}
             {productByBrand?.length > 0 ? (
                 <div className={cx('row', 'mt-5', 'other-layout')}>
                     <div className={cx('row', 'd-flex', 'justify-content-between')}>
@@ -398,6 +453,7 @@ function DetailProduct() {
                     </div>
                 </div>
             ) : null}
+
             <div className={cx('row', 'mt-5', 'other-layout')}>
                 <Evaluate />
             </div>

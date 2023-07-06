@@ -78,6 +78,23 @@
     }
 }
 
+.form-group {
+    flex: 1;
+    margin-bottom: 20px;
+    z-index: 20;
+}
+
+.label {
+    display: block;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.select-form {
+    width: 100%;
+}
+
 .product-list {
     height: 80vh;
     overflow-y: auto;
@@ -159,10 +176,6 @@
             flex: 1;
         }
     }
-}
-
-.button + .button {
-    margin-left: 24px;
 }
 
 // Form

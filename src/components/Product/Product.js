@@ -1,22 +1,10 @@
 import classNames from 'classnames/bind';
 import styles from './Product.module.scss';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faStar as fasStar, faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons';
-// import { faStar as farStar, faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 
 const cx = classNames.bind(styles);
 
 function Product({ data }) {
-    // const [like, setLike] = useState(false);
-
-    // const handleLike = (e) => {
-    //     e.preventDefault();
-    //     setLike(!like);
-    // };
-
     return data ? (
         <Link to={`/detail-product/${data.Id}`} className={cx('wrapper')}>
             <div key={data.Id.toString()} className={cx('item')}>
@@ -93,7 +81,10 @@ function Product({ data }) {
 
                     <div className={cx('orther-data')}>
                         <div className={cx('brand')}>
-                            <span className={cx('hidden-by-mobile')}>Thương hiệu :</span> {data.Brand.name}
+                            {/* <span className={cx('hidden-by-mobile')}>
+                                Thương hiệu :<br></br>
+                            </span>{' '} */}
+                            {data.Brand.name}
                         </div>
                         {/* <span className={cx('sel-amount')}>
                             Đã bán{' '}

@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './OrderM.module.scss';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { Tag } from 'antd';
 import Select from 'react-select';
 import { useState, useContext, useEffect } from 'react';
-
 import DataContext from '~/context/DataContext';
 import orderServices from '~/services/orderService';
 import { ToastContainer, toast } from 'react-toastify';
@@ -38,13 +38,12 @@ function OrderM() {
             ),
         },
         {
-            title: 'Người dùng',
+            title: 'Khách hàng',
             dataIndex: '',
             key: 'user',
             align: 'center',
             width: '10%',
             editable: true,
-            // sorter: (a, b) => a.user.localeCompare(b.user),
             render: (user) => <p>{user.Address.name}</p>,
         },
         {
@@ -54,7 +53,6 @@ function OrderM() {
             align: 'center',
             width: '10%',
             editable: true,
-            // sorter: (a, b) => a.phone - b.phone,
             render: (user) => <p>{user.Address.phone}</p>,
         },
         {
@@ -68,7 +66,8 @@ function OrderM() {
             title: 'Số lượng sản phẩm',
             key: 'amount',
             align: 'center',
-            width: '12%',
+            width: '15%',
+            sorter: (a, b) => a.OrderDetails.length - b.OrderDetails.length,
             render: (order) => <p>{order.OrderDetails.length}</p>,
         },
         {
@@ -77,7 +76,10 @@ function OrderM() {
             key: 'price',
             align: 'center',
             width: '12%',
-            render: (order) => <p>{getTotalPrice(order)}</p>,
+            sorter: (a, b) => getTotalPrice(a) - getTotalPrice(b),
+            render: (order) => (
+                <p>{parseInt(getTotalPrice(order)).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</p>
+            ),
         },
         {
             title: 'Trạng thái',
@@ -86,7 +88,19 @@ function OrderM() {
             align: 'center',
             width: '10%',
             editable: true,
-            render: (order) => <p>{order.OrderStatus.name}</p>,
+            render: (order) => {
+                if (order.OrderStatus.id === 1) {
+                    return <Tag color={'yellow'}>{order.OrderStatus.name}</Tag>;
+                } else if (order.OrderStatus.id === 2) {
+                    return <Tag color={'orange'}>{order.OrderStatus.name}</Tag>;
+                } else if (order.OrderStatus.id === 3) {
+                    return <Tag color={'blue'}>{order.OrderStatus.name}</Tag>;
+                } else if (order.OrderStatus.id === 4) {
+                    return <Tag color={'green'}>{order.OrderStatus.name}</Tag>;
+                } else if (order.OrderStatus.id === 5) {
+                    return <Tag color={'volcano'}>{order.OrderStatus.name}</Tag>;
+                }
+            },
         },
     ];
 
