@@ -11,7 +11,6 @@ import DataTable from '~/components/DataTable/DataTable';
 import { Tag } from 'antd';
 
 import Select from 'react-select';
-import SaleMItem from './SaleMItem';
 import Button from '~/components/Button';
 import DataContext from '~/context/DataContext';
 import { ToastContainer, toast } from 'react-toastify';
