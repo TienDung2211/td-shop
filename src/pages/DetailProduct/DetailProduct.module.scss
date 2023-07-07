@@ -99,7 +99,7 @@
                 }
                 .sale {
                     width: 100px;
-                    height: 20px;
+                    height: 2rem;
                     color: rgba(255, 204, 0, 0.95);
                     background-color: currentColor;
                     margin: 0 24px;
@@ -284,6 +284,14 @@
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
+            }
+            .center {
+                .price--original {
+                    padding: 12px 0;
+                }
+                .price--discount {
+                    font-size: 2.8rem;
+                }
             }
         }
     }

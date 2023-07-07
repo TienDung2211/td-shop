@@ -113,6 +113,34 @@ const productServices = {
             console.error(error.response.data);
         }
     },
+    productClick: async (data) => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.post(`/product/click`, data, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
+    getProductRecommend: async () => {
+        try {
+            const access = JSON.parse(localStorage.getItem('access'));
+
+            const res = await request.get(`/product/recommend`, {
+                headers: {
+                    Authorization: `Bearer ${access}`,
+                },
+            });
+            return res;
+        } catch (error) {
+            console.error(error.response.data);
+        }
+    },
 
     // Employee
     getAllProducts: async (keyword, cId) => {

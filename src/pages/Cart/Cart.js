@@ -9,7 +9,9 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Button from '~/components/Button';
 import DataContext from '~/context/DataContext';
 import Policy from '~/components/Policy/Policy';
+import Product from '~/components/Product/Product';
 import cartServices from '~/services/cartServices';
+import productServices from '~/services/productServices';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,9 +20,21 @@ const cx = classNames.bind(styles);
 function Cart() {
     const [products, setProducts] = useState([]);
     const [labelSelect, setLabelSelect] = useState('Chọn hết');
+    const [productsRecommend, setProductsRecommend] = useState([]);
+
     const { render, renderCart, setRenderCart } = useContext(DataContext);
 
     const navigate = useNavigate();
+
+    const getProductRecommend = async () => {
+        const api = await productServices.getProductRecommend();
+
+        if (api?.status === 200) {
+            setProductsRecommend(api.data);
+        } else {
+            setProductsRecommend([]);
+        }
+    };
 
     const changeAmount = async (id, amount) => {
         const data = {
@@ -91,6 +105,10 @@ function Cart() {
             });
         }
     };
+
+    useEffect(() => {
+        getProductRecommend();
+    }, [render]);
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -189,7 +207,7 @@ function Cart() {
                                                                 currency: 'VND',
                                                             })}
                                                         </span>
-                                                        <span className={cx('space')}></span>
+                                                        <br></br>
                                                         <span className={cx('current-price')}>
                                                             {parseInt(
                                                                 data?.Product.Price *
@@ -281,6 +299,17 @@ function Cart() {
                     <Policy />
                 </div>
             </div>
+
+            {productsRecommend.length > 0 && (
+                <div className={cx('row', 'd-flex', 'justify-content-between', 'pl-3', 'pr-3', 'mt-5', 'other-layout')}>
+                    <div className={cx('label', 'col-12')}>Sản phẩm bạn có thể thích</div>
+                    <div className={cx('col-12', 'products-list-row')}>
+                        {productsRecommend.map((product, index) => {
+                            return <Product data={product} key={index} />;
+                        })}
+                    </div>
+                </div>
+            )}
 
             <ToastContainer />
         </div>

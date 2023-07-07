@@ -89,8 +89,7 @@
 }
 
 .cart-list {
-    min-height: 350px;
-    height: 350px;
+    height: 270px;
     overflow: hidden;
     overflow-y: auto;
 }
@@ -148,10 +147,13 @@
 
 .original-price {
     text-decoration: line-through;
+    font-size: 1.4rem;
+    color: var(--text-color);
 }
 .current-price {
-    padding: 0 12px;
+    font-size: 1.5rem;
     color: var(--red-color);
+    font-weight: 500;
 }
 
 .amount-layout {
@@ -174,6 +176,29 @@
         color: var(--primary-color);
     }
 }
+
+// Recommend Product
+.other-layout {
+    background-color: var(--white-color);
+    border-radius: 8px;
+}
+.label {
+    min-height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 1.9rem;
+    line-height: 2rem;
+    font-weight: 600;
+    padding-left: 12px;
+}
+
+.products-list-row {
+    display: flex;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+
 @media only screen and (max-width: 35.994em) {
     .path {
         width: 82.5%;
@@ -203,7 +228,8 @@
         }
     }
     .cart-list {
-        height: 640px;
+        max-height: 480px;
+        min-height: 320px;
     }
 
     .cart-item {
@@ -251,10 +277,6 @@
 @media only screen and (max-width: 47.994em) and (min-width: 36em) {
     .path {
         width: 82.5%;
-    }
-
-    .hidden-by-mobile {
-        display: none;
     }
 
     .column-lable {
@@ -308,11 +330,7 @@
     }
 }
 
-@media only screen and (max-width: 63.9975em) and (min-width: 48em) {
-    .hidden-by-tablet {
-        display: none;
-    }
-
+@media only screen and (max-width: 63.994em) and (min-width: 48em) {
     .select-all-layout {
         .select-all-lable {
             font-size: 1.7rem;

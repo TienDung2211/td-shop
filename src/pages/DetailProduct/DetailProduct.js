@@ -184,6 +184,16 @@ function DetailProduct() {
     );
 
     useEffect(() => {
+        const interval = setInterval(async () => {
+            await productServices.productClick({ productId: parseInt(id) });
+        }, 15 * 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
+
+    useEffect(() => {
         getProduct();
         handleCheckFollow();
     }, [id, render]);

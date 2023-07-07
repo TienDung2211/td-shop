@@ -22,6 +22,7 @@ function Home() {
     const [page, setPage] = useState(0);
     const [isActive, setIsActive] = useState(0);
     const [products, setProducts] = useState([]);
+    const [productsRecommend, setProductsRecommend] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [filter, setFilter] = useState('deal-hot');
 
@@ -34,7 +35,6 @@ function Home() {
     const handleCheckAccount = () => {
         if (searchParams.get('token')) {
             localStorage.removeItem('access');
-            localStorage.removeItem('refresh');
             localStorage.removeItem('userId');
             localStorage.setItem('access', JSON.stringify(searchParams.get('token')));
             setRender(!render);
@@ -63,9 +63,23 @@ function Home() {
         setPage(value);
     };
 
+    const getProductRecommend = async () => {
+        const api = await productServices.getProductRecommend();
+
+        if (api?.status === 200) {
+            setProductsRecommend(api.data);
+        } else {
+            setProductsRecommend([]);
+        }
+    };
+
     useEffect(() => {
         handleCheckAccount();
     }, []);
+
+    useEffect(() => {
+        getProductRecommend();
+    }, [render]);
 
     useEffect(() => {
         const fetchAPI = async () => {
@@ -79,7 +93,17 @@ function Home() {
 
     return products ? (
         <div className={cx('wrapper')}>
-            <div className={cx('row', 'd-flex', 'justify-content-between', 'control', 'pl-3', 'pr-3')}>
+            {productsRecommend.length > 0 && (
+                <div className={cx('row', 'd-flex', 'justify-content-between', 'pl-3', 'pr-3', 'mt-5')}>
+                    <div className={cx('label', 'col-12')}>Sản phẩm bạn có thể thích</div>
+                    <div className={cx('col-12', 'products-list-row')}>
+                        {productsRecommend.map((product, index) => {
+                            return <Product data={product} key={index} />;
+                        })}
+                    </div>
+                </div>
+            )}
+            <div className={cx('row', 'd-flex', 'justify-content-between', 'control', 'pl-3', 'pr-3', 'mt-5')}>
                 <div className={cx('col-9', 'col-sm-6', 'col-md-6', 'col-lg-6', 'col-xl-6', 'd-flex')}>
                     {options.map((option, index) => {
                         if (isActive === index) {

@@ -46,6 +46,14 @@ function Notification() {
 
     useEffect(() => {
         getAllNotify();
+
+        const interval = setInterval(() => {
+            getAllNotify();
+        }, 1 * 30 * 1000);
+
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     return (
