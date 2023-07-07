@@ -89,6 +89,7 @@ function Cart() {
     };
 
     const handleOrder = () => {
+        // const checked = document.querySelectorAll('input[type=checkbox]:checked:not(:disabled)');
         const checked = document.querySelectorAll('input[type=checkbox]:checked');
         const select = [];
         for (let i = 0; i < checked.length; i++) {
@@ -106,26 +107,29 @@ function Cart() {
         }
     };
 
+    const fetchAPI = async () => {
+        var dataAPI = await cartServices.getMyCart();
+
+        setProducts(dataAPI?.CartItems);
+    };
+
     useEffect(() => {
         getProductRecommend();
     }, [render]);
 
     useEffect(() => {
-        const fetchAPI = async () => {
-            var dataAPI = await cartServices.getMyCart();
-
-            setProducts(dataAPI?.CartItems);
-        };
-        fetchAPI();
-
         const interval = setInterval(() => {
             fetchAPI();
-        }, 1 * 30 * 1000);
+        }, 1 * 60 * 1000);
 
         return () => {
             clearInterval(interval);
         };
-    }, [render, labelSelect, renderCart]);
+    }, []);
+
+    useEffect(() => {
+        fetchAPI();
+    }, [render, renderCart]);
 
     return (
         <div className={cx('container')}>
@@ -180,9 +184,26 @@ function Cart() {
                                     <div key={index} className={cx('cart-item')}>
                                         <div className={cx('col-5', 'col-sm-5', 'col-md-2', 'col-lg-2', 'col-xl-2')}>
                                             <div className={cx('select-layout')}>
-                                                <input type="checkbox" className={cx('check')} value={index} />
+                                                <input
+                                                    type="checkbox"
+                                                    className={cx('check')}
+                                                    disabled={data?.Product.Total < data.Quantity}
+                                                    value={index}
+                                                />
 
-                                                <img src={data?.Product?.ImageUrl} className={cx('image')} alt="Ảnh" />
+                                                <div className={cx('image-layout')}>
+                                                    <img
+                                                        src={data?.Product?.ImageUrl}
+                                                        className={cx('image')}
+                                                        alt="Ảnh"
+                                                    />
+                                                    {data?.Product.Total < data.Quantity && (
+                                                        <div className={cx('image-overlay')}></div>
+                                                    )}
+                                                    {data?.Product.Total < data.Quantity && (
+                                                        <div className={cx('image-text')}>Hết hàng</div>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                         <div

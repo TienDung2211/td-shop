@@ -206,25 +206,7 @@ function Payment() {
 
             const api = await orderServices.addOrder(data);
 
-            if (api?.status === 20001) {
-                setErrMsg('Hiện số lượng sản phẩm còn lại không đáp ứng được đơn hàng của bạn.');
-                toast.warning('Hiện số lượng sản phẩm còn lại không đáp ứng được đơn hàng của bạn.', {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: 'toast-message',
-                });
-                toast.info('Xem thêm sản phẩm tương tự.', {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: 'toast-message',
-                    autoClose: false,
-                    closeOnClick: true,
-                });
-                // console.log(api.data);
-                const temp = api.data.map(({ Id, Total }) => ({
-                    Id: Id,
-                    Total: Total,
-                }));
-                setRemainingAmount(temp);
-            } else if (api?.status === 200) {
+            if (api?.status === 200) {
                 if (payment.label === 1) {
                     toast.success('Đơn đặt hàng của bạn được xác nhận đã thành công.', {
                         position: toast.POSITION.TOP_RIGHT,
@@ -242,6 +224,43 @@ function Payment() {
                 } else if (payment.label === 3) {
                     navigate('/payment/momo', { state: { data: api.data } });
                 }
+            } else if (api?.status === 20001) {
+                setErrMsg('Hiện số lượng sản phẩm còn lại không đáp ứng được đơn hàng của bạn.');
+                toast.warning('Hiện số lượng sản phẩm còn lại không đáp ứng được đơn hàng của bạn.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                });
+                toast.info('Xem thêm sản phẩm tương tự.', {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: 'toast-message',
+                    autoClose: 30 * 1000,
+                    onClick: () => {
+                        const productRemain = api.data[0];
+
+                        let arrayVariations = [];
+
+                        productRemain.Variations.forEach((item) => {
+                            arrayVariations.push(item.id);
+                        });
+
+                        let categoryId = 0;
+
+                        productRemain.Categories.forEach((item) => {
+                            if (item.Name.toLowerCase() === productRemain.Brand.name.toLowerCase()) {
+                                categoryId = item.Id;
+                            }
+                        });
+
+                        navigate(
+                            `/sort/${productRemain.MCategory.id}/${categoryId}?variations=${arrayVariations.join()}`,
+                        );
+                    },
+                });
+                const temp = api.data.map(({ Id, Total }) => ({
+                    Id: Id,
+                    Total: Total,
+                }));
+                setRemainingAmount(temp);
             } else {
                 setErrMsg('Lỗi không xác định, vui lòng thử lại.');
                 toast.error('Lỗi không xác định, vui lòng thử lại.', {

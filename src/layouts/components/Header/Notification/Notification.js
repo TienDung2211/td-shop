@@ -15,6 +15,7 @@ const cx = classNames.bind(styles);
 
 function Notification() {
     const [announcements, setAnnouncements] = useState([]);
+    const [amount, setAmount] = useState(0);
 
     const navigate = useNavigate();
 
@@ -23,6 +24,8 @@ function Notification() {
 
         if (api?.status === 200) {
             setAnnouncements(api.data);
+            const unreadCount = api.data.filter((notification) => !notification.isRead).length;
+            setAmount(unreadCount);
         }
     };
 
@@ -158,8 +161,9 @@ function Notification() {
                 )}
             >
                 <span className={cx('parent-item')}>
-                    <FontAwesomeIcon icon={faBell} className={cx('icon')} />
+                    <FontAwesomeIcon icon={faBell} className={cx('icon')}></FontAwesomeIcon>
                     <span>Thông báo</span>
+                    {amount > 0 && <span className={cx('badge')}>{amount}</span>}
                 </span>
             </HeadlessTippy>
         </div>

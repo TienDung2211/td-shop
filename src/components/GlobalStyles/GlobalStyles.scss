@@ -165,6 +165,9 @@ body {
 .toast-message {
     margin-top: var(--header-height);
 }
+.toast-message + .toast-message {
+    margin-top: 32px;
+}
 
 // Grid System
 .grid {
