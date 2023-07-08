@@ -221,7 +221,7 @@ function Payment() {
                         idPayment: 1,
                     };
                     navigate('/payment/sucess', { state: { data: dataToSucess } });
-                } else if (payment.label === 3) {
+                } else if (payment.label === 2) {
                     navigate('/payment/momo', { state: { data: api.data } });
                 }
             } else if (api?.status === 20001) {

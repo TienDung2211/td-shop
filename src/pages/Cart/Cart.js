@@ -308,8 +308,13 @@ function Cart() {
                             </div>
                         )}
                     </div>
-                    <div className={cx('d-flex', 'justify-content-end', 'single-btn-layout')}>
-                        <div className={cx('col-12', 'col-sm-9', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
+                    <div className={cx('row', 'd-flex', 'justify-content-end', 'btn-layout')}>
+                        <div className={cx('col-6', 'col-sm-6', 'col-md-4', 'col-lg-3', 'col-xl-3')}>
+                            <Button to={'/cart'} large border outline>
+                                Quay lại
+                            </Button>
+                        </div>
+                        <div className={cx('col-6', 'col-sm-6', 'col-md-4', 'col-lg-3', 'col-xl-3')}>
                             <Button large primary border onClick={() => handleOrder()}>
                                 Đặt hàng
                             </Button>
