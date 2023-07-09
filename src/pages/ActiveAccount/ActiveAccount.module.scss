@@ -1,7 +1,7 @@
 .wrapper {
     display: flex;
     justify-content: center;
-    background-image: url('../../assets/images/img_Colorful_Background.jpg');
+    background-image: url('../../assets/images/background_mobile.webp');
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -58,10 +58,6 @@
 }
 
 @media only screen and (max-width: 47.994em) {
-    .wrapper {
-        background-image: url('../../assets/images/background_mobile.webp');
-    }
-
     .layout {
         width: 90%;
     }
