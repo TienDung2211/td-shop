@@ -59,7 +59,7 @@ function PaymentFailure() {
             </div>
             <div className={cx('row', 'd-flex', 'justify-content-end', 'btn-layout')}>
                 <div className={cx('col-6', 'col-sm-6', 'col-md-6', 'col-lg-4', 'col-xl-4')}>
-                    <Button to={'/cart'} large border outline approach>
+                    <Button to={'/cart'} large border outline>
                         Giỏ hàng
                     </Button>
                 </div>
