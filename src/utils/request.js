@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const request = axios.create({
-    baseURL: 'https://tdshop.herokuapp.com/api/v1',
+    baseURL: process.env.REACT_APP_API_BACKEND,
 });
 
 export const get = async (path, options = {}) => {
