@@ -60,6 +60,8 @@ function CategoryM() {
     const handleChangePC = (selectedOption) => {
         setPId(selectedOption.label?.Id);
         setDataPC({ Id: selectedOption.label?.Id, name: selectedOption.label?.Name });
+
+        console.log(selectedOption);
     };
 
     const getTypeDisplay = () => {

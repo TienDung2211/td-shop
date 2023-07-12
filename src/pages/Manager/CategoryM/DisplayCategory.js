@@ -214,9 +214,9 @@ function DisplayCategory({ typeDisplay, dataMC, dataPC }) {
 
     // Children Category
     const getAllCC = async () => {
-        let api = await categoryServices.getAllChildrenCategory(dataPC.Id);
+        let api = await categoryServices.getChildrenCategoryById(dataPC.Id);
 
-        if (api?.data) {
+        if (api?.status === 200) {
             setCategorys(api.data.ChildCategories);
         }
     };
